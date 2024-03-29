@@ -30,15 +30,9 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
     this.gateOpen = false;
   }
 
-
   public MembershipSystem getMembershipSystem() {
     return membershipSystem;
   }
-
-//  public void setMembershipSystem(MembershipSystem membershipSystem) {
-//    this.membershipSystem = membershipSystem;
-//  }
-
 
   @Override
   public int getTotalCapacity(Vehicle vehicle) {
@@ -51,12 +45,12 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
     return occupiedSpaces.getOrDefault(vehicle.getType(), 0);
   }
 
-  @Override
-  public boolean hasAvailableSpace(Vehicle vehicle) {
-    int capacity = getTotalCapacity(vehicle);
-    int occupied = getOccupiedSpaces(vehicle);
-    return occupied < capacity;
-  }
+//  @Override
+//  public boolean hasAvailableSpace(Vehicle vehicle) {
+//    int capacity = getTotalCapacity(vehicle);
+//    int occupied = getOccupiedSpaces(vehicle);
+//    return occupied < capacity;
+//  }
 
 
   @Override
@@ -66,6 +60,8 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
     return totalCapacity - occupiedSpaces;
   }
 
+
+
   @Override
   public boolean isMemberVehicle(Vehicle vehicle) {
     return membershipSystem.isMembership(vehicle.getLicensePlate());
@@ -73,10 +69,12 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
 
 
   @Override
-  public void parkVehicle(Vehicle vehicle) {
+  public void parkVehicle(Vehicle vehicle) throws IllegalStateException{
     VehicleType vehicleType = vehicle.getType();
 
-    if (hasAvailableSpace(vehicle) && !parkedVehicles.containsKey(vehicle.getLicensePlate())) {
+    if (getTotalCapacity(vehicle) <= getOccupiedSpaces(vehicle)) {
+      throw new IllegalStateException("Parking lot capacity for " + vehicle.getType() + " is full.");
+    } else if (!parkedVehicles.containsKey(vehicle.getLicensePlate())) {
       parkedVehicles.put(vehicle.getLicensePlate(), (Vehicle) vehicle);
       int currentOccupiedSpaces = occupiedSpaces.getOrDefault(vehicleType, 0);
       occupiedSpaces.put(vehicleType, currentOccupiedSpaces + 1);
@@ -106,8 +104,10 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
 
 
   @Override
-  public boolean processToLeave(Vehicle vehicle) {
-    if (parkedVehicles.containsKey(vehicle.getLicensePlate())) {
+  public boolean processToLeave(Vehicle vehicle) throws IllegalStateException {
+    if (!parkedVehicles.containsKey(vehicle.getLicensePlate())) {
+      throw new IllegalStateException("Vehicle with license plate " + vehicle.getLicensePlate() + " is not currently parked here.");
+    } else {
       if (vehicle.getPaymentTime() != null && paymentSystem.processPayment(vehicle)) {
         LocalDateTime expectedLeaveTime = vehicle.getPaymentTime().plusMinutes(ParkingManager.MAX_PARKING_DURATION_MINUTES);
         System.out.println("Expected leave time: " + expectedLeaveTime);
@@ -149,22 +149,6 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
   }
 
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("Parked Vehicles: \n");
-    if (parkedVehicles.isEmpty()) {
-      sb.append("No vehicles parked.\n");
-    } else {
-      for (Map.Entry<String, Vehicle> entry : parkedVehicles.entrySet()) {
-        sb.append(entry.getValue()).append("\n");
-      }
-    }
-
-    return sb.toString();
-  }
-
-
 
   @Override
   public Map<String, Vehicle> getVehicles(Predicate<Vehicle> predicate) {
@@ -187,6 +171,27 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
       }
     }
     return count;
+  }
+
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("Parking Manager Status: \n");
+    sb.append("Total Capacity: ").append(capacityMap).append("\n");
+    sb.append("Occupied Spaces: ").append(occupiedSpaces).append("\n");
+    sb.append("Gate Status: ").append(gateOpen ? "Open" : "Closed").append("\n");
+
+    sb.append("Parked Vehicles: \n");
+    if (parkedVehicles.isEmpty()) {
+      sb.append("No vehicles parked.\n");
+    } else {
+      for (Map.Entry<String, Vehicle> entry : parkedVehicles.entrySet()) {
+        sb.append(entry.getValue()).append("\n");
+      }
+    }
+
+    return sb.toString();
   }
 
 }

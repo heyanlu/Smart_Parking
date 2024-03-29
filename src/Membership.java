@@ -5,7 +5,6 @@ public class Membership {
     private final MembershipType type;
     private final LocalDateTime startTime;
 
-
     public Membership(MembershipType type, LocalDateTime startTime) {
         this.type = type;
         this.startTime = startTime;

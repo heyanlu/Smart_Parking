@@ -1,6 +1,7 @@
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Year;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Predicate;
 import org.junit.Test;
 
@@ -54,17 +55,17 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertEquals(46, parkingManager.getAvailableSpaces(motorbike3));
     }
 
-    @Test
-    public void testHasAvailableSpace() {
-        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
-        parkingManager.parkVehicle(truck3);
-        Vehicle truck4 = new Truck("IUP123", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
-        parkingManager.hasAvailableSpace(truck4);
-
-
-        Vehicle motorbike3 = new Motorbike("REW987", VehicleType.MOTORBIKE, LocalDateTime.now(), membershipSystem);
-        assertTrue(parkingManager.hasAvailableSpace(motorbike3));
-    }
+//    @Test
+//    public void testHasAvailableSpace() {
+//        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
+//        parkingManager.parkVehicle(truck3);
+//        Vehicle truck4 = new Truck("IUP123", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
+//        parkingManager.hasAvailableSpace(truck4);
+//
+//
+//        Vehicle motorbike3 = new Motorbike("REW987", VehicleType.MOTORBIKE, LocalDateTime.now(), membershipSystem);
+//        assertTrue(parkingManager.hasAvailableSpace(motorbike3));
+//    }
 
 
     @Test
@@ -187,8 +188,6 @@ public class ParkingManagerTest extends BaseSetUpTest{
     }
 
 
-
-
     @Test
     public void testProcessPaymentWithMembership() {
         LocalDateTime arrivalTime = LocalDateTime.now().minusMinutes(50);
@@ -210,9 +209,15 @@ public class ParkingManagerTest extends BaseSetUpTest{
         car1.setLeaveTime(leaveTime);
 
         assertTrue(parkingManager.processToLeave(car1));
-
     }
 
+
+    @Test (expected = IllegalStateException.class)
+    public void testProcessToLeaveWithException() {
+        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
+
+        assertTrue(parkingManager.processToLeave(truck3));
+    }
 
     @Test
     public void testLeaveExceedsAllowedDuration_RechargeParkingFee() {
@@ -280,8 +285,21 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertTrue(parkingManager.isVehicleParked("ABC123"));
         assertTrue(parkingManager.isVehicleParked("DEF456"));
         assertFalse(parkingManager.isVehicleParked("DEF457"));
+
+        Vehicle car3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
+        parkingManager.parkVehicle(car3);
+        assertTrue(parkingManager.isVehicleParked("POI980"));
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void testParkVehicleExpectedError() {
+        assertEquals(29, parkingManager.getOccupiedSpaces(truck1));
+        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
+        Vehicle truck4 = new Truck("POI981", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
+        parkingManager.parkVehicle(truck3);
+
+        parkingManager.parkVehicle(truck4);
+    }
 
     @Test
     public void testRemoveVehicle() {
@@ -403,6 +421,13 @@ public class ParkingManagerTest extends BaseSetUpTest{
         int numberOfMembers = parkingManager.count(isMember);
 
         assertEquals(3, numberOfMembers);
+    }
+
+
+    @Test
+    public void testMembershipReportToString() {
+        String report = membershipSystem.generateMembershipReport("ABC123");
+        System.out.println(report);
     }
 
     @Test

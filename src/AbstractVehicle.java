@@ -1,7 +1,7 @@
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class AbstractVehicle implements Vehicle {
+public abstract class AbstractVehicle implements Vehicle {
 
   private String licensePlate;
 
@@ -32,18 +32,34 @@ public class AbstractVehicle implements Vehicle {
   }
 
 
+  public void setLicensePlate(String licensePlate) {
+    this.licensePlate = licensePlate;
+  }
+
+  public void setType(VehicleType type) {
+    this.type = type;
+  }
+
+  public void setParkingRate(float parkingRate) {
+    this.parkingRate = parkingRate;
+  }
+
+  public void setMembershipSystem(MembershipSystem membershipSystem) {
+    this.membershipSystem = membershipSystem;
+  }
+
   @Override
   public void setArrivalTime(LocalDateTime arrivalTime) {
     this.arrivalTime = arrivalTime;
   }
 
 
-  @Override
+
   public void setLeaveTime(LocalDateTime leaveTime) {
     this.leaveTime = leaveTime;
   }
 
-  @Override
+
   public void setPaymentTime(LocalDateTime paymentTime) {
     this.paymentTime = paymentTime;
   }

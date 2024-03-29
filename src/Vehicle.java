@@ -8,7 +8,7 @@ public interface Vehicle {
 
   void setPaymentTime(LocalDateTime leaveTime);
 
-  //LocalDateTime getLeaveTime();
+  LocalDateTime getLeaveTime();
 
 
   boolean isMembership();
@@ -26,9 +26,9 @@ public interface Vehicle {
   void setArrivalTime(LocalDateTime arrivalTime);
 
   LocalDateTime getArrivalTime();
-
-  LocalDateTime getLeaveTime();
-
+//
+//  LocalDateTime getLeaveTime();
+//
   LocalDateTime getPaymentTime();
 
   float rechargeParkingFee();

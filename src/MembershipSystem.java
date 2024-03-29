@@ -46,4 +46,26 @@ public class MembershipSystem {
         }
         return null;
     }
+
+
+    public String generateMembershipReport(String licensePlate) {
+        boolean isMember = isMembership(licensePlate);
+        if (isMember) {
+            MembershipType membershipType = getMembershipType(licensePlate);
+            Membership membership = getMembership(licensePlate);
+            LocalDateTime startTime = membership.getStartTime();
+            LocalDateTime endTime = membership.getEndTime();
+
+            StringBuilder report = new StringBuilder();
+            report.append("Membership report for ").append(licensePlate).append(":\n");
+            report.append("Start Time: ").append(startTime).append("\n");
+            report.append("End Time: ").append(endTime).append("\n");
+            report.append("Type: ").append(membershipType).append("\n");
+            report.append("Membership Status: ").append(isMember);
+
+            return report.toString();
+        } else {
+            return "Not a member: " + licensePlate;
+        }
+    }
 }

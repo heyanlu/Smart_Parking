@@ -65,32 +65,24 @@ public abstract class BaseSetUpTest {
         "DEF456",
         VehicleType.MOTORBIKE,
         now,
-//        now.plusHours(1),
-//        now.plusHours(1),
         membershipSystem);
 
     motorbike2 = new Motorbike(
         "HIJ234",
         VehicleType.MOTORBIKE,
         now,
-//        now.plusMinutes(40),
-//        now.plusHours(2),
         membershipSystem);
 
     truck1 = new Truck(
         "GHI789",
         VehicleType.TRUCK,
         now,
-//        now.plusMinutes(20),
-//        now.plusMinutes(30),
         membershipSystem);
 
     truck2 = new Truck(
         "ABD789",
         VehicleType.TRUCK,
         now,
-//        now.plusHours(1),
-//        now.plusHours(1),
         membershipSystem);
 
     parkingManager.parkVehicle(car1);
