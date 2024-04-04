@@ -8,29 +8,28 @@ import java.util.function.Predicate;
 public interface IParkingManager {
 
 
-  int getTotalCapacity(Vehicle vehicle);
+  int getTotalCapacity(VehicleType vehicleType);
 
-  int getOccupiedSpaces(Vehicle vehicle);
+  int getOccupiedSpaces(VehicleType vehicleType);
 
-  //boolean hasAvailableSpace(Vehicle vehicle);
-
-  int getAvailableSpaces(Vehicle vehicle);
+  int getAvailableSpaces(VehicleType vehicleType);
 
   boolean isMemberVehicle(Vehicle vehicle);
 
-  void parkVehicle(Vehicle vehicle) throws IllegalStateException;
 
+  Vehicle createVehicle(String licensePlate, VehicleType type);
+
+  boolean parkVehicle(Vehicle vehicle) throws IllegalStateException;
 
   boolean isVehicleParked(String licensePlate);
 
 
   void vehicleExit(Vehicle vehicle);
 
-  boolean vehicleHasLeft(Vehicle vehicle, LocalDateTime expectedLeaveTime);
-
   boolean processToLeave(Vehicle vehicle) throws IllegalStateException;
 
   void openGate(Vehicle vehicle);
+
 
   Map<String, Vehicle> getVehicles(Predicate<Vehicle> predicate);
 

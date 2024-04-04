@@ -1,3 +1,4 @@
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 public interface Vehicle {
@@ -14,6 +15,10 @@ public interface Vehicle {
   boolean isMembership();
 
   float getParkingRate();
+
+  //Vehicle createVehicle(String licensePlate, VehicleType type);
+
+  Duration getParkedDuration();
 
   float getParkingFee();
 

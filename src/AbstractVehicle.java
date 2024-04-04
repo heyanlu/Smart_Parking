@@ -1,7 +1,8 @@
 import java.time.Duration;
 import java.time.LocalDateTime;
+import javax.swing.Timer;
 
-public abstract class AbstractVehicle implements Vehicle {
+public class AbstractVehicle implements Vehicle {
 
   private String licensePlate;
 
@@ -12,18 +13,18 @@ public abstract class AbstractVehicle implements Vehicle {
   private LocalDateTime leaveTime;
   private LocalDateTime paymentTime;
 
-  private float parkingRate;
+  private Timer timer;
+
   private MembershipSystem membershipSystem;
 
   public AbstractVehicle(String licensePlate, VehicleType type, LocalDateTime arrivalTime,
-      MembershipSystem membershipSystem, float parkingRate) {
+      MembershipSystem membershipSystem) {
     this.licensePlate = licensePlate;
     this.type = type;
     this.arrivalTime = arrivalTime;
     this.paymentTime = null;
     this.leaveTime = null;
     this.membershipSystem = membershipSystem;
-    this.parkingRate = parkingRate;
   }
 
 
@@ -31,40 +32,30 @@ public abstract class AbstractVehicle implements Vehicle {
     return type;
   }
 
-
-  public void setLicensePlate(String licensePlate) {
-    this.licensePlate = licensePlate;
-  }
-
   public void setType(VehicleType type) {
     this.type = type;
-  }
-
-  public void setParkingRate(float parkingRate) {
-    this.parkingRate = parkingRate;
   }
 
   public void setMembershipSystem(MembershipSystem membershipSystem) {
     this.membershipSystem = membershipSystem;
   }
 
-  @Override
   public void setArrivalTime(LocalDateTime arrivalTime) {
     this.arrivalTime = arrivalTime;
   }
 
 
-
+  @Override
   public void setLeaveTime(LocalDateTime leaveTime) {
     this.leaveTime = leaveTime;
   }
 
-
+  @Override
   public void setPaymentTime(LocalDateTime paymentTime) {
     this.paymentTime = paymentTime;
   }
 
-  @Override
+
   public LocalDateTime getArrivalTime() {
     return arrivalTime;
   }
@@ -80,8 +71,6 @@ public abstract class AbstractVehicle implements Vehicle {
   }
 
 
-
-  @Override
   public String getLicensePlate() {
     return licensePlate;
   }
@@ -93,8 +82,19 @@ public abstract class AbstractVehicle implements Vehicle {
 
   @Override
   public float getParkingRate() {
-    return parkingRate;
+    return ParkingRates.getRateForVehicleType(type);
   }
+
+
+  @Override
+  public Duration getParkedDuration() {
+    if (leaveTime == null || paymentTime == null) {
+      return Duration.ZERO;
+    } else {
+      return Duration.between(arrivalTime, LocalDateTime.now());
+    }
+  }
+
 
 
   @Override
@@ -116,7 +116,6 @@ public abstract class AbstractVehicle implements Vehicle {
     Duration duration = Duration.between(arrivalTime, paymentTime);
     long minutes = duration.toMinutes();
 
-    //for checking the output
     System.out.println("Duration in minutes: " + minutes);
 
 
@@ -124,7 +123,7 @@ public abstract class AbstractVehicle implements Vehicle {
       return 0.0F;
     } else {
       minutes -= 30;
-      return ParkingFeeCalculator.calculateParkingFee((float) minutes, parkingRate, type);
+      return ParkingFeeCalculator.calculateParkingFee((float) minutes, getParkingRate(), type);
     }
   }
 
@@ -149,7 +148,7 @@ public abstract class AbstractVehicle implements Vehicle {
       }
     }
 
-    return ParkingFeeCalculator.calculateParkingFee((float) minutes, parkingRate, type);
+    return ParkingFeeCalculator.calculateParkingFee((float) minutes, getParkingRate(), type);
 
   }
 

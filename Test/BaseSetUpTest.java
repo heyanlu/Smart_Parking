@@ -23,6 +23,7 @@ public abstract class BaseSetUpTest {
 
   @Before
   public void setUp() {
+
     LocalDateTime now = LocalDateTime.now();
 
     membershipSystem = new MembershipSystem();
@@ -44,11 +45,18 @@ public abstract class BaseSetUpTest {
 
     paymentSystem = new PaymentSystem();
     parkedVehicles = new HashMap<>();
+
+
+    Map<VehicleType, Float> parkingRates = new HashMap<>();
+    parkingRates.put(VehicleType.CAR, ParkingRates.CAR.getRate());
+    parkingRates.put(VehicleType.MOTORBIKE, ParkingRates.MOTORBIKE.getRate());
+    parkingRates.put(VehicleType.TRUCK, ParkingRates.TRUCK.getRate());
+
+
     parkingManager = new ParkingManager(capacityMap, occupiedSpaces,
         membershipSystem, paymentSystem);
 
 
-     // Initialize vehicle instances
     car1 = new Car(
         "ABC123",
         VehicleType.CAR,

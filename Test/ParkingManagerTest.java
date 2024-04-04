@@ -14,58 +14,46 @@ public class ParkingManagerTest extends BaseSetUpTest{
 
     @Test
     public void testGetTotalCapacity() {
-        assertEquals(100, parkingManager.getTotalCapacity(car1));
-        assertEquals(50, parkingManager.getTotalCapacity(motorbike1));
-        assertEquals(30, parkingManager.getTotalCapacity(truck2));
+        assertEquals(100, parkingManager.getTotalCapacity(VehicleType.CAR));
+        assertEquals(50, parkingManager.getTotalCapacity(VehicleType.MOTORBIKE));
+        assertEquals(30, parkingManager.getTotalCapacity(VehicleType.TRUCK));
 
     }
 
     @Test
     public void testCarParkingSpace() {
         //already parked two cars
-        assertEquals(2, parkingManager.getOccupiedSpaces(car1));
+        assertEquals(2, parkingManager.getOccupiedSpaces(VehicleType.CAR));
 
         //a new car is approaching entry
         Vehicle car3 = new Car("ABD987", VehicleType.CAR, LocalDateTime.now(), membershipSystem);
 
         parkingManager.parkVehicle(car3);
 
-        assertEquals(3, parkingManager.getOccupiedSpaces(car3));
-        assertEquals(97, parkingManager.getAvailableSpaces(car3));
+        assertEquals(3, parkingManager.getOccupiedSpaces(VehicleType.CAR));
+        assertEquals(97, parkingManager.getAvailableSpaces(VehicleType.CAR));
     }
 
     @Test
     public void testTruckParkingSpace() {
-        assertEquals(29, parkingManager.getOccupiedSpaces(truck1));
+        assertEquals(29, parkingManager.getOccupiedSpaces(VehicleType.TRUCK));
 
         Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
         parkingManager.parkVehicle(truck3);
 
-        assertEquals(30, parkingManager.getOccupiedSpaces(truck3));
-        assertEquals(0, parkingManager.getAvailableSpaces(truck3));
+        assertEquals(30, parkingManager.getOccupiedSpaces(VehicleType.TRUCK));
+        assertEquals(0, parkingManager.getAvailableSpaces(VehicleType.TRUCK));
     }
 
     @Test
     public void testMotorbikeParkingSpace() {
-        assertEquals(3, parkingManager.getOccupiedSpaces(motorbike1));
+        assertEquals(3, parkingManager.getOccupiedSpaces(VehicleType.MOTORBIKE));
 
         Vehicle motorbike3 = new Motorbike("REW987", VehicleType.MOTORBIKE, LocalDateTime.now(), membershipSystem);
         parkingManager.parkVehicle(motorbike3);
-        assertEquals(4, parkingManager.getOccupiedSpaces(motorbike3));
-        assertEquals(46, parkingManager.getAvailableSpaces(motorbike3));
+        assertEquals(4, parkingManager.getOccupiedSpaces(VehicleType.MOTORBIKE));
+        assertEquals(46, parkingManager.getAvailableSpaces(VehicleType.MOTORBIKE));
     }
-
-//    @Test
-//    public void testHasAvailableSpace() {
-//        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
-//        parkingManager.parkVehicle(truck3);
-//        Vehicle truck4 = new Truck("IUP123", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
-//        parkingManager.hasAvailableSpace(truck4);
-//
-//
-//        Vehicle motorbike3 = new Motorbike("REW987", VehicleType.MOTORBIKE, LocalDateTime.now(), membershipSystem);
-//        assertTrue(parkingManager.hasAvailableSpace(motorbike3));
-//    }
 
 
     @Test
@@ -86,23 +74,25 @@ public class ParkingManagerTest extends BaseSetUpTest{
 
 
     @Test
+    public void testCreateVehicle() {
+        String licensePlate = "ABJ123";
+        LocalDateTime arrivalTime = LocalDateTime.of(2022, 4, 3, 19, 1); // Example arrival time
+        VehicleType vehicleType = VehicleType.CAR;
+
+        Vehicle vehicle = parkingManager.createVehicle(licensePlate, vehicleType);
+
+        assertEquals(licensePlate, vehicle.getLicensePlate());
+        assertEquals(vehicleType, vehicle.getType());
+    }
+
+
+    @Test
     public void testFailParking(){
         Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
 
         assertFalse(parkingManager.isVehicleParked(truck3.getLicensePlate()));
     }
 
-
-    @Test
-    public void testVehicleExitAndHasLeft() {
-        parkingManager.vehicleExit(car2);
-        parkingManager.vehicleExit(truck2);
-
-        assertNotNull(car2.getLeaveTime());
-        assertTrue(parkingManager.vehicleHasLeft(car2, LocalDateTime.now()));
-        assertTrue(parkingManager.vehicleHasLeft(truck2, LocalDateTime.now()));
-
-    }
 
     @Test
     public void testGetParkingRate() {
@@ -148,7 +138,7 @@ public class ParkingManagerTest extends BaseSetUpTest{
 
 
         String actual = paymentSystem.toString();
-        String expected = "Paid Vehicles: [XYZ789, HIJ234, ABD789]";
+        String expected = "Paid Vehicles: [XYZ789, ABD789, HIJ234]";
         assertEquals(expected, actual);
 
     }
@@ -261,19 +251,19 @@ public class ParkingManagerTest extends BaseSetUpTest{
 
     @Test
     public void testGateOpen() {
-        assertEquals(2, parkingManager.getOccupiedSpaces(car1));
-        assertEquals(29, parkingManager.getOccupiedSpaces(truck2));
+        assertEquals(2, parkingManager.getOccupiedSpaces(VehicleType.CAR));
+        assertEquals(29, parkingManager.getOccupiedSpaces(VehicleType.TRUCK));
 
         parkingManager.openGate(car1);
         parkingManager.openGate(truck2);
 
-        assertEquals(1, parkingManager.getOccupiedSpaces(car1));
+        assertEquals(1, parkingManager.getOccupiedSpaces(VehicleType.CAR));
         assertFalse(parkedVehicles.containsKey(car1.getLicensePlate()));
-        assertFalse(paymentSystem.getPaidVehicles().contains(car1.getLicensePlate()));
+        assertFalse(paymentSystem.getPaidVehicles().containsKey(car1.getLicensePlate()));
 
-        assertEquals(28, parkingManager.getOccupiedSpaces(truck2));
+        assertEquals(28, parkingManager.getOccupiedSpaces(VehicleType.TRUCK));
         assertFalse(parkedVehicles.containsKey(truck2.getLicensePlate()));
-        assertFalse(paymentSystem.getPaidVehicles().contains(truck2.getLicensePlate()));
+        assertFalse(paymentSystem.getPaidVehicles().containsKey(truck2.getLicensePlate()));
 
     }
 
@@ -293,7 +283,7 @@ public class ParkingManagerTest extends BaseSetUpTest{
 
     @Test(expected = IllegalStateException.class)
     public void testParkVehicleExpectedError() {
-        assertEquals(29, parkingManager.getOccupiedSpaces(truck1));
+        assertEquals(29, parkingManager.getOccupiedSpaces(VehicleType.TRUCK));
         Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
         Vehicle truck4 = new Truck("POI981", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
         parkingManager.parkVehicle(truck3);
@@ -345,20 +335,16 @@ public class ParkingManagerTest extends BaseSetUpTest{
 
     @Test
     public void testGetAllVehicles() {
-        Map<String, Vehicle> allParkedVehicles = parkingManager.getVehicles(parkedVehicles->true);
+        Predicate<Vehicle> predicateFilterCar = vehicle -> vehicle.getType().equals(VehicleType.CAR);
+        Map<String, Vehicle> filteredCar = parkingManager.getVehicles(predicateFilterCar);
+        assertEquals(2, filteredCar.size());
 
-        assertEquals(6, allParkedVehicles.size());
+        // Test filtering vehicles based on ALL predicate
+        Predicate<Vehicle> predicateFilterAll = vehicle -> true;
+        Map<String, Vehicle> filteredVehicles = parkingManager.getVehicles(predicateFilterAll);
+        assertEquals(6, filteredVehicles.size());
 
-        Map<String, Vehicle> allMembershipVehicles = new HashMap<>();
-        for (Vehicle vehicle : allParkedVehicles.values()) {
-            if (vehicle.isMembership()) {
-                allMembershipVehicles.put(vehicle.getLicensePlate(), vehicle);
-            }
-        }
-
-        assertEquals(3, allMembershipVehicles.size());
     }
-
 
 
     @Test
@@ -445,7 +431,6 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertEquals(7, newTotalVehicleCount);
 
     }
-
 
 
 }

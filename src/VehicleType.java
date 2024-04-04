@@ -1,3 +1,3 @@
 public enum VehicleType {
-    CAR, MOTORBIKE, TRUCK, RV
+    CAR, MOTORBIKE, TRUCK
 }
