@@ -37,6 +37,4 @@ public class ParkingSystemView {
     JOptionPane.showMessageDialog(null, message, "Parked Duration", JOptionPane.INFORMATION_MESSAGE);
   }
 
-
-
 }

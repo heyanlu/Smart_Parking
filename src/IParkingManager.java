@@ -24,6 +24,8 @@ public interface IParkingManager {
   boolean isVehicleParked(String licensePlate);
 
 
+  //boolean processPayment(Vehicle vehicle) throws IllegalStateException;
+
   void vehicleExit(Vehicle vehicle);
 
   boolean processToLeave(Vehicle vehicle) throws IllegalStateException;

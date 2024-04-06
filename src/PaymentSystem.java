@@ -29,30 +29,23 @@ public class PaymentSystem {
 
     public boolean processPayment(Vehicle vehicle) {
         float amount = vehicle.getParkingFee();
-        String message;
 
         if (amount == 0) {
-            message = "No payment required. Gate is open.";
             paidVehicles.put(vehicle.getLicensePlate(), vehicle);
             parkingFees.put(vehicle.getLicensePlate(), amount);
             vehicle.setPaymentTime(LocalDateTime.now());
         } else {
-            message = "Parking Fee: $" + amount + "\n\n";
-
             boolean paymentSuccess = true; // Simulated payment success
             if (paymentSuccess) {
-                message += "Payment processed successfully! Please leave within 20 minutes.";
                 paidVehicles.put(vehicle.getLicensePlate(), vehicle);
                 parkingFees.put(vehicle.getLicensePlate(), amount);
                 totalParkingFees += amount; // Update total parking fees
                 vehicle.setPaymentTime(LocalDateTime.now());
             } else {
-                message += "Payment Failed! Please Try Again.";
                 return false;
             }
         }
 
-        JOptionPane.showMessageDialog(null, message, "Payment Status", JOptionPane.INFORMATION_MESSAGE);
         return true;
     }
 

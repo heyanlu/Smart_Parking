@@ -89,17 +89,19 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
   public boolean parkVehicle(Vehicle vehicle) throws IllegalStateException{
     VehicleType vehicleType = vehicle.getType();
     float parkingRate = vehicle.getParkingRate();
+    String message;
 
     if (getTotalCapacity(vehicleType) <= getOccupiedSpaces(vehicleType)) {
-      throw new IllegalStateException("Parking lot capacity for " + vehicleType + " is full.");
+      message = "Parking lot capacity for " + vehicleType + " is full.";
+      throw new IllegalStateException(message);
     } else if (!parkedVehicles.containsKey(vehicle.getLicensePlate())) {
       parkedVehicles.put(vehicle.getLicensePlate(), vehicle);
       int currentOccupiedSpaces = occupiedSpaces.getOrDefault(vehicleType, 0);
       occupiedSpaces.put(vehicleType, currentOccupiedSpaces + 1);
-      //System.out.println("Welcome to smartPark!");
+      message = "Welcome to Park" + vehicle.getLicensePlate() + "!";
       return true;
     } else {
-      System.out.println("Vehicle with license plate " + vehicle.getLicensePlate() + " is already parked.");
+      message = "Vehicle with license plate " + vehicle.getLicensePlate() + " is already parked.";
       return false;
     }
   }
@@ -110,6 +112,21 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
     return parkedVehicles.containsKey(licensePlate);
   }
 
+//  @Override
+//  public boolean processPayment(Vehicle vehicle) throws IllegalStateException {
+//    String licensePlate = vehicle.getLicensePlate();
+//    String message;
+//    if (!getParkedVehicles().containsKey(licensePlate)) {
+//      message = "Vehicle with license plate " + licensePlate + " not found in the parking lot.";
+//      return false;
+//    }
+//    if (paymentSystem.processPayment(vehicle)) {
+//      parkedVehicles.remove(licensePlate);
+//      return true;
+//    } else {
+//      return false;
+//    }
+//  }
 
 
   @Override
@@ -122,14 +139,16 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
 
   @Override
   public boolean processToLeave(Vehicle vehicle) throws IllegalStateException {
+    String message;
     if (!parkedVehicles.containsKey(vehicle.getLicensePlate())) {
-      throw new IllegalStateException("Vehicle with license plate " + vehicle.getLicensePlate() + " is not currently parked here.");
+      message = "Vehicle with license plate " + vehicle.getLicensePlate() + " is not currently parked here.";
+      throw new IllegalStateException(message);
     } else {
       vehicle.setLeaveTime(LocalDateTime.now());
 
       if (vehicle.getPaymentTime() != null && paymentSystem.processPayment(vehicle)) {
         LocalDateTime expectedLeaveTime = vehicle.getPaymentTime().plusMinutes(ParkingManager.MAX_PARKING_DURATION_MINUTES);
-        System.out.println("Expected leave time: " + expectedLeaveTime);
+        message = "Expected leave time: " + expectedLeaveTime + "\n\n";
 
         if (vehicle.getLeaveTime().isBefore(expectedLeaveTime)) {
           openGate(vehicle);
@@ -138,16 +157,16 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
           if (vehicle.isPaidRechargeParkingFee()) {
             openGate(vehicle);
             float amount = vehicle.rechargeParkingFee();
-            System.out.printf("Recharge Parking fee: $%.2f, Recharging fee is paid.%n", amount);
+            message = String.format("Recharge Parking fee: $%.2f, Recharging fee is paid.%n", amount);
 
             return true;
           } else {
             float amount = vehicle.rechargeParkingFee();
             if (amount > 0) {
-              System.out.println("Recharge Parking fee: $" + amount);
+              message = "Recharge Parking fee: $" + amount;
               return false;
             } else {
-              System.out.println("Error: Vehicle payment not found.");
+              message = "Error: Vehicle payment not found.";
               return false;
             }
           }

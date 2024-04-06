@@ -20,15 +20,18 @@ public class ParkingSystemController {
           String licensePlateToPark = ParkingSystemView.getInput("Enter your license plate number: ");
           Vehicle newVehicle = parkingManager.createVehicle(licensePlateToPark, vehicleType);
           parkingManager.parkVehicle(newVehicle);
-
-          ParkingSystemView.displayMessage("Welcome to smartPark, " + licensePlateToPark + "!");
           break;
 
         case 1:
           String licensePlateToPay = ParkingSystemView.getInput("Enter your license plate number: ");
           Vehicle vehicleToPay = (Vehicle) parkingManager.getParkedVehicles().get(licensePlateToPay);
           if (vehicleToPay != null) {
-            paymentSystem.processPayment(vehicleToPay);
+            boolean paymentSuccess = paymentSystem.processPayment(vehicleToPay);
+            if (paymentSuccess) {
+              ParkingSystemView.displayMessage("Payment processed successfully! Please leave within 20 minutes.");
+            } else {
+              ParkingSystemView.displayMessage("Payment Failed! Please Try Again.");
+            }
           } else {
             ParkingSystemView.displayMessage("Vehicle with license plate " + licensePlateToPay + " not found in the parking lot.");
           }
@@ -38,13 +41,8 @@ public class ParkingSystemController {
           String licensePlateToProcess = ParkingSystemView.getInput("Enter your license plate number to leave: ");
           Vehicle vehicleToProcess = (Vehicle) parkingManager.getParkedVehicles().get(licensePlateToProcess);
           if (vehicleToProcess != null) {
-            if (parkingManager.processToLeave(vehicleToProcess)) {
-              ParkingSystemView.displayParkedDuration(vehicleToProcess.getArrivalTime(), vehicleToProcess.getLeaveTime());
-              ParkingSystemView.displayMessage("Payment processed successfully. You may leave the parking lot.");
-              //parking = false;
-            } else {
-              ParkingSystemView.displayMessage("Error processing payment. Please try again.");
-            }
+            parkingManager.processToLeave(vehicleToProcess);
+            ParkingSystemView.displayMessage("Gate opened! See you next time!");
           } else {
             ParkingSystemView.displayMessage("Vehicle with license plate " + licensePlateToProcess + " not found in the parking lot.");
           }
