@@ -27,14 +27,13 @@ public class ParkingSystemView {
     return JOptionPane.showInputDialog(null, prompt);
   }
 
-  public static void displayParkedDuration(LocalDateTime arrivalTime, LocalDateTime leaveTime) {
-    Duration duration = Duration.between(arrivalTime, leaveTime);
+  public static void displayParkedDuration(Duration duration) {
     long hours = duration.toHours();
     long minutes = duration.toMinutes() % 60;
     long seconds = duration.getSeconds() % 60;
 
-    String message = String.format("Parked Duration: %d hours, %d minutes, %d seconds", hours, minutes, seconds);
-    JOptionPane.showMessageDialog(null, message, "Parked Duration", JOptionPane.INFORMATION_MESSAGE);
+    String formattedDuration = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    JOptionPane.showMessageDialog(null, "Parked Duration: " + formattedDuration, "Parked Duration", JOptionPane.INFORMATION_MESSAGE);
   }
 
 }

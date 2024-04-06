@@ -112,43 +112,16 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
     return parkedVehicles.containsKey(licensePlate);
   }
 
-//  @Override
-//  public boolean processPayment(Vehicle vehicle) throws IllegalStateException {
-//    String licensePlate = vehicle.getLicensePlate();
-//    String message;
-//    if (!getParkedVehicles().containsKey(licensePlate)) {
-//      message = "Vehicle with license plate " + licensePlate + " not found in the parking lot.";
-//      return false;
-//    }
-//    if (paymentSystem.processPayment(vehicle)) {
-//      parkedVehicles.remove(licensePlate);
-//      return true;
-//    } else {
-//      return false;
-//    }
-//  }
-
-
-  @Override
-  public void vehicleExit(Vehicle vehicle) {
-    if (parkedVehicles.containsKey(vehicle.getLicensePlate())) {
-      vehicle.setLeaveTime(LocalDateTime.now());
-    }
-  }
-
 
   @Override
   public boolean processToLeave(Vehicle vehicle) throws IllegalStateException {
-    String message;
     if (!parkedVehicles.containsKey(vehicle.getLicensePlate())) {
-      message = "Vehicle with license plate " + vehicle.getLicensePlate() + " is not currently parked here.";
-      throw new IllegalStateException(message);
+      throw new IllegalStateException("Vehicle with license plate " + vehicle.getLicensePlate() + " is not currently parked here.");
     } else {
       vehicle.setLeaveTime(LocalDateTime.now());
 
       if (vehicle.getPaymentTime() != null && paymentSystem.processPayment(vehicle)) {
         LocalDateTime expectedLeaveTime = vehicle.getPaymentTime().plusMinutes(ParkingManager.MAX_PARKING_DURATION_MINUTES);
-        message = "Expected leave time: " + expectedLeaveTime + "\n\n";
 
         if (vehicle.getLeaveTime().isBefore(expectedLeaveTime)) {
           openGate(vehicle);
@@ -156,19 +129,9 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
         } else {
           if (vehicle.isPaidRechargeParkingFee()) {
             openGate(vehicle);
-            float amount = vehicle.rechargeParkingFee();
-            message = String.format("Recharge Parking fee: $%.2f, Recharging fee is paid.%n", amount);
-
             return true;
           } else {
-            float amount = vehicle.rechargeParkingFee();
-            if (amount > 0) {
-              message = "Recharge Parking fee: $" + amount;
-              return false;
-            } else {
-              message = "Error: Vehicle payment not found.";
-              return false;
-            }
+            return false;
           }
         }
       }

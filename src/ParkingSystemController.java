@@ -1,3 +1,5 @@
+import java.time.Duration;
+
 public class ParkingSystemController {
   private ParkingManager parkingManager;
   private PaymentSystem paymentSystem;
@@ -28,6 +30,7 @@ public class ParkingSystemController {
           if (vehicleToPay != null) {
             boolean paymentSuccess = paymentSystem.processPayment(vehicleToPay);
             if (paymentSuccess) {
+              ParkingSystemView.displayParkedDuration(Duration.between(vehicleToPay.getArrivalTime(), vehicleToPay.getPaymentTime()));
               ParkingSystemView.displayMessage("Payment processed successfully! Please leave within 20 minutes.");
             } else {
               ParkingSystemView.displayMessage("Payment Failed! Please Try Again.");
@@ -41,8 +44,13 @@ public class ParkingSystemController {
           String licensePlateToProcess = ParkingSystemView.getInput("Enter your license plate number to leave: ");
           Vehicle vehicleToProcess = (Vehicle) parkingManager.getParkedVehicles().get(licensePlateToProcess);
           if (vehicleToProcess != null) {
-            parkingManager.processToLeave(vehicleToProcess);
-            ParkingSystemView.displayMessage("Gate opened! See you next time!");
+            if (parkingManager.processToLeave(vehicleToProcess)) {
+              ParkingSystemView.displayMessage("Gate opened! See you next time!");
+            } else {
+              float amount = vehicleToProcess.rechargeParkingFee();
+              ParkingSystemView.displayMessage("Recharge Parking fee: $" + amount);
+            }
+
           } else {
             ParkingSystemView.displayMessage("Vehicle with license plate " + licensePlateToProcess + " not found in the parking lot.");
           }

@@ -16,31 +16,19 @@ public interface Vehicle {
 
   float getParkingRate();
 
-  //Vehicle createVehicle(String licensePlate, VehicleType type);
-
-  Duration getParkedDuration();
-
   float getParkingFee();
 
   VehicleType getType();
 
-  //LocalDateTime setArrivalTime();
-
-  //LocalDateTime setArrivalTime(LocalDateTime arrivalTime);
-
   void setArrivalTime(LocalDateTime arrivalTime);
 
   LocalDateTime getArrivalTime();
-//
-//  LocalDateTime getLeaveTime();
-//
+
   LocalDateTime getPaymentTime();
 
   float rechargeParkingFee();
 
-  //boolean isPaidRechargeParkingFee(Vehicle vehicle);
 
   boolean isPaidRechargeParkingFee();
 
-  //boolean vehicleHasLeft(LocalDateTime expectedLeaveTime);
 }

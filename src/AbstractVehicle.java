@@ -87,17 +87,6 @@ public class AbstractVehicle implements Vehicle {
 
 
   @Override
-  public Duration getParkedDuration() {
-    if (leaveTime == null || paymentTime == null) {
-      return Duration.ZERO;
-    } else {
-      return Duration.between(arrivalTime, LocalDateTime.now());
-    }
-  }
-
-
-
-  @Override
   public float getParkingFee() {
     if (paymentTime == null) {
       return 0.0F;
@@ -147,9 +136,7 @@ public class AbstractVehicle implements Vehicle {
         return 0.0F;
       }
     }
-
     return ParkingFeeCalculator.calculateParkingFee((float) minutes, getParkingRate(), type);
-
   }
 
 
@@ -157,7 +144,7 @@ public class AbstractVehicle implements Vehicle {
   public boolean isPaidRechargeParkingFee() {
     //by default set it to true;
     boolean paymentSuccess = true;
-    return true;
+    return paymentSuccess;
   }
 
 
