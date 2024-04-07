@@ -2,27 +2,34 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Predicate;
 
+/**
+ * Class representing a parking manager that implements the IParkingManager interface.
+ *
+ * @param <T> Type parameter representing a subtype of Vehicle.
+ */
 public class ParkingManager<T extends Vehicle> implements IParkingManager {
   protected static final long MAX_PARKING_DURATION_MINUTES = 20;
-
-  private ParkingRates parkingRates;
-
-  private boolean gateOpen;
 
   private final Map<VehicleType, Integer> capacityMap;
 
   private Map<VehicleType, Integer> occupiedSpaces;
 
-  private PaymentSystem paymentSystem;
-
   private Map<String, Vehicle> parkedVehicles;
 
   private MembershipSystem membershipSystem;
 
-  //ParkingRates parkingRates = new ParkingRates();
+  private PaymentSystem paymentSystem;
 
+  private boolean gateOpen;
 
-
+  /**
+   * Constructs a ParkingManager object with the given parameters.
+   *
+   * @param capacityMap A map representing the capacity of parking spaces for each vehicle type.
+   * @param occupiedSpaces A map representing the currently occupied parking spaces for each vehicle type.
+   * @param membershipSystem The membership system used for membership checks.
+   * @param paymentSystem The payment system used for payment processing.
+   */
   public ParkingManager(Map<VehicleType, Integer> capacityMap,
       Map<VehicleType, Integer> occupiedSpaces, MembershipSystem membershipSystem,
       PaymentSystem paymentSystem) {
@@ -32,7 +39,6 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
     this.membershipSystem = membershipSystem;
     this.paymentSystem = paymentSystem;
     this.gateOpen = false;
-    //this.parkingRates = parkingRates;
   }
 
   public MembershipSystem getMembershipSystem() {
@@ -173,7 +179,11 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
     return count;
   }
 
-
+  /**
+   * String representation of the parking lot information, including the capacity information, if there is any parked vehicles.
+   *
+   * @return String representation of the parking lot.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -2,23 +2,39 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class of membership for different vehicles type.
+ */
 public class MembershipSystem {
     private Map<String, Membership> memberships;
 
-    public MembershipSystem(Map<String, Membership> memberships) {
-        this.memberships = memberships;
-    }
-
+    /**
+     * Constructor of MembershipSystem.
+     */
     public MembershipSystem() {
         this.memberships = new HashMap<>();
     }
 
+    /**
+     * Adds a new membership for a vehicle.
+     *
+     * @param licensePlate The license plate of the vehicle.
+     * @param type         The type of membership.
+     * @param startTime    The start time of the membership.
+     * @return True if the membership is successfully added, false otherwise.
+     */
     public boolean addMembership(String licensePlate, MembershipType type, LocalDateTime startTime) {
         Membership membership = new Membership(type, startTime);
         memberships.put(licensePlate, membership);
         return true;
     }
 
+    /**
+     * Removes a membership for a vehicle.
+     *
+     * @param licensePlate The license plate of the vehicle.
+     * @return True if the membership is successfully removed, false otherwise.
+     */
     public boolean removeMembership(String licensePlate) {
         if (memberships.containsKey(licensePlate)) {
             memberships.remove(licensePlate); 
@@ -27,11 +43,22 @@ public class MembershipSystem {
         return false; 
     }
 
+    /**
+     * Checks if a vehicle has a membership.
+     *
+     * @param licensePlate The license plate of the vehicle.
+     * @return True if the vehicle has a membership, false otherwise.
+     */
     public boolean isMembership(String licensePlate) {
         return memberships.containsKey(licensePlate);
     }
 
-
+    /**
+     * Retrieves the membership of a vehicle.
+     *
+     * @param licensePlate The license plate of the vehicle.
+     * @return The membership object if the vehicle is a member, null otherwise.
+     */
     public Membership getMembership(String licensePlate) {
         if (isMembership(licensePlate)) {
             return memberships.get(licensePlate);
@@ -39,6 +66,11 @@ public class MembershipSystem {
         return null;
     }
 
+    /**
+     * Retrieves the membership type for a given licensePlate.
+     * @param licensePlate The licensePlate of vehicle
+     * @return The membership type if the vehicle is a member, null otherwise.
+     */
     public MembershipType getMembershipType(String licensePlate) {
         Membership membership = memberships.get(licensePlate);
         if (membership != null) {
@@ -48,6 +80,12 @@ public class MembershipSystem {
     }
 
 
+    /**
+     * Strign representation of the membership report
+     *
+     * @param licensePlate The license plate of the vehicle.
+     * @return The membership report if the vehicle is a member, otherwise "Not a member: licensePlate".
+     */
     public String generateMembershipReport(String licensePlate) {
         boolean isMember = isMembership(licensePlate);
         if (isMember) {

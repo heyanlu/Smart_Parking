@@ -1,22 +1,30 @@
 import java.time.Duration;
 import java.time.LocalDateTime;
-import javax.swing.Timer;
 
+/**
+ * Abstract class representing a vehicle that implements the Vehicle interface.
+ */
 public class AbstractVehicle implements Vehicle {
-
   private String licensePlate;
 
   private VehicleType type;
 
   private LocalDateTime arrivalTime;
 
-  private LocalDateTime leaveTime;
   private LocalDateTime paymentTime;
 
-  private Timer timer;
+  private LocalDateTime leaveTime;
 
   private MembershipSystem membershipSystem;
 
+  /**
+   * Constructs an AbstractVehicle object with the given parameters.
+   *
+   * @param licensePlate The license plate of the vehicle.
+   * @param type The type of the vehicle.
+   * @param arrivalTime The arrival time of the vehicle.
+   * @param membershipSystem The membership system used for membership checks.
+   */
   public AbstractVehicle(String licensePlate, VehicleType type, LocalDateTime arrivalTime,
       MembershipSystem membershipSystem) {
     this.licensePlate = licensePlate;
@@ -27,23 +35,20 @@ public class AbstractVehicle implements Vehicle {
     this.membershipSystem = membershipSystem;
   }
 
-
+  @Override
   public VehicleType getType() {
     return type;
   }
 
-  public void setType(VehicleType type) {
-    this.type = type;
+  @Override
+  public String getLicensePlate() {
+    return licensePlate;
   }
 
-  public void setMembershipSystem(MembershipSystem membershipSystem) {
-    this.membershipSystem = membershipSystem;
-  }
-
+  @Override
   public void setArrivalTime(LocalDateTime arrivalTime) {
     this.arrivalTime = arrivalTime;
   }
-
 
   @Override
   public void setLeaveTime(LocalDateTime leaveTime) {
@@ -55,7 +60,7 @@ public class AbstractVehicle implements Vehicle {
     this.paymentTime = paymentTime;
   }
 
-
+  @Override
   public LocalDateTime getArrivalTime() {
     return arrivalTime;
   }
@@ -68,11 +73,6 @@ public class AbstractVehicle implements Vehicle {
   @Override
   public LocalDateTime getPaymentTime() {
     return paymentTime;
-  }
-
-
-  public String getLicensePlate() {
-    return licensePlate;
   }
 
   @Override
@@ -92,9 +92,6 @@ public class AbstractVehicle implements Vehicle {
       return 0.0F;
     }
 
-    //for checking the output
-    System.out.println("Payment Time: " + paymentTime);
-
     if (isMembership()) {
       Membership membership = membershipSystem.getMembership(licensePlate);
       if (membership != null && paymentTime.isBefore(membership.getEndTime())) {
@@ -104,9 +101,6 @@ public class AbstractVehicle implements Vehicle {
 
     Duration duration = Duration.between(arrivalTime, paymentTime);
     long minutes = duration.toMinutes();
-
-    System.out.println("Duration in minutes: " + minutes);
-
 
     if (minutes <= 30) {
       return 0.0F;
@@ -121,10 +115,6 @@ public class AbstractVehicle implements Vehicle {
   public float rechargeParkingFee() {
     LocalDateTime expectedLeaveTime = paymentTime.plusMinutes(
         ParkingManager.MAX_PARKING_DURATION_MINUTES);
-
-    //check for output
-    System.out.println("payment time " + paymentTime);
-    System.out.println("leave time " + leaveTime);
 
     Duration duration = Duration.between(expectedLeaveTime, leaveTime);
 
@@ -142,12 +132,17 @@ public class AbstractVehicle implements Vehicle {
 
   @Override
   public boolean isPaidRechargeParkingFee() {
-    //by default set it to true;
+    //Have not created the payment acceptance system, so set paymentSuccess to true
     boolean paymentSuccess = true;
     return paymentSuccess;
   }
 
-
+  /**
+   * String representation of vehicle, including its license plate, type, arrival time,
+   * payment time, leave time, and membership status.
+   *
+   * @return string representation of the vehicle
+   */
   @Override
   public String toString() {
     return "Vehicle{" +

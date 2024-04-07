@@ -1,8 +1,17 @@
-import java.time.Duration;
-import java.time.LocalDateTime;
-
+/**
+ * Class to calculate the parking fee
+ */
 public class ParkingFeeCalculator {
 
+  /**
+   * Calculates the parking fee for each vehicle type based on parking rate, parking time and vehicle type.
+   * Additionally, it establishes a maximum daily payment for each vehicle type.
+   *
+   * @param minutes       The number of minutes parked.
+   * @param parkingRate   The parking rate per hour for the vehicle type.
+   * @param vehicleType   The type of the vehicle (Car, Motorbike, Truck).
+   * @return The calculated parking fee.
+   */
   public static float calculateParkingFee(float minutes, float parkingRate, VehicleType vehicleType) {
     float parkingFee;
     float withoutDiscount = (float) ((Math.ceil(minutes / 60.0)) * parkingRate);
