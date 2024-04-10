@@ -77,12 +77,13 @@ public interface Vehicle {
    */
   float getParkingFee();
 
+
   /**
    * Recharges the parking fee for the vehicle.
-   *
    * @return The recharged parking fee.
+   * @throws IllegalStateException When the vehicle does not pay before process to leave.
    */
-  float rechargeParkingFee();
+  float rechargeParkingFee() throws IllegalStateException;
 
   /**
    * Checks if the parking fee is paid for recharging.

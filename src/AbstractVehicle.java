@@ -112,7 +112,11 @@ public class AbstractVehicle implements Vehicle {
 
 
   @Override
-  public float rechargeParkingFee() {
+  public float rechargeParkingFee() throws IllegalStateException{
+    if (paymentTime == null) {
+      throw new IllegalStateException("You should pay the parking fee first!");
+    }
+    
     LocalDateTime expectedLeaveTime = paymentTime.plusMinutes(
         ParkingManager.MAX_PARKING_DURATION_MINUTES);
 

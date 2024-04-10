@@ -50,7 +50,11 @@ public class MembershipSystem {
      * @return True if the vehicle has a membership, false otherwise.
      */
     public boolean isMembership(String licensePlate) {
-        return memberships.containsKey(licensePlate);
+        if (memberships == null) {
+            return false;
+        } else {
+            return memberships.containsKey(licensePlate);
+        }
     }
 
     /**

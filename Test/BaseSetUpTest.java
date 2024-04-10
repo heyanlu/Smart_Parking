@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
 
-public abstract class BaseSetUpTest {
+public class BaseSetUpTest {
 
   protected static ParkingManager parkingManager;
   protected Map<VehicleType, Integer> capacityMap;
