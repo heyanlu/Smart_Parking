@@ -4,7 +4,7 @@ import java.util.*;
 /**
  * Class representing a payment system for managing vehicle payments in a parking lot.
  */
-public class PaymentSystem {
+public class PaymentSystem implements IPaymentSystem{
     private Map<String, Vehicle> paidVehicles;
 
     private Map<String, Float> parkingFees;
@@ -25,6 +25,7 @@ public class PaymentSystem {
      *
      * @return A map containing the paid vehicles.
      */
+    @Override
     public Map<String, Vehicle> getPaidVehicles() {
         return paidVehicles;
     }
@@ -34,6 +35,7 @@ public class PaymentSystem {
      *
      * @return total parking fee collected.
      */
+    @Override
     public float getTotalParkingFees() {
         return totalParkingFees;
     }
@@ -43,6 +45,7 @@ public class PaymentSystem {
      * @param vehicle The vehicle for which payment is to be processed.
      * @return True if the payment is successfully processed, false otherwise.
      */
+    @Override
     public boolean processPayment(Vehicle vehicle) {
         float amount = vehicle.getParkingFee();
 

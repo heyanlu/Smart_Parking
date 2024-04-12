@@ -4,9 +4,6 @@ public class ParkingManagerController implements Feature{
 
   private IParkingManagerView view;
 
-  private boolean managingVehicle;
-
-
   public ParkingManagerController(ParkingManager parkingManager, PaymentSystem paymentSystem) {
     this.parkingManager = parkingManager;
     this.paymentSystem = paymentSystem;
@@ -14,7 +11,6 @@ public class ParkingManagerController implements Feature{
 
   public void setView(IParkingManagerView v) {
     view = v;
-    // Provide view with all the callbacks
     view.addFeatures(this);
   }
 
@@ -85,7 +81,6 @@ public class ParkingManagerController implements Feature{
         }
         break;
       case "Exit":
-        managingVehicle = false;
         exitProgram();
         break;
       default:

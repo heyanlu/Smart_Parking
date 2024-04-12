@@ -60,6 +60,7 @@ public class ParkingCustomerJFrameView extends JFrame implements IParkingCustome
   }
 
 
+
   @Override
   public void displayMessage(String message) {
     JOptionPane.showMessageDialog(this, message, "Message", JOptionPane.INFORMATION_MESSAGE);
@@ -76,6 +77,7 @@ public class ParkingCustomerJFrameView extends JFrame implements IParkingCustome
       return null;
     }
   }
+
 
   @Override
   public String getLicensePlateInput() {

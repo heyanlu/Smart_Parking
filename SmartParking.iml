@@ -18,5 +18,19 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" exported="" scope="TEST" name="junit.jupiter" level="project" />
+    <orderEntry type="library" scope="TEST" name="mockito.all" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="mockito.core" level="project" />
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../mockito-core-5.9.0-javadoc.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" scope="TEST" name="me.tfeng.play.plugins.spring.test" level="project" />
+    <orderEntry type="library" scope="TEST" name="github.fartherp.spring.boot.framework.starter.test" level="project" />
   </component>
 </module>

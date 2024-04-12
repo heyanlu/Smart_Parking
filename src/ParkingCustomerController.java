@@ -6,12 +6,11 @@ public class ParkingCustomerController implements Feature {
   private PaymentSystem paymentSystem;
 
   private IParkingCustomerView view;
-  private boolean managingVehicle;
+
 
   public ParkingCustomerController(ParkingManager parkingManager, PaymentSystem paymentSystem) {
     this.parkingManager = parkingManager;
     this.paymentSystem = paymentSystem;
-
   }
 
   public void setView(IParkingCustomerView v) {
@@ -74,7 +73,6 @@ public class ParkingCustomerController implements Feature {
         }
         break;
       case "Exit Button":
-        managingVehicle = false;
         exitProgram();
         break;
       default:

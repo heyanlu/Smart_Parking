@@ -1,7 +1,5 @@
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -9,7 +7,6 @@ import javax.swing.JPanel;
 
 public class ParkingManagerJFrameView extends JFrame implements IParkingManagerView {
 
-  private JLabel display;
   private JButton totalParkingCapacityButton;
   private JButton availableParkingCapacityButton;
   private JButton vehicleDetailsButton;
@@ -34,7 +31,6 @@ public class ParkingManagerJFrameView extends JFrame implements IParkingManagerV
     paymentStatusButton = new JButton("Payment Status");
     exitButton = new JButton("Exit");
 
-    // Add action listeners to the buttons
     totalParkingCapacityButton.addActionListener(e -> optionExecution("Total Parking Capacity"));
     availableParkingCapacityButton.addActionListener(e -> optionExecution("Available Parking Capacity"));
     vehicleDetailsButton.addActionListener(e -> optionExecution("Vehicle Details"));
@@ -56,7 +52,6 @@ public class ParkingManagerJFrameView extends JFrame implements IParkingManagerV
     panel.add(paymentStatusButton);
     panel.add(exitButton);
 
-    // Add the panel to the frame
     getContentPane().add(panel);
 
     pack();
