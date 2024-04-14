@@ -1,3 +1,7 @@
+import edu.northeastern.sv.khoury.smartParkTest.controller.ParkingCustomerController;
+import edu.northeastern.sv.khoury.smartParkTest.model.ParkingManager;
+import edu.northeastern.sv.khoury.smartParkTest.model.PaymentSystem;
+import edu.northeastern.sv.khoury.smartParkTest.view.ParkingCustomerJFrameView;
 
 public class MainCustomer{
   public static void main(String[] args) {

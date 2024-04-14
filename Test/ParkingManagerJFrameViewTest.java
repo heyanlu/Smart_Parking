@@ -1,3 +1,4 @@
+import edu.northeastern.sv.khoury.smartParkTest.mock.ParkingManagerJFrameViewMock;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -14,19 +15,19 @@ public class ParkingManagerJFrameViewTest {
 
   @Test
   public void testButtonsNotNull() {
-    assertNotNull("Add Membership button should not be null", view.getAddMembershipButton());
-    assertNotNull("Remove Membership button should not be null", view.getRemoveMembershipButton());
-    assertNotNull("Get Membership button should not be null", view.getGetMembershipButton());
-    assertNotNull("Get Membership Count button should not be null", view.getGetMembershipCountButton());
+    assertNotNull("Add edu.northeastern.sv.khoury.smartPark.model.Membership button should not be null", view.getAddMembershipButton());
+    assertNotNull("Remove edu.northeastern.sv.khoury.smartPark.model.Membership button should not be null", view.getRemoveMembershipButton());
+    assertNotNull("Get edu.northeastern.sv.khoury.smartPark.model.Membership button should not be null", view.getGetMembershipButton());
+    assertNotNull("Get edu.northeastern.sv.khoury.smartPark.model.Membership Count button should not be null", view.getGetMembershipCountButton());
     assertNotNull("Exit button should not be null", view.getExitButton());
   }
 
   @Test
   public void testButtonsActionCommands() {
-    assertEquals("Add Membership button should have action command 'Add Membership Button'", "Add Membership Button", view.getAddMembershipButton().getActionCommand());
-    assertEquals("Remove Membership button should have action command 'Remove Membership Button'", "Remove Membership Button", view.getRemoveMembershipButton().getActionCommand());
-    assertEquals("Get Membership button should have action command 'Get Membership Button'", "Get Membership Button", view.getGetMembershipButton().getActionCommand());
-    assertEquals("Get Membership Count button should have action command 'Get Membership Count Button'", "Get Membership Count Button", view.getGetMembershipCountButton().getActionCommand());
+    assertEquals("Add edu.northeastern.sv.khoury.smartPark.model.Membership button should have action command 'Add edu.northeastern.sv.khoury.smartPark.model.Membership Button'", "Add edu.northeastern.sv.khoury.smartPark.model.Membership Button", view.getAddMembershipButton().getActionCommand());
+    assertEquals("Remove edu.northeastern.sv.khoury.smartPark.model.Membership button should have action command 'Remove edu.northeastern.sv.khoury.smartPark.model.Membership Button'", "Remove edu.northeastern.sv.khoury.smartPark.model.Membership Button", view.getRemoveMembershipButton().getActionCommand());
+    assertEquals("Get edu.northeastern.sv.khoury.smartPark.model.Membership button should have action command 'Get edu.northeastern.sv.khoury.smartPark.model.Membership Button'", "Get edu.northeastern.sv.khoury.smartPark.model.Membership Button", view.getGetMembershipButton().getActionCommand());
+    assertEquals("Get edu.northeastern.sv.khoury.smartPark.model.Membership Count button should have action command 'Get edu.northeastern.sv.khoury.smartPark.model.Membership Count Button'", "Get edu.northeastern.sv.khoury.smartPark.model.Membership Count Button", view.getGetMembershipCountButton().getActionCommand());
     assertEquals("Exit button should have action command 'Exit Button'", "Exit Button", view.getExitButton().getActionCommand());
   }
 

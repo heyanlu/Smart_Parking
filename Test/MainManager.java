@@ -1,3 +1,8 @@
+import edu.northeastern.sv.khoury.smartParkTest.controller.ParkingManagerController;
+import edu.northeastern.sv.khoury.smartParkTest.model.ParkingManager;
+import edu.northeastern.sv.khoury.smartParkTest.model.PaymentSystem;
+import edu.northeastern.sv.khoury.smartParkTest.view.ParkingManagerJFrameView;
+
 public class MainManager {
   public static void main(String[] args) {
     BaseSetUpTest baseSetUpTest = new BaseSetUpTest();

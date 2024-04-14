@@ -1,3 +1,11 @@
+import edu.northeastern.sv.khoury.smartParkTest.controller.ParkingManagerController;
+import edu.northeastern.sv.khoury.smartParkTest.mock.ParkingManagerMock;
+import edu.northeastern.sv.khoury.smartParkTest.mock.ParkingManagerViewMock;
+import edu.northeastern.sv.khoury.smartParkTest.mock.PaymentSystemMock;
+import edu.northeastern.sv.khoury.smartParkTest.model.Car;
+import edu.northeastern.sv.khoury.smartParkTest.model.MembershipSystem;
+import edu.northeastern.sv.khoury.smartParkTest.model.Vehicle;
+import edu.northeastern.sv.khoury.smartParkTest.model.VehicleType;
 import java.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +60,7 @@ public class ParkingManagerControllerTest {
   public void testVehicleDetailsOption() {
     Vehicle vehicle = new Car("ABC123", VehicleType.CAR, LocalDateTime.now(), null, null, null);
 
-    String expected = "Vehicle{" +
+    String expected = "edu.northeastern.sv.khoury.smartPark.model.Vehicle{" +
         "\n\tlicensePlate='ABC123'" +
         ",\n\ttype=CAR" +
         ",\n\tarrivalTime=" + vehicle.getArrivalTime() +
@@ -60,7 +68,7 @@ public class ParkingManagerControllerTest {
         ",\n\tleaveTime=null" +
         ",\n\tmembership=unknown" +
         '}';
-    controller.optionExecution("Vehicle Details");
+    controller.optionExecution("edu.northeastern.sv.khoury.smartPark.model.Vehicle Details");
     assertEquals(expected, vehicle.toString());
   }
 
@@ -68,16 +76,16 @@ public class ParkingManagerControllerTest {
   @Test
   public void testMembershipStatusOptionWithMembership() {
     view.setLicensePlateInput("ABC123");
-    controller.optionExecution("Membership Status");
-    String expected = "Vehicle is not a member.";
+    controller.optionExecution("edu.northeastern.sv.khoury.smartPark.model.Membership Status");
+    String expected = "edu.northeastern.sv.khoury.smartPark.model.Vehicle is not a member.";
     assertEquals(expected, view.getMessage());
   }
 
   @Test
   public void testMembershipStatusOptionWithoutMembership() {
     view.setLicensePlateInput("ABC567");
-    controller.optionExecution("Membership Status");
-    String expected = "Vehicle is not a member.";
+    controller.optionExecution("edu.northeastern.sv.khoury.smartPark.model.Membership Status");
+    String expected = "edu.northeastern.sv.khoury.smartPark.model.Vehicle is not a member.";
     assertEquals(expected, view.getMessage());
   }
 

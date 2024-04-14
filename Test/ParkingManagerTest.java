@@ -1,3 +1,10 @@
+import edu.northeastern.sv.khoury.smartParkTest.model.Car;
+import edu.northeastern.sv.khoury.smartParkTest.model.MembershipType;
+import edu.northeastern.sv.khoury.smartParkTest.model.Motorbike;
+import edu.northeastern.sv.khoury.smartParkTest.model.ParkingFeeCalculator;
+import edu.northeastern.sv.khoury.smartParkTest.model.Truck;
+import edu.northeastern.sv.khoury.smartParkTest.model.Vehicle;
+import edu.northeastern.sv.khoury.smartParkTest.model.VehicleType;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.function.Predicate;
@@ -236,9 +243,21 @@ public class ParkingManagerTest extends BaseSetUpTest{
 
         float rechargeFee2 = motorbike2.rechargeParkingFee();
         assertEquals(3.0F, rechargeFee2, 0.001);
-
     }
 
+
+    @Test(expected = IllegalStateException.class)
+    public void testRechargeParkingFeeFail() {
+        LocalDateTime leaveTime1 = LocalDateTime.now();
+        LocalDateTime leaveTime2 = LocalDateTime.now();
+        motorbike2.setLeaveTime(leaveTime2);
+        motorbike2.rechargeParkingFee();
+    }
+
+    @Test
+    public void testIsPaidRechargeParkingFee() {
+        assertTrue(truck2.isPaidRechargeParkingFee());
+    }
 
     @Test
     public void testLeaveExceedsAllowedDurationWithMembership() {
@@ -258,8 +277,6 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertEquals(0.0F, rechargeFee2, 0.001);
     }
 
-
-
     @Test
     public void testGateOpen() {
         assertEquals(2, parkingManager.getOccupiedSpaces(VehicleType.CAR));
@@ -275,10 +292,7 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertEquals(28, parkingManager.getOccupiedSpaces(VehicleType.TRUCK));
         assertFalse(parkedVehicles.containsKey(truck2.getLicensePlate()));
         assertFalse(paymentSystem.getPaidVehicles().containsKey(truck2.getLicensePlate()));
-
     }
-
-
 
 
     @Test
@@ -299,15 +313,13 @@ public class ParkingManagerTest extends BaseSetUpTest{
 
         String NonmembershiplicensePlate = "ABC124";
         assertFalse(parkingManager.getMembershipSystem().removeMembership(NonmembershiplicensePlate));
-
     }
-
 
     @Test
     public void testVehicleToString() {
         String actual1 = parkingManager.toString();
 
-        System.out.println("Current Vehicle Output:");
+        System.out.println("Current edu.northeastern.sv.khoury.smartPark.model.Vehicle Output:");
         System.out.println(actual1);
 
         parkingManager.openGate(car1);
@@ -322,7 +334,6 @@ public class ParkingManagerTest extends BaseSetUpTest{
         System.out.println(actual2);
 
     }
-
 
 
     @Test
@@ -344,7 +355,6 @@ public class ParkingManagerTest extends BaseSetUpTest{
         Predicate<Vehicle> predicateFilterAll = vehicle -> true;
         Map<String, Vehicle> filteredVehicles = parkingManager.getVehicles(predicateFilterAll);
         assertEquals(6, filteredVehicles.size());
-
     }
 
 
@@ -394,8 +404,6 @@ public class ParkingManagerTest extends BaseSetUpTest{
     }
 
 
-
-
     @Test
     public void testMembershipVehicleCount() {
         Predicate<Vehicle> isMember = new Predicate<Vehicle>() {
@@ -432,6 +440,5 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertEquals(7, newTotalVehicleCount);
 
     }
-
 
 }

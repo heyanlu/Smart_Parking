@@ -1,7 +1,8 @@
+import edu.northeastern.sv.khoury.smartParkTest.mock.ParkingCustomerJFrameViewMock;
+import edu.northeastern.sv.khoury.smartParkTest.model.VehicleType;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.swing.*;
 import java.time.Duration;
 
 import static org.junit.Assert.assertEquals;
@@ -17,7 +18,7 @@ public class ParkingCustomerJFrameViewTest {
 
   @Test
   public void testButtonsNotNull() {
-    assertNotNull("Park Vehicle button should not be null", view.getParkVehicleButton());
+    assertNotNull("Park edu.northeastern.sv.khoury.smartPark.model.Vehicle button should not be null", view.getParkVehicleButton());
     assertNotNull("Process Payment button should not be null", view.getProcessPaymentButton());
     assertNotNull("Leave Parking Lot button should not be null", view.getLeaveParkingLotButton());
     assertNotNull("Exit button should not be null", view.getExitButton());
@@ -25,7 +26,7 @@ public class ParkingCustomerJFrameViewTest {
 
   @Test
   public void testButtonsActionCommands() {
-    assertEquals("Park Vehicle button should have action command 'Park Vehicle Button'", "Park Vehicle Button", view.getParkVehicleButton().getActionCommand());
+    assertEquals("Park edu.northeastern.sv.khoury.smartPark.model.Vehicle button should have action command 'Park edu.northeastern.sv.khoury.smartPark.model.Vehicle Button'", "Park edu.northeastern.sv.khoury.smartPark.model.Vehicle Button", view.getParkVehicleButton().getActionCommand());
     assertEquals("Process Payment button should have action command 'Process Payment Button'", "Process Payment Button", view.getProcessPaymentButton().getActionCommand());
     assertEquals("Leave Parking Lot button should have action command 'Process to Leave Button'", "Process to Leave Button", view.getLeaveParkingLotButton().getActionCommand());
     assertEquals("Exit button should have action command 'Exit Button'", "Exit Button", view.getExitButton().getActionCommand());

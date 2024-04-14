@@ -1,3 +1,13 @@
+import edu.northeastern.sv.khoury.smartParkTest.model.Car;
+import edu.northeastern.sv.khoury.smartParkTest.model.MembershipSystem;
+import edu.northeastern.sv.khoury.smartParkTest.model.MembershipType;
+import edu.northeastern.sv.khoury.smartParkTest.model.Motorbike;
+import edu.northeastern.sv.khoury.smartParkTest.model.ParkingManager;
+import edu.northeastern.sv.khoury.smartParkTest.model.ParkingRates;
+import edu.northeastern.sv.khoury.smartParkTest.model.PaymentSystem;
+import edu.northeastern.sv.khoury.smartParkTest.model.Truck;
+import edu.northeastern.sv.khoury.smartParkTest.model.Vehicle;
+import edu.northeastern.sv.khoury.smartParkTest.model.VehicleType;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
