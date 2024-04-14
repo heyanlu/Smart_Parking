@@ -11,10 +11,12 @@ public class Truck extends AbstractVehicle{
      * @param licensePlate The license plate of the truck.
      * @param type         The type of the truck.
      * @param arrivalTime  The arrival time of the truck.
+     * @param paymentTime  The payment time of the car.
+     * @param leaveTime    The leave time of the car.
      * @param membershipSystem The membership system used for membership checks.
      */
-    public Truck(String licensePlate, VehicleType type, LocalDateTime arrivalTime, MembershipSystem membershipSystem) {
-        super(licensePlate, type, arrivalTime, membershipSystem);
+    public Truck(String licensePlate, VehicleType type, LocalDateTime arrivalTime, LocalDateTime paymentTime, LocalDateTime leaveTime, MembershipSystem membershipSystem) {
+        super(licensePlate, type, arrivalTime, paymentTime, leaveTime, membershipSystem);
     }
 
     /**

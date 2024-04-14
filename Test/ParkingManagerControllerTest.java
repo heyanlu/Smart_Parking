@@ -1,31 +1,84 @@
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.*;
+import java.time.LocalDateTime;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 public class ParkingManagerControllerTest {
+  private ParkingManagerMock parkingManager;
+  private PaymentSystemMock paymentSystem;
 
-  private ParkingManagerController parkingManagerController;
-  private ParkingManager parkingManagerMock;
-  private PaymentSystem paymentSystemMock;
-  private IParkingManagerView viewMock;
+  private MembershipSystem membershipSystem;
 
-  @BeforeEach
-  void setUp() {
-    parkingManagerMock = mock(ParkingManager.class);
-    paymentSystemMock = mock(PaymentSystem.class);
-    viewMock = mock(IParkingManagerView.class);
+  private ParkingManagerController controller;
+  private ParkingManagerViewMock view;
 
-    parkingManagerController = new ParkingManagerController(parkingManagerMock, paymentSystemMock);
-    parkingManagerController.setView(viewMock);
+  @Before
+  public void setUp() {
+    membershipSystem = new MembershipSystem();
+    parkingManager = new ParkingManagerMock(membershipSystem);
+    paymentSystem = new PaymentSystemMock();
+    controller = new ParkingManagerController(parkingManager, paymentSystem);
+    view = new ParkingManagerViewMock("Parking Manager");
+    controller.setView(view);
   }
 
   @Test
-  void testTotalParkingCapacity() {
-    when(viewMock.chooseVehicleType()).thenReturn(VehicleType.CAR);
-    when(parkingManagerMock.getTotalCapacity(VehicleType.CAR)).thenReturn(100);
+  public void testTotalParkingCapacityOption() {
+    view.setVehicleType(VehicleType.CAR);
+    controller.optionExecution("Total Parking Capacity");
+    String expectedCar = "Total Parking Capacity: 20";
+    assertEquals(expectedCar, view.getMessage());
 
-    parkingManagerController.optionExecution("Total Parking Capacity");
-
-    verify(viewMock).displayMessage("Total Parking Capacity: 100");
+    view.setVehicleType(VehicleType.MOTORBIKE);
+    controller.optionExecution("Total Parking Capacity");
+    String expectedMotorbike = "Total Parking Capacity: 5";
+    assertEquals(expectedMotorbike, view.getMessage());
   }
+
+  @Test
+  public void testAvailableParkingCapacityOption() {
+    view.setVehicleType(VehicleType.MOTORBIKE);
+    controller.optionExecution("Available Parking Capacity");
+    String expectedMotorbike = "Available Parking Spaces: 0";
+    assertEquals(expectedMotorbike, view.getMessage());
+
+    view.setVehicleType(VehicleType.TRUCK);
+    controller.optionExecution("Available Parking Capacity");
+    String expectedTruck = "Available Parking Spaces: 5";
+    assertEquals(expectedTruck, view.getMessage());
+  }
+
+  @Test
+  public void testVehicleDetailsOption() {
+    Vehicle vehicle = new Car("ABC123", VehicleType.CAR, LocalDateTime.now(), null, null, null);
+
+    String expected = "Vehicle{" +
+        "\n\tlicensePlate='ABC123'" +
+        ",\n\ttype=CAR" +
+        ",\n\tarrivalTime=" + vehicle.getArrivalTime() +
+        ",\n\tpaymentTime=null" +
+        ",\n\tleaveTime=null" +
+        ",\n\tmembership=unknown" +
+        '}';
+    controller.optionExecution("Vehicle Details");
+    assertEquals(expected, vehicle.toString());
+  }
+
+
+  @Test
+  public void testMembershipStatusOptionWithMembership() {
+    view.setLicensePlateInput("ABC123");
+    controller.optionExecution("Membership Status");
+    String expected = "Vehicle is not a member.";
+    assertEquals(expected, view.getMessage());
+  }
+
+  @Test
+  public void testMembershipStatusOptionWithoutMembership() {
+    view.setLicensePlateInput("ABC567");
+    controller.optionExecution("Membership Status");
+    String expected = "Vehicle is not a member.";
+    assertEquals(expected, view.getMessage());
+  }
+
 }

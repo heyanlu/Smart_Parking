@@ -61,36 +61,48 @@ public class BaseSetUpTest {
         "ABC123",
         VehicleType.CAR,
         now,
+        null,
+        null,
         membershipSystem);
 
     car2 = new Car(
         "XYZ789",
         VehicleType.CAR,
         now,
+        null,
+        null,
         membershipSystem);
 
     motorbike1 = new Motorbike(
         "DEF456",
         VehicleType.MOTORBIKE,
         now,
+        null,
+        null,
         membershipSystem);
 
     motorbike2 = new Motorbike(
         "HIJ234",
         VehicleType.MOTORBIKE,
         now,
+        null,
+        null,
         membershipSystem);
 
     truck1 = new Truck(
         "GHI789",
         VehicleType.TRUCK,
         now,
+        null,
+        null,
         membershipSystem);
 
     truck2 = new Truck(
         "ABD789",
         VehicleType.TRUCK,
         now,
+        null,
+        null,
         membershipSystem);
 
     parkingManager.parkVehicle(car1);

@@ -1,14 +1,14 @@
 import java.time.Duration;
 
 public class ParkingCustomerController implements Feature {
-  private ParkingManager parkingManager;
+  private IParkingManager parkingManager;
 
-  private PaymentSystem paymentSystem;
+  private IPaymentSystem paymentSystem;
 
   private IParkingCustomerView view;
 
 
-  public ParkingCustomerController(ParkingManager parkingManager, PaymentSystem paymentSystem) {
+  public ParkingCustomerController(IParkingManager parkingManager, IPaymentSystem paymentSystem) {
     this.parkingManager = parkingManager;
     this.paymentSystem = paymentSystem;
   }
@@ -29,8 +29,12 @@ public class ParkingCustomerController implements Feature {
           String licensePlate = view.getLicensePlateInput();
           if (!licensePlate.isEmpty()) {
             Vehicle newVehicle = parkingManager.createVehicle(licensePlate, vehicleType);
-            parkingManager.parkVehicle(newVehicle);
-            view.displayMessage("Vehicle parked successfully!");
+            if (parkingManager.parkVehicle(newVehicle)) {
+              String newVehicleParkingPlace = parkingManager.assignParkingPlace(vehicleType);
+              view.displayMessage("Vehicle parked successfully! Vehicle parking place: " + newVehicleParkingPlace);
+            } else {
+              view.displayMessage("Parking failed!");
+            }
           } else {
             view.displayMessage("License plate cannot be empty.");
           }
@@ -44,6 +48,8 @@ public class ParkingCustomerController implements Feature {
         if (vehicleToPay != null) {
           boolean paymentSuccess = paymentSystem.processPayment(vehicleToPay);
           if (paymentSuccess) {
+            float parkingFee = vehicleToPay.getParkingFee();
+            view.displayMessage("Total parking fee: $ \n" + parkingFee);
             view.displayParkedDuration(
                 Duration.between(vehicleToPay.getArrivalTime(), vehicleToPay.getPaymentTime()));
             view.displayMessage("Payment processed successfully! Please leave within 20 minutes.");

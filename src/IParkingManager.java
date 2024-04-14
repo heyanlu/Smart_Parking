@@ -6,6 +6,10 @@ import java.util.function.Predicate;
  */
 public interface IParkingManager {
 
+  MembershipSystem getMembershipSystem();
+
+  Map<String, Vehicle> getParkedVehicles();
+
   /**
    * Get the total capacity of the parking lot for the specified vehicle type.
    * @param vehicleType The type of vehicle (Car, Motorbike, Truck).
@@ -47,9 +51,8 @@ public interface IParkingManager {
    *
    * @param vehicle The vehicle to park.
    * @return True if the vehicle is successfully parked, false otherwise.
-   * @throws IllegalStateException If parking is not possible due to capacity constraints.
    */
-  boolean parkVehicle(Vehicle vehicle) throws IllegalStateException;
+  boolean parkVehicle(Vehicle vehicle);
 
   /**
    * Checks if a vehicle with the specified license plate is currently parked.
@@ -57,6 +60,18 @@ public interface IParkingManager {
    * @return True if a vehicle with the specified license plate is parked, false otherwise.
    */
   boolean isVehicleParked(String licensePlate);
+
+  /**
+   * Assigns a parking place for the vehicle upon successful parking.
+   * The parking place number is composed of the capital letter of the vehicle type,
+   * the current occupied capacity, and an incrementing number.
+   *
+   * @param vehicleType The vehicle type to assign a parking place to.
+   * @return The assigned parking place number.
+   */
+  String assignParkingPlace(VehicleType vehicleType);
+
+
 
   /**
    * Processes the vehicle to leave the parking lot.

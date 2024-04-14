@@ -1,13 +1,14 @@
 public class ParkingManagerController implements Feature{
-  private ParkingManager parkingManager;
-  private PaymentSystem paymentSystem;
+  private IParkingManager parkingManager;
+  private IPaymentSystem paymentSystem;
 
   private IParkingManagerView view;
 
-  public ParkingManagerController(ParkingManager parkingManager, PaymentSystem paymentSystem) {
+  public ParkingManagerController(IParkingManager parkingManager, IPaymentSystem paymentSystem) {
     this.parkingManager = parkingManager;
     this.paymentSystem = paymentSystem;
   }
+
 
   public void setView(IParkingManagerView v) {
     view = v;
@@ -38,26 +39,11 @@ public class ParkingManagerController implements Feature{
         break;
       case "Membership Status":
         String vehicleMembershipLicensePlate = view.getLicensePlateInput();
-        Vehicle vehicleMembership = (Vehicle) parkingManager.getParkedVehicles().get(vehicleMembershipLicensePlate);
-        if (vehicleMembership != null) {
-          boolean isMember = vehicleMembership.isMembership();
-          if (isMember) {
-            view.displayMessage("Vehicle is a member.");
-          } else {
-            view.displayMessage("Vehicle is not a member.");
-          }
+        boolean isMember = parkingManager.getMembershipSystem().isMembership(vehicleMembershipLicensePlate);
+        if (isMember) {
+          view.displayMessage("Vehicle is a member.");
         } else {
-          view.displayMessage("Vehicle not found.");
-        }
-        break;
-      case "Parking Fee":
-        String vehicleParkingFeeLicensePlate = view.getLicensePlateInput();
-        Vehicle vehicleParkingFee = (Vehicle) parkingManager.getParkedVehicles().get(vehicleParkingFeeLicensePlate);
-        if (vehicleParkingFee != null) {
-          float parkingFee = vehicleParkingFee.getParkingFee();
-          view.displayMessage("Parking fee: $" + parkingFee);
-        } else {
-          view.displayMessage("Vehicle not found.");
+          view.displayMessage("Vehicle is not a member.");
         }
         break;
       case "Recharge Parking Fee":

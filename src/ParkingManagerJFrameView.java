@@ -11,13 +11,9 @@ public class ParkingManagerJFrameView extends JFrame implements IParkingManagerV
   private JButton availableParkingCapacityButton;
   private JButton vehicleDetailsButton;
   private JButton membershipStatusButton;
-  private JButton parkingFeeButton;
-  private JButton rechargeParkingFeeButton;
-  private JButton paymentStatusButton;
   private JButton exitButton;
 
-  String[] options = {"Total Parking Capacity", "Available Parking Capacity", "Vehicle Details", "Membership Status", "Parking Fee",
-      "Recharge Parking Fee", "Payment Status", "Exit"};
+  String[] options = {"Total Parking Capacity", "Available Parking Capacity", "Vehicle Details", "Membership Status", "Exit"};
 
   public ParkingManagerJFrameView(String caption) {
     super(caption);
@@ -26,18 +22,12 @@ public class ParkingManagerJFrameView extends JFrame implements IParkingManagerV
     availableParkingCapacityButton = new JButton("Available Parking Capacity");
     vehicleDetailsButton = new JButton("Vehicle Details");
     membershipStatusButton = new JButton("Membership Status");
-    parkingFeeButton = new JButton("Parking Fee");
-    rechargeParkingFeeButton = new JButton("Recharge Parking Fee");
-    paymentStatusButton = new JButton("Payment Status");
     exitButton = new JButton("Exit");
 
     totalParkingCapacityButton.addActionListener(e -> optionExecution("Total Parking Capacity"));
     availableParkingCapacityButton.addActionListener(e -> optionExecution("Available Parking Capacity"));
     vehicleDetailsButton.addActionListener(e -> optionExecution("Vehicle Details"));
     membershipStatusButton.addActionListener(e -> optionExecution("Membership Status"));
-    parkingFeeButton.addActionListener(e -> optionExecution("Parking Fee"));
-    rechargeParkingFeeButton.addActionListener(e -> optionExecution("Recharge Parking Fee"));
-    paymentStatusButton.addActionListener(e -> optionExecution("Payment Status"));
     exitButton.addActionListener(e -> optionExecution("Exit"));
 
     // Create a panel and add buttons to it
@@ -47,9 +37,6 @@ public class ParkingManagerJFrameView extends JFrame implements IParkingManagerV
     panel.add(availableParkingCapacityButton);
     panel.add(vehicleDetailsButton);
     panel.add(membershipStatusButton);
-    panel.add(parkingFeeButton);
-    panel.add(rechargeParkingFeeButton);
-    panel.add(paymentStatusButton);
     panel.add(exitButton);
 
     getContentPane().add(panel);
@@ -72,15 +59,6 @@ public class ParkingManagerJFrameView extends JFrame implements IParkingManagerV
     for(ActionListener listener : membershipStatusButton.getActionListeners()) {
       membershipStatusButton.removeActionListener(listener);
     }
-    for(ActionListener listener : parkingFeeButton.getActionListeners()) {
-      parkingFeeButton.removeActionListener(listener);
-    }
-    for(ActionListener listener : rechargeParkingFeeButton.getActionListeners()) {
-      rechargeParkingFeeButton.removeActionListener(listener);
-    }
-    for(ActionListener listener : paymentStatusButton.getActionListeners()) {
-      paymentStatusButton.removeActionListener(listener);
-    }
     for(ActionListener listener : exitButton.getActionListeners()) {
       exitButton.removeActionListener(listener);
     }
@@ -89,9 +67,6 @@ public class ParkingManagerJFrameView extends JFrame implements IParkingManagerV
     availableParkingCapacityButton.addActionListener(evt -> features.optionExecution("Available Parking Capacity"));
     vehicleDetailsButton.addActionListener(evt -> features.optionExecution("Vehicle Details"));
     membershipStatusButton.addActionListener(evt -> features.optionExecution("Membership Status"));
-    parkingFeeButton.addActionListener(evt -> features.optionExecution("Parking Fee"));
-    rechargeParkingFeeButton.addActionListener(evt -> features.optionExecution("Recharge Parking Fee"));
-    paymentStatusButton.addActionListener(evt -> features.optionExecution("Payment Status"));
     exitButton.addActionListener(evt -> features.optionExecution("Exit"));
   }
 

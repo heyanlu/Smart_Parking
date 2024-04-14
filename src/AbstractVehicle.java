@@ -23,17 +23,20 @@ public class AbstractVehicle implements Vehicle {
    * @param licensePlate The license plate of the vehicle.
    * @param type The type of the vehicle.
    * @param arrivalTime The arrival time of the vehicle.
+   * @param paymentTime  The payment time of the car.
+   * @param leaveTime    The leave time of the car.
    * @param membershipSystem The membership system used for membership checks.
    */
   public AbstractVehicle(String licensePlate, VehicleType type, LocalDateTime arrivalTime,
-      MembershipSystem membershipSystem) {
+      LocalDateTime paymentTime, LocalDateTime leaveTime, MembershipSystem membershipSystem) {
     this.licensePlate = licensePlate;
     this.type = type;
     this.arrivalTime = arrivalTime;
-    this.paymentTime = null;
-    this.leaveTime = null;
+    this.paymentTime = paymentTime;
+    this.leaveTime = leaveTime;
     this.membershipSystem = membershipSystem;
   }
+
 
   @Override
   public VehicleType getType() {
@@ -149,13 +152,14 @@ public class AbstractVehicle implements Vehicle {
    */
   @Override
   public String toString() {
+    String membershipStatus = membershipSystem != null ? String.valueOf(membershipSystem.isMembership(getLicensePlate())) : "unknown";
     return "Vehicle{" +
-        "licensePlate='" + licensePlate + '\'' +
-        ", type=" + type +
-        ", arrivalTime=" + arrivalTime +
-        ", paymentTime=" + paymentTime +
-        ", leaveTime=" + leaveTime +
-        ", membership=" + membershipSystem.isMembership(getLicensePlate()) +
+        "\n\tlicensePlate='" + licensePlate + '\'' +
+        ",\n\ttype=" + type +
+        ",\n\tarrivalTime=" + arrivalTime +
+        ",\n\tpaymentTime=" + paymentTime +
+        ",\n\tleaveTime=" + leaveTime +
+        ",\n\tmembership=" + membershipStatus +
         '}';
   }
 }

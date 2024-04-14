@@ -42,17 +42,23 @@ public class PaymentSystem implements IPaymentSystem{
 
     /**
      * Processes to pay for the given vehicle.
+     *
+     * My payment logic would be: if vehicle is process Payment, it will set up a temporary
+     * paymentTime. If the payment is successful, it will return true, otherwise, it will
+     * return false, and reset the paymentTime to null.
+     *
      * @param vehicle The vehicle for which payment is to be processed.
      * @return True if the payment is successfully processed, false otherwise.
      */
     @Override
     public boolean processPayment(Vehicle vehicle) {
+        vehicle.setPaymentTime(LocalDateTime.now());
         float amount = vehicle.getParkingFee();
 
         if (amount == 0) {
             paidVehicles.put(vehicle.getLicensePlate(), vehicle);
             parkingFees.put(vehicle.getLicensePlate(), amount);
-            vehicle.setPaymentTime(LocalDateTime.now());
+            return true;
         } else {
             //Have not created the payment acceptance system, so set paymentSuccess to true
             boolean paymentSuccess = true;
@@ -60,13 +66,12 @@ public class PaymentSystem implements IPaymentSystem{
                 paidVehicles.put(vehicle.getLicensePlate(), vehicle);
                 parkingFees.put(vehicle.getLicensePlate(), amount);
                 totalParkingFees += amount;
-                vehicle.setPaymentTime(LocalDateTime.now());
+                return true;
             } else {
+                vehicle.setPaymentTime(null);
                 return false;
             }
         }
-
-        return true;
     }
 
     /**

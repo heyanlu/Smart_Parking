@@ -21,7 +21,7 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertEquals(2, parkingManager.getOccupiedSpaces(VehicleType.CAR));
 
         //a new car is approaching entry
-        Vehicle car3 = new Car("ABD987", VehicleType.CAR, LocalDateTime.now(), membershipSystem);
+        Vehicle car3 = new Car("ABD987", VehicleType.CAR, LocalDateTime.now(), null, null, null);
 
         parkingManager.parkVehicle(car3);
 
@@ -33,7 +33,7 @@ public class ParkingManagerTest extends BaseSetUpTest{
     public void testTruckParkingSpace() {
         assertEquals(29, parkingManager.getOccupiedSpaces(VehicleType.TRUCK));
 
-        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
+        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), null, null, membershipSystem);
         parkingManager.parkVehicle(truck3);
 
         assertEquals(30, parkingManager.getOccupiedSpaces(VehicleType.TRUCK));
@@ -44,7 +44,7 @@ public class ParkingManagerTest extends BaseSetUpTest{
     public void testMotorbikeParkingSpace() {
         assertEquals(3, parkingManager.getOccupiedSpaces(VehicleType.MOTORBIKE));
 
-        Vehicle motorbike3 = new Motorbike("REW987", VehicleType.MOTORBIKE, LocalDateTime.now(), membershipSystem);
+        Vehicle motorbike3 = new Motorbike("REW987", VehicleType.MOTORBIKE, LocalDateTime.now(), null, null, membershipSystem);
         parkingManager.parkVehicle(motorbike3);
         assertEquals(4, parkingManager.getOccupiedSpaces(VehicleType.MOTORBIKE));
         assertEquals(46, parkingManager.getAvailableSpaces(VehicleType.MOTORBIKE));
@@ -83,7 +83,7 @@ public class ParkingManagerTest extends BaseSetUpTest{
 
     @Test
     public void testFailParking(){
-        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
+        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), null, null, membershipSystem);
 
         assertFalse(parkingManager.isVehicleParked(truck3.getLicensePlate()));
     }
@@ -159,16 +159,14 @@ public class ParkingManagerTest extends BaseSetUpTest{
     public void testProcessPaymentWithoutMembership() {
         LocalDateTime arrivalTime = LocalDateTime.now().minusMinutes(50);
         car2.setArrivalTime(arrivalTime);
-        car2.setPaymentTime(arrivalTime.plusMinutes(50));
 
         truck2.setArrivalTime(arrivalTime);
-        truck2.setPaymentTime(arrivalTime.plusHours(30));
 
         paymentSystem.processPayment(car2);
 
         paymentSystem.processPayment(truck2);
 
-        assertEquals(79.0f, paymentSystem.getTotalParkingFees(), 0.0f);
+        assertEquals(6.5f, paymentSystem.getTotalParkingFees(), 0.0f);
 
     }
 
@@ -177,7 +175,6 @@ public class ParkingManagerTest extends BaseSetUpTest{
     public void testProcessPaymentWithMembership() {
         LocalDateTime arrivalTime = LocalDateTime.now().minusMinutes(50);
         car1.setArrivalTime(arrivalTime);
-        car1.setPaymentTime(arrivalTime.plusMinutes(50));
 
         paymentSystem.processPayment(car1);
         assertEquals(0.0f, paymentSystem.getTotalParkingFees(), 0.0f);
@@ -199,7 +196,7 @@ public class ParkingManagerTest extends BaseSetUpTest{
 
     @Test (expected = IllegalStateException.class)
     public void testProcessToLeaveWithException() {
-        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
+        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), null, null, membershipSystem);
 
         assertTrue(parkingManager.processToLeave(truck3));
     }
@@ -271,7 +268,7 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertTrue(parkingManager.isVehicleParked("DEF456"));
         assertFalse(parkingManager.isVehicleParked("DEF457"));
 
-        Vehicle car3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
+        Vehicle car3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), null, null, membershipSystem);
         parkingManager.parkVehicle(car3);
         assertTrue(parkingManager.isVehicleParked("POI980"));
     }
@@ -279,8 +276,8 @@ public class ParkingManagerTest extends BaseSetUpTest{
     @Test(expected = IllegalStateException.class)
     public void testParkVehicleExpectedError() {
         assertEquals(29, parkingManager.getOccupiedSpaces(VehicleType.TRUCK));
-        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
-        Vehicle truck4 = new Truck("POI981", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
+        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), null, null, membershipSystem);
+        Vehicle truck4 = new Truck("POI981", VehicleType.TRUCK, LocalDateTime.now(), null, null, membershipSystem);
         parkingManager.parkVehicle(truck3);
 
         parkingManager.parkVehicle(truck4);
@@ -418,7 +415,7 @@ public class ParkingManagerTest extends BaseSetUpTest{
         int totalVehicleCount = parkingManager.count(allVehiclesPredicate);
         assertEquals(6, totalVehicleCount);
 
-        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), membershipSystem);
+        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), null, null, membershipSystem);
 
         parkingManager.parkVehicle(truck3);
 

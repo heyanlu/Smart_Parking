@@ -32,5 +32,8 @@
     </orderEntry>
     <orderEntry type="library" scope="TEST" name="me.tfeng.play.plugins.spring.test" level="project" />
     <orderEntry type="library" scope="TEST" name="github.fartherp.spring.boot.framework.starter.test" level="project" />
+    <orderEntry type="library" scope="TEST" name="bluecatcode.mockito.1.10.19.extended" level="project" />
+    <orderEntry type="library" scope="TEST" name="info.solidsoft.mockito.java8" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="au.dius.pact.consumer.junit5" level="project" />
   </component>
 </module>

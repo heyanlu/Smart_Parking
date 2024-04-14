@@ -41,10 +41,12 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
     this.gateOpen = false;
   }
 
+  @Override
   public MembershipSystem getMembershipSystem() {
     return membershipSystem;
   }
 
+  @Override
   public Map<String, Vehicle> getParkedVehicles() {
     return parkedVehicles;
   }
@@ -80,11 +82,11 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
     LocalDateTime arrivalTime = LocalDateTime.now();
     switch (vehicleType) {
       case CAR:
-        return new Car(licensePlate, vehicleType, arrivalTime, membershipSystem);
+        return new Car(licensePlate, vehicleType, arrivalTime, null, null, membershipSystem);
       case MOTORBIKE:
-        return new Motorbike(licensePlate, vehicleType, arrivalTime, membershipSystem);
+        return new Motorbike(licensePlate, vehicleType, arrivalTime, null, null, membershipSystem);
       case TRUCK:
-        return new Truck(licensePlate, vehicleType, arrivalTime, membershipSystem);
+        return new Truck(licensePlate, vehicleType, arrivalTime, null, null, membershipSystem);
       default:
         throw new IllegalArgumentException("Invalid vehicle type: " + vehicleType);
     }
@@ -92,22 +94,18 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
 
 
   @Override
-  public boolean parkVehicle(Vehicle vehicle) throws IllegalStateException{
+  public boolean parkVehicle(Vehicle vehicle) {
     VehicleType vehicleType = vehicle.getType();
-    float parkingRate = vehicle.getParkingRate();
-    String message;
+    //float parkingRate = vehicle.getParkingRate();
 
     if (getTotalCapacity(vehicleType) <= getOccupiedSpaces(vehicleType)) {
-      message = "Parking lot capacity for " + vehicleType + " is full.";
-      throw new IllegalStateException(message);
+      return false;
     } else if (!parkedVehicles.containsKey(vehicle.getLicensePlate())) {
       parkedVehicles.put(vehicle.getLicensePlate(), vehicle);
       int currentOccupiedSpaces = occupiedSpaces.getOrDefault(vehicleType, 0);
       occupiedSpaces.put(vehicleType, currentOccupiedSpaces + 1);
-      message = "Welcome to Park" + vehicle.getLicensePlate() + "!";
       return true;
     } else {
-      message = "Vehicle with license plate " + vehicle.getLicensePlate() + " is already parked.";
       return false;
     }
   }
@@ -117,6 +115,13 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
   public boolean isVehicleParked(String licensePlate) {
     return parkedVehicles.containsKey(licensePlate);
   }
+
+  @Override
+  public String assignParkingPlace(VehicleType vehicleType) {
+    int currentOccupiedSpaces = getOccupiedSpaces(vehicleType);
+    return vehicleType.toString().charAt(0) + Integer.toString(currentOccupiedSpaces + 1);
+  }
+
 
 
   @Override
