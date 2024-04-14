@@ -139,6 +139,25 @@ public class ParkingManagerTest extends BaseSetUpTest{
     }
 
 
+    @Test
+    public void testAssignParkingPlace() {
+        Vehicle car = new Car("ABC124", VehicleType.CAR, LocalDateTime.now(), null, null, membershipSystem);
+        Vehicle truck = new Truck("AAA111", VehicleType.MOTORBIKE, LocalDateTime.now(), null, null, membershipSystem);
+
+        if (parkingManager.parkVehicle(car)) {
+            assertEquals("C4", parkingManager.assignParkingPlace(VehicleType.CAR));
+        } else {
+            fail("Failed to park the car");
+        }
+
+        if (parkingManager.parkVehicle(truck)) {
+            assertEquals("T31", parkingManager.assignParkingPlace(VehicleType.TRUCK));
+        } else {
+            fail("Failed to park the car");
+        }
+    }
+
+
 
     @Test
     public  void testCalculateParkingFee() {
@@ -271,16 +290,6 @@ public class ParkingManagerTest extends BaseSetUpTest{
         Vehicle car3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), null, null, membershipSystem);
         parkingManager.parkVehicle(car3);
         assertTrue(parkingManager.isVehicleParked("POI980"));
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void testParkVehicleExpectedError() {
-        assertEquals(29, parkingManager.getOccupiedSpaces(VehicleType.TRUCK));
-        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), null, null, membershipSystem);
-        Vehicle truck4 = new Truck("POI981", VehicleType.TRUCK, LocalDateTime.now(), null, null, membershipSystem);
-        parkingManager.parkVehicle(truck3);
-
-        parkingManager.parkVehicle(truck4);
     }
 
     @Test

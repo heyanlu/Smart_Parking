@@ -123,7 +123,6 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
   }
 
 
-
   @Override
   public boolean processToLeave(Vehicle vehicle) throws IllegalStateException {
     if (!parkedVehicles.containsKey(vehicle.getLicensePlate())) {
