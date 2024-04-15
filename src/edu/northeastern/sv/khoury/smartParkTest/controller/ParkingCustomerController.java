@@ -7,6 +7,10 @@ import edu.northeastern.sv.khoury.smartParkTest.model.VehicleType;
 import edu.northeastern.sv.khoury.smartParkTest.view.IParkingCustomerView;
 import java.time.Duration;
 
+/**
+ * The ParkingCustomerController class implements the Feature interface is the controller
+ * for the parking customer operations.
+ */
 public class ParkingCustomerController implements Feature {
   private IParkingManager parkingManager;
 
@@ -14,23 +18,36 @@ public class ParkingCustomerController implements Feature {
 
   private IParkingCustomerView view;
 
-
+  /**
+   * Constructor of ParkingCustomerController with parking manager and payment system.
+   *
+   * @param parkingManager The parking manager component.
+   * @param paymentSystem  The payment system component.
+   */
   public ParkingCustomerController(IParkingManager parkingManager, IPaymentSystem paymentSystem) {
     this.parkingManager = parkingManager;
     this.paymentSystem = paymentSystem;
   }
 
+  /**
+   * Sets the view for this controller and adds itself as a feature to the view.
+   *
+   * @param v The parking customer view.
+   */
   public void setView(IParkingCustomerView v) {
     view = v;
-    // Provide view with all the callbacks
     view.addFeatures(this);
   }
 
+  /**
+   * Executes corresponding methods in model based on the provided option string.
+   *
+   * @param option The option to be executed.
+   */
   @Override
   public void optionExecution(String option) {
     switch (option) {
-      case "Park edu.northeastern.sv.khoury.smartPark.model.Vehicle Button":
-        // Prompt user to choose vehicle type
+      case "Park Vehicle Button":
         VehicleType vehicleType = view.chooseVehicleType();
         if (vehicleType != null) {
           String licensePlate = view.getLicensePlateInput();
@@ -38,7 +55,7 @@ public class ParkingCustomerController implements Feature {
             Vehicle newVehicle = parkingManager.createVehicle(licensePlate, vehicleType);
             if (parkingManager.parkVehicle(newVehicle)) {
               String newVehicleParkingPlace = parkingManager.assignParkingPlace(vehicleType);
-              view.displayMessage("edu.northeastern.sv.khoury.smartPark.model.Vehicle parked successfully! edu.northeastern.sv.khoury.smartPark.model.Vehicle parking place: " + newVehicleParkingPlace);
+              view.displayMessage("Vehicle parked successfully! Vehicle parking place: " + newVehicleParkingPlace);
             } else {
               view.displayMessage("Parking failed!");
             }
@@ -64,7 +81,7 @@ public class ParkingCustomerController implements Feature {
             view.displayMessage("Payment Failed! Please Try Again.");
           }
         } else {
-          view.displayMessage("edu.northeastern.sv.khoury.smartPark.model.Vehicle with license plate " + licensePlateToPay + " not found in the parking lot.");
+          view.displayMessage("Vehicle with license plate " + licensePlateToPay + " not found in the parking lot.");
         }
         break;
       case "Process to Leave Button":
@@ -79,10 +96,10 @@ public class ParkingCustomerController implements Feature {
               view.displayMessage("Recharge Parking fee: $" + amount);
             }
           } else {
-            view.displayMessage("edu.northeastern.sv.khoury.smartPark.model.Vehicle with license plate " + licensePlateToProcess + " has not paid the parking fee. Please pay first!");
+            view.displayMessage("Vehicle with license plate " + licensePlateToProcess + " has not paid the parking fee. Please pay first!");
           }
         } else {
-          view.displayMessage("edu.northeastern.sv.khoury.smartPark.model.Vehicle with license plate " + licensePlateToProcess + " not found in the parking lot.");
+          view.displayMessage("Vehicle with license plate " + licensePlateToProcess + " not found in the parking lot.");
         }
         break;
       case "Exit Button":
@@ -94,6 +111,9 @@ public class ParkingCustomerController implements Feature {
     }
   }
 
+  /**
+   * Exits the program.
+   */
   @Override
   public void exitProgram() {
     System.exit(0);

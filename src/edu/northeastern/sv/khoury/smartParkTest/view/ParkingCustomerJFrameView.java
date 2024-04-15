@@ -21,8 +21,8 @@ public class ParkingCustomerJFrameView extends JFrame implements IParkingCustome
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new FlowLayout());
 
-    parkVehicleButton = new JButton("Park edu.northeastern.sv.khoury.smartPark.model.Vehicle");
-    parkVehicleButton.setActionCommand("Park edu.northeastern.sv.khoury.smartPark.model.Vehicle Button");
+    parkVehicleButton = new JButton("Park Vehicle");
+    parkVehicleButton.setActionCommand("Park Vehicle Button");
     this.add(parkVehicleButton);
 
     processPaymentButton = new JButton("Process Payment");
@@ -56,7 +56,7 @@ public class ParkingCustomerJFrameView extends JFrame implements IParkingCustome
       exitButton.removeActionListener(listener);
     }
 
-    parkVehicleButton.addActionListener(evt -> features.optionExecution("Park edu.northeastern.sv.khoury.smartPark.model.Vehicle Button"));
+    parkVehicleButton.addActionListener(evt -> features.optionExecution("Park Vehicle Button"));
     processPaymentButton.addActionListener(evt -> features.optionExecution("Process Payment Button"));
     leaveParkingLotButton.addActionListener(evt -> features.optionExecution("Process to Leave Button"));
     exitButton.addActionListener(evt -> features.optionExecution("Exit Button"));

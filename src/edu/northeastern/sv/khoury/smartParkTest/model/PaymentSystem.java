@@ -22,36 +22,16 @@ public class PaymentSystem implements IPaymentSystem {
         this.totalParkingFees = 0;
     }
 
-    /**
-     * Retrieves a map of the paid vehicle.
-     *
-     * @return A map containing the paid vehicles.
-     */
     @Override
     public Map<String, Vehicle> getPaidVehicles() {
         return paidVehicles;
     }
 
-    /**
-     * Retrieves the total parking fee collected by the parking system
-     *
-     * @return total parking fee collected.
-     */
     @Override
     public float getTotalParkingFees() {
         return totalParkingFees;
     }
 
-    /**
-     * Processes to pay for the given vehicle.
-     *
-     * My payment logic would be: if vehicle is process Payment, it will set up a temporary
-     * paymentTime. If the payment is successful, it will return true, otherwise, it will
-     * return false, and reset the paymentTime to null.
-     *
-     * @param vehicle The vehicle for which payment is to be processed.
-     * @return True if the payment is successfully processed, false otherwise.
-     */
     @Override
     public boolean processPayment(Vehicle vehicle) {
         vehicle.setPaymentTime(LocalDateTime.now());

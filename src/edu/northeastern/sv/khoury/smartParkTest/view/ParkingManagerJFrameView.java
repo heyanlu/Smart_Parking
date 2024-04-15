@@ -24,14 +24,14 @@ public class ParkingManagerJFrameView extends JFrame implements IParkingManagerV
 
     totalParkingCapacityButton = new JButton("Total Parking Capacity");
     availableParkingCapacityButton = new JButton("Available Parking Capacity");
-    vehicleDetailsButton = new JButton("edu.northeastern.sv.khoury.smartPark.model.Vehicle Details");
-    membershipStatusButton = new JButton("edu.northeastern.sv.khoury.smartPark.model.Membership Status");
+    vehicleDetailsButton = new JButton("Vehicle Details");
+    membershipStatusButton = new JButton("Membership Status");
     exitButton = new JButton("Exit");
 
     totalParkingCapacityButton.addActionListener(e -> optionExecution("Total Parking Capacity"));
     availableParkingCapacityButton.addActionListener(e -> optionExecution("Available Parking Capacity"));
-    vehicleDetailsButton.addActionListener(e -> optionExecution("edu.northeastern.sv.khoury.smartPark.model.Vehicle Details"));
-    membershipStatusButton.addActionListener(e -> optionExecution("edu.northeastern.sv.khoury.smartPark.model.Membership Status"));
+    vehicleDetailsButton.addActionListener(e -> optionExecution("Vehicle Details"));
+    membershipStatusButton.addActionListener(e -> optionExecution("Membership Status"));
     exitButton.addActionListener(e -> optionExecution("Exit"));
 
     // Create a panel and add buttons to it
@@ -69,8 +69,8 @@ public class ParkingManagerJFrameView extends JFrame implements IParkingManagerV
 
     totalParkingCapacityButton.addActionListener(evt -> features.optionExecution("Total Parking Capacity"));
     availableParkingCapacityButton.addActionListener(evt -> features.optionExecution("Available Parking Capacity"));
-    vehicleDetailsButton.addActionListener(evt -> features.optionExecution("edu.northeastern.sv.khoury.smartPark.model.Vehicle Details"));
-    membershipStatusButton.addActionListener(evt -> features.optionExecution("edu.northeastern.sv.khoury.smartPark.model.Membership Status"));
+    vehicleDetailsButton.addActionListener(evt -> features.optionExecution("Vehicle Details"));
+    membershipStatusButton.addActionListener(evt -> features.optionExecution("Membership Status"));
     exitButton.addActionListener(evt -> features.optionExecution("Exit"));
   }
 

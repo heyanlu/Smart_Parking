@@ -1,3 +1,5 @@
+package edu.northeastern.sv.khoury.smartParkTest.controllerTest;
+
 import edu.northeastern.sv.khoury.smartParkTest.controller.ParkingManagerController;
 import edu.northeastern.sv.khoury.smartParkTest.mock.ParkingManagerMock;
 import edu.northeastern.sv.khoury.smartParkTest.mock.ParkingManagerViewMock;
@@ -11,25 +13,30 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test class for ParkingManagerController.
+ */
 public class ParkingManagerControllerTest {
   private ParkingManagerMock parkingManager;
-  private PaymentSystemMock paymentSystem;
-
   private MembershipSystem membershipSystem;
-
   private ParkingManagerController controller;
   private ParkingManagerViewMock view;
 
+  /**
+   * Set up for the test code
+   */
   @Before
   public void setUp() {
     membershipSystem = new MembershipSystem();
     parkingManager = new ParkingManagerMock(membershipSystem);
-    paymentSystem = new PaymentSystemMock();
-    controller = new ParkingManagerController(parkingManager, paymentSystem);
+    controller = new ParkingManagerController(parkingManager);
     view = new ParkingManagerViewMock("Parking Manager");
     controller.setView(view);
   }
 
+  /**
+   * Test the Total Parking Capacity option for two types of vehicles.
+   */
   @Test
   public void testTotalParkingCapacityOption() {
     view.setVehicleType(VehicleType.CAR);
@@ -43,6 +50,9 @@ public class ParkingManagerControllerTest {
     assertEquals(expectedMotorbike, view.getMessage());
   }
 
+  /**
+   * Test for the available Capacity option for two types of vehicles.
+   */
   @Test
   public void testAvailableParkingCapacityOption() {
     view.setVehicleType(VehicleType.MOTORBIKE);
@@ -56,11 +66,14 @@ public class ParkingManagerControllerTest {
     assertEquals(expectedTruck, view.getMessage());
   }
 
+  /**
+   * Test for vehicle details option.
+   */
   @Test
   public void testVehicleDetailsOption() {
     Vehicle vehicle = new Car("ABC123", VehicleType.CAR, LocalDateTime.now(), null, null, null);
 
-    String expected = "edu.northeastern.sv.khoury.smartPark.model.Vehicle{" +
+    String expected = "Vehicle{" +
         "\n\tlicensePlate='ABC123'" +
         ",\n\ttype=CAR" +
         ",\n\tarrivalTime=" + vehicle.getArrivalTime() +
@@ -68,24 +81,29 @@ public class ParkingManagerControllerTest {
         ",\n\tleaveTime=null" +
         ",\n\tmembership=unknown" +
         '}';
-    controller.optionExecution("edu.northeastern.sv.khoury.smartPark.model.Vehicle Details");
+    controller.optionExecution("Vehicle Details");
     assertEquals(expected, vehicle.toString());
   }
 
-
+  /**
+   * Test for membership status option with a membership vehicle.
+   */
   @Test
   public void testMembershipStatusOptionWithMembership() {
     view.setLicensePlateInput("ABC123");
-    controller.optionExecution("edu.northeastern.sv.khoury.smartPark.model.Membership Status");
-    String expected = "edu.northeastern.sv.khoury.smartPark.model.Vehicle is not a member.";
+    controller.optionExecution("Membership Status");
+    String expected = "Vehicle is not a member.";
     assertEquals(expected, view.getMessage());
   }
 
+  /**
+   * Test for membership status option with a non-membership vehicle.
+   */
   @Test
   public void testMembershipStatusOptionWithoutMembership() {
     view.setLicensePlateInput("ABC567");
-    controller.optionExecution("edu.northeastern.sv.khoury.smartPark.model.Membership Status");
-    String expected = "edu.northeastern.sv.khoury.smartPark.model.Vehicle is not a member.";
+    controller.optionExecution("Membership Status");
+    String expected = "Vehicle is not a member.";
     assertEquals(expected, view.getMessage());
   }
 

@@ -13,14 +13,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
+/**
+ * This class is a mock class of the parking manager for testing purposes.
+ * It implements the IParkingManager interface and provides mock functionality for parking management.
+ * The mock manager maintains capacity information, occupancy status, and a list of parked vehicles.
+ * It also provides methods to simulate parking, vehicle creation, and parking space assignment.
+ */
 public class ParkingManagerMock implements IParkingManager {
   private Map<VehicleType, Integer> capacityMap;
   private Map<VehicleType, Integer> occupiedSpaces;
   private Map<String, Vehicle> parkedVehicles;
-
   private MembershipSystem membershipSystem;
 
-
+  /**
+   * Constructor of new ParkingManagerMock with the specified membership system.
+   *
+   * @param membershipSystem The membership system to use.
+   */
   public ParkingManagerMock(MembershipSystem membershipSystem) {
     this.capacityMap = new HashMap<>();
     this.occupiedSpaces = new HashMap<>();
@@ -37,9 +46,6 @@ public class ParkingManagerMock implements IParkingManager {
     this.membershipSystem = new MembershipSystem();
   }
 
-  public void setCapacityMap(Map<VehicleType, Integer> capacityMap) {
-    this.capacityMap = capacityMap;
-  }
 
   @Override
   public MembershipSystem getMembershipSystem() {
@@ -120,7 +126,7 @@ public class ParkingManagerMock implements IParkingManager {
 
   @Override
   public void openGate(Vehicle vehicle) {
-    // Implement as needed for your test scenario
+    // Mock method, not implemented
   }
 
   @Override

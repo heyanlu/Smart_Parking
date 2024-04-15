@@ -4,88 +4,94 @@ import edu.northeastern.sv.khoury.smartParkTest.controller.Feature;
 import edu.northeastern.sv.khoury.smartParkTest.model.VehicleType;
 import edu.northeastern.sv.khoury.smartParkTest.view.IParkingManagerView;
 import javax.swing.*;
-import java.awt.*;
 
+/**
+ * This class represents a mock manager view for the Parking Manager application.
+ * The purpose of this class is to test view separately.
+ * The mock view provides buttons for viewing total parking capacity, available parking capacity, vehicle details,
+ * membership status, and exiting the application. It also allows setting the license plate input and vehicle type
+ * for testing purposes.
+ */
 public class ParkingManagerJFrameViewMock extends JFrame implements IParkingManagerView {
-  private JButton addMembershipButton;
-  private JButton removeMembershipButton;
-  private JButton getMembershipButton;
-  private JButton getMembershipCountButton;
+  private JButton totalParkingCapacityButton;
+  private JButton availableParkingCapacityButton;
+  private JButton vehicleDetailsButton;
+  private JButton membershipStatusButton;
   private JButton exitButton;
 
   private String licensePlateInput;
   private VehicleType vehicleType;
+
+  private String lastDisplayedMessage;
   private String input;
 
+  /**
+   * Constructor of mock manager view for the Parking Manager application.
+   * Initializes the JFrame with buttons for viewing total parking capacity, available parking capacity,
+   * vehicle details, membership status, and exiting the application. Sets up the layout and visibility of the frame.
+   *
+   * @param caption The caption/title of the JFrame.
+   */
   public ParkingManagerJFrameViewMock(String caption) {
     super(caption);
 
-    setSize(500, 300);
-    setLocation(200, 200);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.setLayout(new FlowLayout());
-
-    addMembershipButton = new JButton("Add edu.northeastern.sv.khoury.smartPark.model.Membership");
-    addMembershipButton.setActionCommand("Add edu.northeastern.sv.khoury.smartPark.model.Membership Button");
-    this.add(addMembershipButton);
-
-    removeMembershipButton = new JButton("Remove edu.northeastern.sv.khoury.smartPark.model.Membership");
-    removeMembershipButton.setActionCommand("Remove edu.northeastern.sv.khoury.smartPark.model.Membership Button");
-    this.add(removeMembershipButton);
-
-    getMembershipButton = new JButton("Get edu.northeastern.sv.khoury.smartPark.model.Membership");
-    getMembershipButton.setActionCommand("Get edu.northeastern.sv.khoury.smartPark.model.Membership Button");
-    this.add(getMembershipButton);
-
-    getMembershipCountButton = new JButton("Get edu.northeastern.sv.khoury.smartPark.model.Membership Count");
-    getMembershipCountButton.setActionCommand("Get edu.northeastern.sv.khoury.smartPark.model.Membership Count Button");
-    this.add(getMembershipCountButton);
-
+    totalParkingCapacityButton = new JButton("Total Parking Capacity");
+    availableParkingCapacityButton = new JButton("Available Parking Capacity");
+    vehicleDetailsButton = new JButton("Vehicle Details");
+    membershipStatusButton = new JButton("Membership Status");
     exitButton = new JButton("Exit");
-    exitButton.setActionCommand("Exit Button");
-    this.add(exitButton);
+
+    totalParkingCapacityButton.addActionListener(e -> optionExecution("Total Parking Capacity"));
+    availableParkingCapacityButton.addActionListener(e -> optionExecution("Available Parking Capacity"));
+    vehicleDetailsButton.addActionListener(e -> optionExecution("Vehicle Details"));
+    membershipStatusButton.addActionListener(e -> optionExecution("Membership Status"));
+    exitButton.addActionListener(e -> optionExecution("Exit"));
+
+    // Create a panel and add buttons to it
+    JPanel panel = new JPanel();
+    panel.add(new JLabel("Choose an option:"));
+    panel.add(totalParkingCapacityButton);
+    panel.add(availableParkingCapacityButton);
+    panel.add(vehicleDetailsButton);
+    panel.add(membershipStatusButton);
+    panel.add(exitButton);
+
+    getContentPane().add(panel);
 
     pack();
     setVisible(true);
   }
 
+  /**
+   * Sets the vehicle type for testing purposes.
+   * This setter function will help to test without the calling of controller.
+   *
+   * @param vehicleType The vehicle type.
+   */
   public void setVehicleType(VehicleType vehicleType) {
     this.vehicleType = vehicleType;
   }
 
+  /**
+   * Sets the input for testing purposes.
+   *
+   * @param input The input value.
+   */
   public void setInput(String input) {
     this.input = input;
   }
 
-  public JButton getAddMembershipButton() {
-    return addMembershipButton;
-  }
-
-  public JButton getRemoveMembershipButton() {
-    return removeMembershipButton;
-  }
-
-  public JButton getGetMembershipButton() {
-    return getMembershipButton;
-  }
-
-  public JButton getGetMembershipCountButton() {
-    return getMembershipCountButton;
-  }
-
-  public JButton getExitButton() {
-    return exitButton;
-  }
-
-  // Methods from edu.northeastern.sv.khoury.smartPark.view.IParkingManagerView
-  @Override
-  public void optionExecution(String option) {
-    // Implement according to your test needs
+  /**
+   * Sets the license plate input for testing purposes.
+   *
+   * @param licensePlateInput The license plate input.
+   */
+  public void setLicensePlateInput(String licensePlateInput) {
+    this.licensePlateInput = licensePlateInput;
   }
 
   @Override
   public String getLicensePlateInput() {
-    // Implement according to your test needs
     return licensePlateInput;
   }
 
@@ -94,24 +100,79 @@ public class ParkingManagerJFrameViewMock extends JFrame implements IParkingMana
     return input;
   }
 
+  /**
+   * Gets the "Total Parking Capacity" button.
+   *
+   * @return The "Total Parking Capacity" button.
+   */
+  public JButton totalParkingCapacityButton() {
+    return totalParkingCapacityButton;
+  }
+
+  /**
+   * Gets the "Available Parking Capacity" button.
+   *
+   * @return The "Available Parking Capacity" button.
+   */
+  public JButton availableParkingCapacityButton() {
+    return availableParkingCapacityButton;
+  }
+
+  /**
+   * Gets the "Vehicle Details" button.
+   *
+   * @return The "Vehicle Details" button.
+   */
+  public JButton vehicleDetailsButton() {
+    return vehicleDetailsButton;
+  }
+
+  /**
+   * Gets the "Membership Status" button.
+   *
+   * @return The "Membership Status" button.
+   */
+  public JButton membershipStatusButton() {
+    return membershipStatusButton;
+  }
+
+  /**
+   * Gets the "Exit" button.
+   *
+   * @return The "Exit" button.
+   */
+  public JButton getExitButton() {
+    return exitButton;
+  }
+
+  @Override
+  public void optionExecution(String option) {
+  }
+
   @Override
   public void displayMessage(String message) {
-    // Implement according to your test needs
+    lastDisplayedMessage = message;
+  }
+
+  /**
+   * Gets the last displayed message.
+   *
+   * @return The last displayed message.
+   */
+  public String getLastDisplayedMessage() {
+    return lastDisplayedMessage;
   }
 
   @Override
   public VehicleType chooseVehicleType() {
-    // Implement according to your test needs
     return null;
   }
 
   @Override
   public void showOptionError() {
-    // Implement according to your test needs
   }
 
   @Override
   public void addFeatures(Feature features) {
-    // Implement according to your test needs
   }
 }

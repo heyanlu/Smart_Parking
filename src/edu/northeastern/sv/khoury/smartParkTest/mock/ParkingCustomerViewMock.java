@@ -5,6 +5,11 @@ import edu.northeastern.sv.khoury.smartParkTest.model.VehicleType;
 import edu.northeastern.sv.khoury.smartParkTest.view.IParkingCustomerView;
 import java.time.Duration;
 
+/**
+ * This class represents a mock customer view for the Parking Manager application,
+ * The mock view allows setting and retrieving license plate input, displaying messages, choosing vehicle types,
+ * getting user input, displaying parked duration, and clearing input for testing purposes.
+ */
 public class ParkingCustomerViewMock implements IParkingCustomerView {
 
   private String licensePlateInput;
@@ -19,6 +24,12 @@ public class ParkingCustomerViewMock implements IParkingCustomerView {
     return licensePlateInput;
   }
 
+  /**
+   * Sets the license plate input for testing purposes.
+   * This setter function will help to test without the calling of controller.
+   *
+   * @param licensePlateInput The license plate input.
+   */
   public void setLicensePlateInput(String licensePlateInput) {
     this.licensePlateInput = licensePlateInput;
   }
@@ -33,6 +44,11 @@ public class ParkingCustomerViewMock implements IParkingCustomerView {
     this.message = message;
   }
 
+  /**
+   * Gets the message.
+   *
+   * @return The message to be displayed.
+   */
   public String getMessage() {
     return message;
   }
@@ -42,6 +58,11 @@ public class ParkingCustomerViewMock implements IParkingCustomerView {
     return vehicleType;
   }
 
+  /**
+   * Sets the vehicle type for testing purposes.
+   *
+   * @param vehicleType The vehicle type to set.
+   */
   public void setVehicleType(VehicleType vehicleType) {
     this.vehicleType = vehicleType;
   }
@@ -52,12 +73,16 @@ public class ParkingCustomerViewMock implements IParkingCustomerView {
     return input;
   }
 
-
   @Override
   public void displayParkedDuration(Duration duration) {
     this.parkedDuration = duration;
   }
 
+  /**
+   * Gets the parked duration.
+   *
+   * @return The parked duration.
+   */
   public Duration getParkedDuration() {
     return parkedDuration;
   }
@@ -67,12 +92,4 @@ public class ParkingCustomerViewMock implements IParkingCustomerView {
     // Mock method, not implemented
   }
 
-
-  public String getInput() {
-    return input;
-  }
-
-  public void clearInput() {
-    this.input = null;
-  }
 }

@@ -1,3 +1,5 @@
+package edu.northeastern.sv.khoury.smartParkTest.modelTest;
+
 import edu.northeastern.sv.khoury.smartParkTest.model.Car;
 import edu.northeastern.sv.khoury.smartParkTest.model.MembershipType;
 import edu.northeastern.sv.khoury.smartParkTest.model.Motorbike;
@@ -5,6 +7,7 @@ import edu.northeastern.sv.khoury.smartParkTest.model.ParkingFeeCalculator;
 import edu.northeastern.sv.khoury.smartParkTest.model.Truck;
 import edu.northeastern.sv.khoury.smartParkTest.model.Vehicle;
 import edu.northeastern.sv.khoury.smartParkTest.model.VehicleType;
+import edu.northeastern.sv.khoury.smartParkTest.setUp.BaseSetUpTest;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.function.Predicate;
@@ -12,16 +15,26 @@ import org.junit.Test;
 import java.util.Map;
 import static org.junit.Assert.*;
 
-public class ParkingManagerTest extends BaseSetUpTest{
+/**
+ * This class contains unit tests for the ParkingManager class and paymentSystem class, which manages parking operations.
+ * This class will extend BasedSetUpTest.
+ */
+public class ParkingManagerTest extends BaseSetUpTest {
 
+    /**
+     * Test case for the getTotalCapacity() method in the ParkingManager class.
+     */
     @Test
     public void testGetTotalCapacity() {
         assertEquals(100, parkingManager.getTotalCapacity(VehicleType.CAR));
         assertEquals(50, parkingManager.getTotalCapacity(VehicleType.MOTORBIKE));
         assertEquals(30, parkingManager.getTotalCapacity(VehicleType.TRUCK));
-
     }
 
+    /**
+     * Test case for parking space availability for cars.
+     * It checks if cars can be parked and the available spaces are updated accordingly.
+     */
     @Test
     public void testCarParkingSpace() {
         //already parked two cars
@@ -29,13 +42,16 @@ public class ParkingManagerTest extends BaseSetUpTest{
 
         //a new car is approaching entry
         Vehicle car3 = new Car("ABD987", VehicleType.CAR, LocalDateTime.now(), null, null, null);
-
         parkingManager.parkVehicle(car3);
 
         assertEquals(3, parkingManager.getOccupiedSpaces(VehicleType.CAR));
         assertEquals(97, parkingManager.getAvailableSpaces(VehicleType.CAR));
     }
 
+    /**
+     * Test case for parking space availability for trucks.
+     * It checks if trucks can be parked and the available spaces are updated accordingly.
+     */
     @Test
     public void testTruckParkingSpace() {
         assertEquals(29, parkingManager.getOccupiedSpaces(VehicleType.TRUCK));
@@ -47,6 +63,10 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertEquals(0, parkingManager.getAvailableSpaces(VehicleType.TRUCK));
     }
 
+    /**
+     * Test case for parking space availability for motorbikes.
+     * It checks if motorbikes can be parked and the available spaces are updated accordingly.
+     */
     @Test
     public void testMotorbikeParkingSpace() {
         assertEquals(3, parkingManager.getOccupiedSpaces(VehicleType.MOTORBIKE));
@@ -57,7 +77,9 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertEquals(46, parkingManager.getAvailableSpaces(VehicleType.MOTORBIKE));
     }
 
-
+    /**
+     * Test case for getLicensePlate of three types of vehicles.
+     */
     @Test
     public void testGetLicensePlate() {
         assertEquals("ABC123", car1.getLicensePlate());
@@ -65,6 +87,9 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertEquals("ABD789", truck2.getLicensePlate());
     }
 
+    /**
+     * Test case for isMembership for three types of vehicles.
+     */
     @Test
     public void testIsMembership() {
         assertTrue(parkingManager.isMemberVehicle(car1));
@@ -74,28 +99,33 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertFalse(parkingManager.isMemberVehicle(motorbike2));
     }
 
-
+    /**
+     * Test case for createVehicle
+     */
     @Test
     public void testCreateVehicle() {
         String licensePlate = "ABJ123";
-        LocalDateTime arrivalTime = LocalDateTime.of(2022, 4, 3, 19, 1); // Example arrival time
         VehicleType vehicleType = VehicleType.CAR;
-
         Vehicle vehicle = parkingManager.createVehicle(licensePlate, vehicleType);
 
         assertEquals(licensePlate, vehicle.getLicensePlate());
         assertEquals(vehicleType, vehicle.getType());
     }
 
-
+    /**
+     * Test case for createVehicle failure when licensePlate is null
+     */
     @Test
-    public void testFailParking(){
-        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), null, null, membershipSystem);
-
-        assertFalse(parkingManager.isVehicleParked(truck3.getLicensePlate()));
+    public void testCreateVehicleWithNullLicensePlate() {
+        String licensePlate = null;
+        VehicleType vehicleType = VehicleType.CAR;
+        Vehicle vehicle = parkingManager.createVehicle(licensePlate, vehicleType);
+        assertNull(vehicle);
     }
 
-
+    /**
+     * Test case for getParkingRate for three types of vehicles.
+     */
     @Test
     public void testGetParkingRate() {
         float actualCarParkingRate = car2.getParkingRate();
@@ -111,10 +141,11 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertEquals(expectedCarParkingRate, actualCarParkingRate, delta);
         assertEquals(expectedTruckParkingRate, actualTruckParkingRate, delta);
         assertEquals(actualMotorbikeParkingRate, expectedMotorbikeParkingRate, delta);
-
     }
 
-
+    /**
+     * Test case for duration time method to see if duration can update accordingly.
+     */
     @Test
     public void testDurationTime() {
         LocalDateTime arrivalTime = LocalDateTime.now().minusMinutes(50);
@@ -129,15 +160,14 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertEquals(50, minutes);
     }
 
-
-
-
+    /**
+     * Test case for toString method and getPaidVehicle method for three types of vehicles.
+     */
     @Test
     public void testPaidVehicleToString() {
         paymentSystem.processPayment(car2);
         paymentSystem.processPayment(motorbike2);
         paymentSystem.processPayment(truck2);
-
 
         String actual = paymentSystem.toString();
         String expected = "Paid Vehicles: [XYZ789, ABD789, HIJ234]";
@@ -145,7 +175,10 @@ public class ParkingManagerTest extends BaseSetUpTest{
 
     }
 
-
+    /**
+     * Test case for assignParkingPlace method to check if it can assign parking location based on
+     * current occupied spaces.
+     */
     @Test
     public void testAssignParkingPlace() {
         Vehicle car = new Car("ABC124", VehicleType.CAR, LocalDateTime.now(), null, null, membershipSystem);
@@ -164,8 +197,9 @@ public class ParkingManagerTest extends BaseSetUpTest{
         }
     }
 
-
-
+    /**
+     * Test case for calculating ParkingFee for three types of vehicles.
+     */
     @Test
     public  void testCalculateParkingFee() {
         float actualCarFee = ParkingFeeCalculator.calculateParkingFee(1450, 2.0F, VehicleType.CAR);
@@ -174,29 +208,28 @@ public class ParkingManagerTest extends BaseSetUpTest{
         float actualTruckFee = ParkingFeeCalculator.calculateParkingFee(50, 4.5F, VehicleType.TRUCK);
         assertEquals(4.5F, actualTruckFee, 0.001);
 
-
         float actualMotorbikeFee = ParkingFeeCalculator.calculateParkingFee(2800, 1.5F, VehicleType.MOTORBIKE);
         assertEquals(30.0F, actualMotorbikeFee, 0.001);
-
     }
 
-
+    /**
+     * Test case for process to leave without membership to check if parking fee can be calculated correctly.
+     */
     @Test
     public void testProcessPaymentWithoutMembership() {
         LocalDateTime arrivalTime = LocalDateTime.now().minusMinutes(50);
         car2.setArrivalTime(arrivalTime);
-
         truck2.setArrivalTime(arrivalTime);
 
         paymentSystem.processPayment(car2);
-
         paymentSystem.processPayment(truck2);
 
         assertEquals(6.5f, paymentSystem.getTotalParkingFees(), 0.0f);
-
     }
 
-
+    /**
+     * Test case for process to leave with membership to check if parking fee is 0 for membership vehicles. .
+     */
     @Test
     public void testProcessPaymentWithMembership() {
         LocalDateTime arrivalTime = LocalDateTime.now().minusMinutes(50);
@@ -207,7 +240,10 @@ public class ParkingManagerTest extends BaseSetUpTest{
     }
 
 
-
+    /**
+     * Test case for process to leave within allowed duration (20 minutes after paying the parking fee)
+     * to check if the processToLeave will return True.
+     */
     @Test
     public void testProcessToLeave_LeavesWithinAllowedDuration() {
         LocalDateTime paymentTime = LocalDateTime.now().minusMinutes(5);
@@ -219,14 +255,10 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertTrue(parkingManager.processToLeave(car1));
     }
 
-
-    @Test (expected = IllegalStateException.class)
-    public void testProcessToLeaveWithException() {
-        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), null, null, membershipSystem);
-
-        assertTrue(parkingManager.processToLeave(truck3));
-    }
-
+    /**
+     * Test case for when process to leave exceeds allowed duration, if the recharge parking fee
+     * will update the recharging fee correctly.
+     */
     @Test
     public void testLeaveExceedsAllowedDuration_RechargeParkingFee() {
         LocalDateTime paymentTime = LocalDateTime.now();
@@ -246,19 +278,47 @@ public class ParkingManagerTest extends BaseSetUpTest{
     }
 
 
+    /**
+     * Test case for process to leave when vehicle has not paid the parking fee. It expected to return IllegalStateException
+     */
+    @Test (expected = IllegalStateException.class)
+    public void testProcessToLeaveWithException() {
+        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), null, null, membershipSystem);
+        assertTrue(parkingManager.processToLeave(truck3));
+    }
+
+    /**
+     * Test case for recharging method when vehicle is not parked in the parking lot
+     */
     @Test(expected = IllegalStateException.class)
-    public void testRechargeParkingFeeFail() {
-        LocalDateTime leaveTime1 = LocalDateTime.now();
-        LocalDateTime leaveTime2 = LocalDateTime.now();
-        motorbike2.setLeaveTime(leaveTime2);
+    public void testRechargeParkingFeeNotParked() {
+        Vehicle truck = new Truck("POP111", VehicleType.TRUCK, null, null, null, membershipSystem);
+        truck.rechargeParkingFee();
+    }
+
+    /**
+     * Test case for recharging method when payment time is null or vehicle has not paid first.
+     */
+    @Test(expected = IllegalStateException.class)
+    public void testRechargeParkingFeeNoPaymentTime() {
+        LocalDateTime leaveTime = LocalDateTime.now();
+        motorbike2.setLeaveTime(leaveTime);
         motorbike2.rechargeParkingFee();
     }
 
+    /**
+     * Test for isPaidRechargeParkingFee method. Currently, this method is set to true, as I have
+     * not coded the receive payment part.
+     */
     @Test
     public void testIsPaidRechargeParkingFee() {
         assertTrue(truck2.isPaidRechargeParkingFee());
     }
 
+    /**
+     * Test for recharge payment method for membership vehicles. membership vehicles will not charge
+     * the rechargeFee.
+     */
     @Test
     public void testLeaveExceedsAllowedDurationWithMembership() {
         LocalDateTime paymentTime = LocalDateTime.now();
@@ -277,6 +337,11 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertEquals(0.0F, rechargeFee2, 0.001);
     }
 
+    /**
+     * Test for gate open method. If gate is opened for a vehicle, it should be removed from
+     * parkedVehicles and paidVehicles.
+     * When the vehicle reentry, it starts a new parking.
+     */
     @Test
     public void testGateOpen() {
         assertEquals(2, parkingManager.getOccupiedSpaces(VehicleType.CAR));
@@ -294,7 +359,9 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertFalse(paymentSystem.getPaidVehicles().containsKey(truck2.getLicensePlate()));
     }
 
-
+    /**
+     * Test case for isVehicleParked for those all ready parked and not yet parked.
+     */
     @Test
     public void testParkVehicle() {
         assertTrue(parkingManager.isVehicleParked("ABC123"));
@@ -306,6 +373,19 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertTrue(parkingManager.isVehicleParked("POI980"));
     }
 
+
+    /**
+     * Test case for isVehicleParked fails when vehicle is not currently parked.
+     */
+    @Test
+    public void testIsVehicleParkedFail(){
+        Vehicle truck3 = new Truck("POI980", VehicleType.TRUCK, LocalDateTime.now(), null, null, membershipSystem);
+        assertFalse(parkingManager.isVehicleParked(truck3.getLicensePlate()));
+    }
+
+    /**
+     * Test case for remove Vehicle. If it can successfully remove a vehicle from a membership
+     */
     @Test
     public void testRemoveVehicle() {
         String MembershiplicensePlate = "ABC123";
@@ -315,11 +395,15 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertFalse(parkingManager.getMembershipSystem().removeMembership(NonmembershiplicensePlate));
     }
 
+    /**
+     * Test the toString method and openGame method to check if the parking vehicles will be successfully
+     * remove when the game opens (exit the parking lot).
+     */
     @Test
     public void testVehicleToString() {
         String actual1 = parkingManager.toString();
 
-        System.out.println("Current edu.northeastern.sv.khoury.smartPark.model.Vehicle Output:");
+        System.out.println("Current Vehicle Output:");
         System.out.println(actual1);
 
         parkingManager.openGate(car1);
@@ -335,29 +419,35 @@ public class ParkingManagerTest extends BaseSetUpTest{
 
     }
 
-
+    /**
+     * Test code for toString ig the parking manager.
+     */
     @Test
     public void testParkingManagerToString() {
         String actual = parkingManager.toString();
         System.out.println("Parking Manager Output:");
         System.out.println(actual);
-
     }
 
-
+    /**
+     * Test code for filtering vehicles based on vehicle type and all predicate
+     */
     @Test
     public void testGetAllVehicles() {
+        //filtering vehicles based on vehicle type
         Predicate<Vehicle> predicateFilterCar = vehicle -> vehicle.getType().equals(VehicleType.CAR);
         Map<String, Vehicle> filteredCar = parkingManager.getVehicles(predicateFilterCar);
         assertEquals(2, filteredCar.size());
 
-        // Test filtering vehicles based on ALL predicate
+        //filtering vehicles based on all predicate
         Predicate<Vehicle> predicateFilterAll = vehicle -> true;
         Map<String, Vehicle> filteredVehicles = parkingManager.getVehicles(predicateFilterAll);
         assertEquals(6, filteredVehicles.size());
     }
 
-
+    /**
+     * Test case for retrieval of vehicles with membership.
+     */
     @Test
     public void testGetMembershipVehicles() {
         Predicate<Vehicle> isMember = new Predicate<Vehicle>() {
@@ -372,18 +462,19 @@ public class ParkingManagerTest extends BaseSetUpTest{
         for (Vehicle vehicle : result.values()) {
             System.out.println(vehicle.toString());
         }
-
     }
 
-
+    /**
+     * Test case for retrieval of vehicles based on parking fee exceeding a certain amount (10).
+     * It should output truck2 at the terminal.
+     */
     @Test
     public void testGetVehicles() {
-        LocalDateTime arrivalTime = LocalDateTime.now().minusMinutes(50);
-        car2.setArrivalTime(arrivalTime);
-        car2.setPaymentTime(arrivalTime.plusMinutes(50));
+        LocalDateTime arrivalTimeCar = LocalDateTime.now().minusMinutes(50);
+        car2.setArrivalTime(arrivalTimeCar);
 
-        truck2.setArrivalTime(arrivalTime);
-        truck2.setPaymentTime(arrivalTime.plusHours(3));
+        LocalDateTime arrivalTimeTruck = LocalDateTime.now().minusHours(3);
+        truck2.setArrivalTime(arrivalTimeTruck);
 
         paymentSystem.processPayment(car2);
         paymentSystem.processPayment(truck2);
@@ -400,10 +491,11 @@ public class ParkingManagerTest extends BaseSetUpTest{
         for (Vehicle vehicle : result.values()) {
             System.out.println(vehicle.toString());
         }
-
     }
 
-
+    /**
+     * Test case for retrieval of vehicles based on is they are membership and count the number of vehicles
+     */
     @Test
     public void testMembershipVehicleCount() {
         Predicate<Vehicle> isMember = new Predicate<Vehicle>() {
@@ -414,17 +506,22 @@ public class ParkingManagerTest extends BaseSetUpTest{
         };
 
         int numberOfMembers = parkingManager.count(isMember);
-
         assertEquals(3, numberOfMembers);
     }
 
-
+    /**
+     * Test the membership report of one vehicle. It should output the type of membership, when it starts
+     * and when it ends.
+     */
     @Test
     public void testMembershipReportToString() {
         String report = membershipSystem.generateMembershipReport("ABC123");
         System.out.println(report);
     }
 
+    /**
+     * Test case for the total count of vehicles in the parking system.
+     */
     @Test
     public void testTotalVehicleCount() {
         Predicate<Vehicle> allVehiclesPredicate = vehicle -> true;
@@ -440,5 +537,4 @@ public class ParkingManagerTest extends BaseSetUpTest{
         assertEquals(7, newTotalVehicleCount);
 
     }
-
 }

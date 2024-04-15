@@ -8,8 +8,16 @@ import java.util.function.Predicate;
  */
 public interface IParkingManager {
 
+  /**
+   * Get the membership system of the program.
+   * @return The membership system.
+   */
   MembershipSystem getMembershipSystem();
 
+  /**
+   * Get the map of the parked vehicles in the parking lot
+   * @return The map of parked vehicles.
+   */
   Map<String, Vehicle> getParkedVehicles();
 
   /**
@@ -72,7 +80,6 @@ public interface IParkingManager {
    * @return The assigned parking place number.
    */
   String assignParkingPlace(VehicleType vehicleType);
-
 
 
   /**

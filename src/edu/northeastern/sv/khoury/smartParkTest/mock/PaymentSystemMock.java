@@ -6,11 +6,19 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class represents a mock implementation of the payment system for testing purposes.
+ * The mock payment system keeps track of paid vehicles, parking fees, and the total parking fees collected.
+ * It simulates processing payments for vehicles and updating payment-related information.
+ */
 public class PaymentSystemMock implements IPaymentSystem {
   private Map<String, Vehicle> paidVehicles;
   private Map<String, Float> parkingFees;
   private float totalParkingFees;
 
+  /**
+   * Constructs a new PaymentSystemMock with initial empty collections.
+   */
   public PaymentSystemMock() {
     this.paidVehicles = new HashMap<>();
     this.parkingFees = new HashMap<>();

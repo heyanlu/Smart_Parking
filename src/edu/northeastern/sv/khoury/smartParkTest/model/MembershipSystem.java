@@ -101,11 +101,11 @@ public class MembershipSystem {
             LocalDateTime endTime = membership.getEndTime();
 
             StringBuilder report = new StringBuilder();
-            report.append("edu.northeastern.sv.khoury.smartPark.model.Membership report for ").append(licensePlate).append(":\n");
+            report.append("Membership report for ").append(licensePlate).append(":\n");
             report.append("Start Time: ").append(startTime).append("\n");
             report.append("End Time: ").append(endTime).append("\n");
             report.append("Type: ").append(membershipType).append("\n");
-            report.append("edu.northeastern.sv.khoury.smartPark.model.Membership Status: ").append(isMember);
+            report.append("Membership Status: ").append(isMember);
 
             return report.toString();
         } else {

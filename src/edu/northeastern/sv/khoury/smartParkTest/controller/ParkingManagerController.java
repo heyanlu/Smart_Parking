@@ -6,24 +6,37 @@ import edu.northeastern.sv.khoury.smartParkTest.model.Vehicle;
 import edu.northeastern.sv.khoury.smartParkTest.model.VehicleType;
 import edu.northeastern.sv.khoury.smartParkTest.view.IParkingManagerView;
 
-
+/**
+ * The ParkingManagerController class implements the Feature interface and is the controller
+ * for the parking manager system.
+ */
 public class ParkingManagerController implements Feature{
   private IParkingManager parkingManager;
-  private IPaymentSystem paymentSystem;
 
   private IParkingManagerView view;
 
-  public ParkingManagerController(IParkingManager parkingManager, IPaymentSystem paymentSystem) {
+  /**
+   * Constructor for ParkingManagerController with parkingManager system.
+   *
+   * @param parkingManager The parking manager component.
+   */
+  public ParkingManagerController(IParkingManager parkingManager) {
     this.parkingManager = parkingManager;
-    this.paymentSystem = paymentSystem;
   }
 
-
+  /**
+   * Sets the view for this controller and adds itself as a feature to the view.
+   * @param v The parking manager view.
+   */
   public void setView(IParkingManagerView v) {
     view = v;
     view.addFeatures(this);
   }
 
+  /**
+   * Execute corresponding model methods with an option
+   * @param option The option to be executed.
+   */
   public void optionExecution(String option) {
     switch (option) {
       case "Total Parking Capacity":
@@ -36,23 +49,23 @@ public class ParkingManagerController implements Feature{
         int availableSpaces = parkingManager.getAvailableSpaces(vehicleTypeAvailable);
         view.displayMessage("Available Parking Spaces: " + availableSpaces);
         break;
-      case "edu.northeastern.sv.khoury.smartPark.model.Vehicle Details":
+      case "Vehicle Details":
         String parkedVehicleLicensePlate = view.getLicensePlateInput();
         Vehicle parkedVehicle = (Vehicle) parkingManager.getParkedVehicles().get(parkedVehicleLicensePlate);
         if (parkedVehicle != null) {
-          view.displayMessage("edu.northeastern.sv.khoury.smartPark.model.Vehicle Details:");
+          view.displayMessage("Vehicle Details:");
           view.displayMessage(parkedVehicle.toString());
         } else {
-          view.displayMessage("edu.northeastern.sv.khoury.smartPark.model.Vehicle not found.");
+          view.displayMessage("Vehicle not found.");
         }
         break;
-      case "edu.northeastern.sv.khoury.smartPark.model.Membership Status":
+      case "Membership Status":
         String vehicleMembershipLicensePlate = view.getLicensePlateInput();
         boolean isMember = parkingManager.getMembershipSystem().isMembership(vehicleMembershipLicensePlate);
         if (isMember) {
-          view.displayMessage("edu.northeastern.sv.khoury.smartPark.model.Vehicle is a member.");
+          view.displayMessage("Vehicle is a member.");
         } else {
-          view.displayMessage("edu.northeastern.sv.khoury.smartPark.model.Vehicle is not a member.");
+          view.displayMessage("Vehicle is not a member.");
         }
         break;
       case "Recharge Parking Fee":
@@ -62,7 +75,7 @@ public class ParkingManagerController implements Feature{
           float rechargedFee = vehicleRecharge.rechargeParkingFee();
           view.displayMessage("Recharged parking fee: $" + rechargedFee);
         } else {
-          view.displayMessage("edu.northeastern.sv.khoury.smartPark.model.Vehicle not found.");
+          view.displayMessage("Vehicle not found.");
         }
         break;
       case "Payment Status":
@@ -72,7 +85,7 @@ public class ParkingManagerController implements Feature{
           boolean isPaid = vehicleIsPaid.isPaidRechargeParkingFee();
           view.displayMessage("Is parking fee paid: " + isPaid);
         } else {
-          view.displayMessage("edu.northeastern.sv.khoury.smartPark.model.Vehicle not found.");
+          view.displayMessage("Vehicle not found.");
         }
         break;
       case "Exit":
@@ -83,6 +96,9 @@ public class ParkingManagerController implements Feature{
     }
   }
 
+  /**
+   * Exits the program.
+   */
   public void exitProgram() {
     System.exit(0);
   }

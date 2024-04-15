@@ -1,3 +1,5 @@
+package edu.northeastern.sv.khoury.smartParkTest.controllerTest;
+
 import edu.northeastern.sv.khoury.smartParkTest.controller.ParkingCustomerController;
 import edu.northeastern.sv.khoury.smartParkTest.mock.ParkingCustomerViewMock;
 import edu.northeastern.sv.khoury.smartParkTest.mock.ParkingManagerMock;
@@ -13,18 +15,23 @@ import java.time.Duration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-
+/**
+ * Test code for ParkingCustomerController.
+ */
 public class ParkingCustomerControllerTest {
+
   private ParkingManagerMock parkingManager;
   private PaymentSystemMock paymentSystem;
-
   private MembershipSystem membershipSystem;
   private ParkingCustomerController controller;
   private ParkingCustomerViewMock view;
 
+  /**
+   * Set up and initialize the components.
+   */
   @Before
   public void setUp() {
-    membershipSystem = new MembershipSystem(); // Initialize edu.northeastern.sv.khoury.smartPark.model.MembershipSystem properly
+    membershipSystem = new MembershipSystem();
     parkingManager = new ParkingManagerMock(membershipSystem);
     paymentSystem = new PaymentSystemMock();
     controller = new ParkingCustomerController(parkingManager, paymentSystem);
@@ -32,34 +39,43 @@ public class ParkingCustomerControllerTest {
     controller.setView(view);
   }
 
+  /**
+   * Test for the ParkVehicleButton for two situations. One assertion is parking success, the other
+   * is parking failure when parked the same vehicle twice.
+   */
   @Test
   public void testParkVehicleButton() {
     view.setVehicleType(VehicleType.CAR);
     view.setLicensePlateInput("ABC123");
-    controller.optionExecution("Park edu.northeastern.sv.khoury.smartPark.model.Vehicle Button");
-    String expected = "edu.northeastern.sv.khoury.smartPark.model.Vehicle parked successfully! edu.northeastern.sv.khoury.smartPark.model.Vehicle parking place: C12";
+    controller.optionExecution("Park Vehicle Button");
+    String expected = "Vehicle parked successfully! Vehicle parking place: C12";
     assertEquals(expected, view.getMessage());
 
-    //park the same edu.northeastern.sv.khoury.smartPark.model.Vehicle twice, expected failure.
+    // Park the same vehicle twice, expected failure.
     view.setLicensePlateInput("ABC123");
-    controller.optionExecution("Park edu.northeastern.sv.khoury.smartPark.model.Vehicle Button");
+    controller.optionExecution("Park Vehicle Button");
     String expectedFail = "Parking failed!";
     assertEquals(expectedFail, view.getMessage());
   }
 
-
+  /**
+   * Test for the ParkVehicleButton when parking lot is fully for one vehicle type.
+   */
   @Test
   public void testParkVehicleButton_ParkingLotFull() {
     view.setVehicleType(VehicleType.MOTORBIKE);
     view.setLicensePlateInput("ABC129");
-    controller.optionExecution("Park edu.northeastern.sv.khoury.smartPark.model.Vehicle Button");
+    controller.optionExecution("Park Vehicle Button");
     String expected = "Parking failed!";
     assertEquals(expected, view.getMessage());
   }
 
+  /**
+   * Test for ProcessPaymentButton when vehicle is parked in the parking lot.
+   */
   @Test
   public void testProcessPaymentButtonVehicleParked() {
-    LocalDateTime arrivalTime = LocalDateTime.now().minus(Duration.ofHours(1)); // Example: edu.northeastern.sv.khoury.smartPark.model.Vehicle parked an hour ago
+    LocalDateTime arrivalTime = LocalDateTime.now().minus(Duration.ofHours(1));
     Vehicle vehicle = new Car("ABC124", VehicleType.CAR, arrivalTime, null, null, membershipSystem);
     parkingManager.getParkedVehicles().put("ABC124", vehicle);
 
@@ -70,17 +86,22 @@ public class ParkingCustomerControllerTest {
     assertNotNull(view.getParkedDuration());
   }
 
-
+  /**
+   * Test for ProcessPaymentButton when vehicle is not currently parked in the parking lot.
+   */
   @Test
   public void testProcessPaymentButtonVehicleNotInParkingLot() {
     String licensePlate = "ABC123";
 
     view.setLicensePlateInput(licensePlate);
     controller.optionExecution("Process Payment Button");
-    String expected = "edu.northeastern.sv.khoury.smartPark.model.Vehicle with license plate ABC123 not found in the parking lot.";
+    String expected = "Vehicle with license plate ABC123 not found in the parking lot.";
     assertEquals(expected, view.getMessage());
   }
 
+  /**
+   * Test for ProcessToLeaveButton when vehicle has not paid first.
+   */
   @Test
   public void testProcessToLeaveButton() {
     LocalDateTime arrivalTime = LocalDateTime.now().minus(Duration.ofHours(1));
@@ -89,17 +110,19 @@ public class ParkingCustomerControllerTest {
     view.setLicensePlateInput("ABC123");
 
     controller.optionExecution("Process to Leave Button");
-    String expected = "edu.northeastern.sv.khoury.smartPark.model.Vehicle with license plate ABC123 has not paid the parking fee. Please pay first!";
+    String expected = "Vehicle with license plate ABC123 has not paid the parking fee. Please pay first!";
     assertEquals(expected, view.getMessage());
   }
 
+  /**
+   * Test for ProcessToLeaveButton when vehicle is not parked in parking lot.
+   */
   @Test
-  public void testProcessToLeaveButtonWithDoesNotExist() {
+  public void testProcessToLeaveButtonWithDoesNotExistVehicle() {
     view.setLicensePlateInput("ABC124");
 
     controller.optionExecution("Process to Leave Button");
-    String expected = "edu.northeastern.sv.khoury.smartPark.model.Vehicle with license plate ABC124 not found in the parking lot.";
+    String expected = "Vehicle with license plate ABC124 not found in the parking lot.";
     assertEquals(expected, view.getMessage());
   }
-
 }

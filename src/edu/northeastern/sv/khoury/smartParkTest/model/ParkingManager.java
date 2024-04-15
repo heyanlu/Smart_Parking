@@ -82,6 +82,9 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
   @Override
   public Vehicle createVehicle(String licensePlate, VehicleType vehicleType) {
     LocalDateTime arrivalTime = LocalDateTime.now();
+    if (licensePlate == null || licensePlate.isEmpty() || vehicleType == null) {
+      return null;
+    }
     switch (vehicleType) {
       case CAR:
         return new Car(licensePlate, vehicleType, arrivalTime, null, null, membershipSystem);
@@ -98,7 +101,6 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
   @Override
   public boolean parkVehicle(Vehicle vehicle) {
     VehicleType vehicleType = vehicle.getType();
-    //float parkingRate = vehicle.getParkingRate();
 
     if (getTotalCapacity(vehicleType) <= getOccupiedSpaces(vehicleType)) {
       return false;
@@ -128,7 +130,7 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
   @Override
   public boolean processToLeave(Vehicle vehicle) throws IllegalStateException {
     if (!parkedVehicles.containsKey(vehicle.getLicensePlate())) {
-      throw new IllegalStateException("edu.northeastern.sv.khoury.smartPark.model.Vehicle with license plate " + vehicle.getLicensePlate() + " is not currently parked here.");
+      throw new IllegalStateException("Vehicle with license plate " + vehicle.getLicensePlate() + " is not currently parked here.");
     } else {
       vehicle.setLeaveTime(LocalDateTime.now());
 

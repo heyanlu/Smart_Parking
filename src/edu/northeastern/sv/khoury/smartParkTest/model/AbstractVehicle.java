@@ -20,7 +20,7 @@ public class AbstractVehicle implements Vehicle {
   private MembershipSystem membershipSystem;
 
   /**
-   * Constructs an edu.northeastern.sv.khoury.smartPark.model.AbstractVehicle object with the given parameters.
+   * Constructs an AbstractVehicle object with the given parameters.
    *
    * @param licensePlate The license plate of the vehicle.
    * @param type The type of the vehicle.
@@ -155,7 +155,7 @@ public class AbstractVehicle implements Vehicle {
   @Override
   public String toString() {
     String membershipStatus = membershipSystem != null ? String.valueOf(membershipSystem.isMembership(getLicensePlate())) : "unknown";
-    return "edu.northeastern.sv.khoury.smartPark.model.Vehicle{" +
+    return "Vehicle{" +
         "\n\tlicensePlate='" + licensePlate + '\'' +
         ",\n\ttype=" + type +
         ",\n\tarrivalTime=" + arrivalTime +
