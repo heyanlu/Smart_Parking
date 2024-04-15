@@ -4,20 +4,27 @@ import edu.northeastern.sv.khoury.smartParkTest.mock.ParkingCustomerJFrameViewMo
 import edu.northeastern.sv.khoury.smartParkTest.model.VehicleType;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.time.Duration;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+/**
+ * Test code for ParkingCustomerJFrameView.
+ */
 public class ParkingCustomerJFrameViewTest {
   private ParkingCustomerJFrameViewMock view;
 
+  /**
+   * Initialize components for the test
+   */
   @Before
   public void setUp() {
     view = new ParkingCustomerJFrameViewMock("Test");
   }
 
+  /**
+   * Test that ensures all buttons in the view are not null.
+   */
   @Test
   public void testButtonsNotNull() {
     assertNotNull("Park Vehicle button should not be null", view.getParkVehicleButton());
@@ -26,6 +33,9 @@ public class ParkingCustomerJFrameViewTest {
     assertNotNull("Exit button should not be null", view.getExitButton());
   }
 
+  /**
+   * Test that verifies the action commands of the buttons.
+   */
   @Test
   public void testButtonsActionCommands() {
     assertEquals("Park Vehicle button should have action command 'Park Vehicle Button'", "Park Vehicle Button", view.getParkVehicleButton().getActionCommand());
@@ -34,32 +44,47 @@ public class ParkingCustomerJFrameViewTest {
     assertEquals("Exit button should have action command 'Exit Button'", "Exit Button", view.getExitButton().getActionCommand());
   }
 
+  /**
+   * Test that the view can getLicensePlateInput method.
+   */
   @Test
   public void testLicensePlateInput() {
     view.setLicensePlateInput("ABC123");
     assertEquals("ABC123", view.getLicensePlateInput());
   }
 
+  /**
+   * Test the chooseVehicleType methods.
+   */
   @Test
   public void testChooseVehicleType() {
     view.setVehicleType(VehicleType.CAR);
 
-    assertEquals("Expected vehicle type: CAR", VehicleType.CAR, view.chooseVehicleType());
+    assertEquals(VehicleType.CAR, view.chooseVehicleType());
   }
 
+  /**
+   * Test the getInput methods.
+   */
   @Test
   public void testGetInput() {
     view.setInput("Test input");
-    assertEquals("Expected input: Test input", "Test input", view.getInput("Prompt"));
+    assertEquals("Test input", view.getInput("Prompt"));
   }
 
+  /**
+   * Test for getLastDisplayedDuration method.
+   */
   @Test
   public void testDisplayParkedDuration() {
     Duration duration = Duration.ofHours(1).plusMinutes(30);
     view.displayParkedDuration(duration);
-    assertEquals("Expected duration: 1 hour 30 minutes", duration, view.getLastDisplayedDuration());
+    assertEquals( duration, view.getLastDisplayedDuration());
   }
 
+  /**
+   * Test for showOptionError method
+   */
   @Test
   public void testShowOptionError() {
     view.showOptionError();

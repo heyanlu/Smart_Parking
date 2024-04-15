@@ -13,11 +13,17 @@ import static org.junit.Assert.assertNull;
 public class ParkingManagerJFrameViewTest {
   private ParkingManagerJFrameViewMock view;
 
+  /**
+   * Initialize component for the test class
+   */
   @Before
   public void setUp() {
     view = new ParkingManagerJFrameViewMock("Test");
   }
 
+  /**
+   * Test that ensures all buttons in the view are not null.
+   */
   @Test
   public void testButtonsNotNull() {
     assertNotNull(view.totalParkingCapacityButton());
@@ -27,6 +33,9 @@ public class ParkingManagerJFrameViewTest {
     assertNotNull( view.getExitButton());
   }
 
+  /**
+   * Test that verifies the action commands of the buttons.
+   */
   @Test
   public void testButtonsActionCommands() {
     assertEquals("Total Parking Capacity", view.totalParkingCapacityButton().getActionCommand());
@@ -36,7 +45,9 @@ public class ParkingManagerJFrameViewTest {
     assertEquals("Exit", view.getExitButton().getActionCommand());
   }
 
-
+  /**
+   * Test the getInput() method by setting an input and then retrieving it to ensure it matches the expected value.
+   */
   @Test
   public void testGetInput() {
     String expect = "Test input";
@@ -44,13 +55,17 @@ public class ParkingManagerJFrameViewTest {
     assertEquals(expect, view.getInput("Prompt"));
   }
 
-
+  /**
+   * Test the getInput() method when no input has been set, ensuring it returns null.
+   */
   @Test
   public void testGetInputNull() {
     assertNull(view.getInput("Prompt"));
   }
 
-
+  /**
+   * Test the displayMessage() method by setting a message and then retrieving the last displayed message to ensure it matches the expected value.
+   */
   @Test
   public void testDisplayMessage() {
     String expect = "Test message";
@@ -58,11 +73,17 @@ public class ParkingManagerJFrameViewTest {
     assertEquals(expect, view.getLastDisplayedMessage());
   }
 
+  /**
+   * Test the getLastDisplayedMessage() method when no message has been displayed, ensuring it returns null.
+   */
   @Test
   public void testDisplayMessageNull() {
     assertNull(view.getLastDisplayedMessage());
   }
 
+  /**
+   * Test the showOptionError() method.
+   */
   @Test
   public void testShowOptionError() {
     view.showOptionError();

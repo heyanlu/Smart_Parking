@@ -3,12 +3,12 @@ package edu.northeastern.sv.khoury.smartParkTest.model;
 import java.time.LocalDateTime;
 
 /**
- * Class representing a car, extending edu.northeastern.sv.khoury.smartPark.model.AbstractVehicle.
+ * Class representing a car, extending AbstractVehicle.
  */
 public class Car extends AbstractVehicle {
 
     /**
-     * Constructs a edu.northeastern.sv.khoury.smartPark.model.Car object with the given parameters.
+     * Constructs a Car object with the given parameters.
      *
      * @param licensePlate The license plate of the car.
      * @param type         The type of the car.
@@ -24,7 +24,7 @@ public class Car extends AbstractVehicle {
     /**
      * Retrieves the type of the car.
      *
-     * @return The type of the car, which is edu.northeastern.sv.khoury.smartPark.model.VehicleType.CAR.
+     * @return The type of the car, which is VehicleType.CAR.
      */
     @Override
     public VehicleType getType() {

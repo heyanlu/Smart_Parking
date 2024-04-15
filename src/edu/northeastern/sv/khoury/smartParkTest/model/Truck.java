@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class Truck extends AbstractVehicle {
 
     /**
-     * Constructs a edu.northeastern.sv.khoury.smartPark.model.Truck object with the given parameters.
+     * Constructs a Truck object with the given parameters.
      *
      * @param licensePlate The license plate of the truck.
      * @param type         The type of the truck.
@@ -24,7 +24,7 @@ public class Truck extends AbstractVehicle {
     /**
      * Retrieves the type of the truck.
      *
-     * @return The type of the truck, which is edu.northeastern.sv.khoury.smartPark.model.VehicleType.TRUCK.
+     * @return The type of the truck, which is VehicleType.TRUCK.
      */
     @Override
     public VehicleType getType() {

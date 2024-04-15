@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
  */
 public class Motorbike extends AbstractVehicle {
     /**
-     * Constructs a edu.northeastern.sv.khoury.smartPark.model.Motorbike object with the given parameters.
+     * Constructs a Motorbike object with the given parameters.
      *
      * @param licensePlate The license plate of the motorbike.
      * @param type         The type of the motorbike.
@@ -23,7 +23,7 @@ public class Motorbike extends AbstractVehicle {
     /**
      * Retrieves the type of the motorbike.
      *
-     * @return The type of the motorbike, which is edu.northeastern.sv.khoury.smartPark.model.VehicleType.MOTORBIKE.
+     * @return The type of the motorbike, which is VehicleType.MOTORBIKE.
      */
     @Override
     public VehicleType getType() {
