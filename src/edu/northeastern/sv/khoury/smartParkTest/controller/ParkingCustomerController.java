@@ -13,20 +13,31 @@ import java.time.Duration;
  */
 public class ParkingCustomerController implements Feature {
   private IParkingManager parkingManager;
-
   private IPaymentSystem paymentSystem;
-
   private IParkingCustomerView view;
+
 
   /**
    * Constructor of ParkingCustomerController with parking manager and payment system.
-   *
+   * Constructor used for mainCustomer class
    * @param parkingManager The parking manager component.
    * @param paymentSystem  The payment system component.
    */
   public ParkingCustomerController(IParkingManager parkingManager, IPaymentSystem paymentSystem) {
     this.parkingManager = parkingManager;
     this.paymentSystem = paymentSystem;
+  }
+
+  /**
+   * Constructor of ParkingCustomerController with parking manager, payment system, and view.
+   * Constructor used for parkingCustomerControllerTest, as it takes one more parameter than main
+   *
+   * @param parkingManager The parking manager component.
+   * @param view           The view component.
+   */
+  public ParkingCustomerController(IParkingManager parkingManager, IPaymentSystem paymentSystem, IParkingCustomerView view) {
+    this(parkingManager, paymentSystem);
+    this.view = view;
   }
 
   /**
@@ -39,31 +50,19 @@ public class ParkingCustomerController implements Feature {
     view.addFeatures(this);
   }
 
-  /**
-   * Executes corresponding methods in model based on the provided option string.
-   *
-   * @param option The option to be executed.
-   */
+
   @Override
   public void optionExecution(String option) {
     switch (option) {
       case "Park Vehicle Button":
         VehicleType vehicleType = view.chooseVehicleType();
-        if (vehicleType != null) {
-          String licensePlate = view.getLicensePlateInput();
-          if (!licensePlate.isEmpty()) {
-            Vehicle newVehicle = parkingManager.createVehicle(licensePlate, vehicleType);
-            if (parkingManager.parkVehicle(newVehicle)) {
-              String newVehicleParkingPlace = parkingManager.assignParkingPlace(vehicleType);
-              view.displayMessage("Vehicle parked successfully! Vehicle parking place: " + newVehicleParkingPlace);
-            } else {
-              view.displayMessage("Parking failed!");
-            }
-          } else {
-            view.displayMessage("License plate cannot be empty.");
-          }
+        String licensePlate = view.getLicensePlateInput();
+        Vehicle newVehicle = parkingManager.createVehicle(licensePlate, vehicleType);
+        if (parkingManager.parkVehicle(newVehicle)) {
+          String newVehicleParkingPlace = parkingManager.assignParkingPlace(vehicleType);
+          view.displayMessage("Vehicle parked successfully! Vehicle parking place: " + newVehicleParkingPlace);
         } else {
-          view.displayMessage("Please choose a vehicle type.");
+          view.displayMessage("Parking failed!");
         }
         break;
       case "Process Payment Button":
@@ -111,9 +110,7 @@ public class ParkingCustomerController implements Feature {
     }
   }
 
-  /**
-   * Exits the program.
-   */
+
   @Override
   public void exitProgram() {
     System.exit(0);

@@ -8,15 +8,10 @@ import java.time.LocalDateTime;
  */
 public class AbstractVehicle implements Vehicle {
   private String licensePlate;
-
   private VehicleType type;
-
   private LocalDateTime arrivalTime;
-
   private LocalDateTime paymentTime;
-
   private LocalDateTime leaveTime;
-
   private MembershipSystem membershipSystem;
 
   /**
@@ -90,7 +85,6 @@ public class AbstractVehicle implements Vehicle {
     return ParkingRates.getRateForVehicleType(type);
   }
 
-
   @Override
   public float getParkingFee() {
     if (paymentTime == null) {
@@ -103,7 +97,6 @@ public class AbstractVehicle implements Vehicle {
         return 0.0F;
       }
     }
-
     Duration duration = Duration.between(arrivalTime, paymentTime);
     long minutes = duration.toMinutes();
 

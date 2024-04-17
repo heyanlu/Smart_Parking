@@ -42,33 +42,40 @@ public class BaseSetUpTest {
   @Before
   public void setUp() {
     LocalDateTime now = LocalDateTime.now();
-    membershipSystem = new MembershipSystem();
 
+    //Set up membership system and add new membership vehicle objects.
+    membershipSystem = new MembershipSystem();
     membershipSystem.addMembership("ABC123", MembershipType.YEARLY, now);
     membershipSystem.addMembership("DEF456", MembershipType.MONTHLY, now);
     membershipSystem.addMembership("GHI789", MembershipType.WEEKLY, now);
 
+    //Initialize the total capacity for vehicle objects.
     capacityMap = new HashMap<>();
     capacityMap.put(VehicleType.CAR, 100);
     capacityMap.put(VehicleType.MOTORBIKE, 50);
     capacityMap.put(VehicleType.TRUCK, 30);
 
+    //Initialize the occupied capacity for vehicle objects.
     occupiedSpaces = new HashMap<>();
     occupiedSpaces.put(VehicleType.CAR, 0);
     occupiedSpaces.put(VehicleType.MOTORBIKE, 1);
     occupiedSpaces.put(VehicleType.TRUCK, 27);
 
+    //Initialize the payment system for vehicle objects.
     paymentSystem = new PaymentSystem();
     parkedVehicles = new HashMap<>();
 
+    //Initialize the parking rate for vehicle objects.
     Map<VehicleType, Float> parkingRates = new HashMap<>();
     parkingRates.put(VehicleType.CAR, ParkingRates.CAR.getRate());
     parkingRates.put(VehicleType.MOTORBIKE, ParkingRates.MOTORBIKE.getRate());
     parkingRates.put(VehicleType.TRUCK, ParkingRates.TRUCK.getRate());
 
+    //Initialize parking manager.
     parkingManager = new ParkingManager(capacityMap, occupiedSpaces,
         membershipSystem, paymentSystem);
 
+    //Create new vehicle objects and park them into the parking lot.
     car1 = new Car(
         "ABC123",
         VehicleType.CAR,

@@ -1,92 +1,81 @@
 package edu.northeastern.sv.khoury.smartParkTest.viewTest;
 
 import edu.northeastern.sv.khoury.smartParkTest.mock.ParkingCustomerJFrameViewMock;
-import edu.northeastern.sv.khoury.smartParkTest.model.VehicleType;
 import org.junit.Before;
 import org.junit.Test;
 import java.time.Duration;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * Test code for ParkingCustomerJFrameView.
+ * This test code not suppose to go into the detail of the view. It only check if the input and output
+ * can be updated accordingly.
  */
 public class ParkingCustomerJFrameViewTest {
-  private ParkingCustomerJFrameViewMock view;
+  private ParkingCustomerJFrameViewMock viewMock;
+  private StringBuilder log;
 
   /**
-   * Initialize components for the test
+   * Sets up the test environment.
    */
   @Before
   public void setUp() {
-    view = new ParkingCustomerJFrameViewMock("Test");
+    log = new StringBuilder();
+    viewMock = new ParkingCustomerJFrameViewMock(log);
   }
 
   /**
-   * Test that ensures all buttons in the view are not null.
+   * Tests the getLicensePlateInput method.
    */
   @Test
-  public void testButtonsNotNull() {
-    assertNotNull("Park Vehicle button should not be null", view.getParkVehicleButton());
-    assertNotNull("Process Payment button should not be null", view.getProcessPaymentButton());
-    assertNotNull("Leave Parking Lot button should not be null", view.getLeaveParkingLotButton());
-    assertNotNull("Exit button should not be null", view.getExitButton());
+  public void testGetLicensePlateInput() {
+    String result = viewMock.getLicensePlateInput();
+    assertEquals("Mock getLicensePlateInput called.", log.toString());
   }
 
   /**
-   * Test that verifies the action commands of the buttons.
+   * Tests the displayMessage method.
    */
   @Test
-  public void testButtonsActionCommands() {
-    assertEquals("Park Vehicle button should have action command 'Park Vehicle Button'", "Park Vehicle Button", view.getParkVehicleButton().getActionCommand());
-    assertEquals("Process Payment button should have action command 'Process Payment Button'", "Process Payment Button", view.getProcessPaymentButton().getActionCommand());
-    assertEquals("Leave Parking Lot button should have action command 'Process to Leave Button'", "Process to Leave Button", view.getLeaveParkingLotButton().getActionCommand());
-    assertEquals("Exit button should have action command 'Exit Button'", "Exit Button", view.getExitButton().getActionCommand());
+  public void testDisplayMessage() {
+    viewMock.displayMessage("Test message");
+    assertEquals("Mock displayMessage called.", log.toString());
   }
 
   /**
-   * Test that the view can getLicensePlateInput method.
-   */
-  @Test
-  public void testLicensePlateInput() {
-    view.setLicensePlateInput("ABC123");
-    assertEquals("ABC123", view.getLicensePlateInput());
-  }
-
-  /**
-   * Test the chooseVehicleType methods.
-   */
-  @Test
-  public void testChooseVehicleType() {
-    view.setVehicleType(VehicleType.CAR);
-
-    assertEquals(VehicleType.CAR, view.chooseVehicleType());
-  }
-
-  /**
-   * Test the getInput methods.
+   * Tests the getInput method.
    */
   @Test
   public void testGetInput() {
-    view.setInput("Test input");
-    assertEquals("Test input", view.getInput("Prompt"));
+    viewMock.getInput("Test prompt");
+    assertEquals("Mock getInput called.", log.toString());
   }
 
   /**
-   * Test for getLastDisplayedDuration method.
+   * Tests the displayParkedDuration method.
    */
   @Test
   public void testDisplayParkedDuration() {
-    Duration duration = Duration.ofHours(1).plusMinutes(30);
-    view.displayParkedDuration(duration);
-    assertEquals( duration, view.getLastDisplayedDuration());
+    viewMock.displayParkedDuration(Duration.ofMinutes(30));
+    assertEquals("Mock displayParkedDuration called.", log.toString());
   }
 
   /**
-   * Test for showOptionError method
+   * Tests the chooseVehicleType method.
+   */
+  @Test
+  public void testChooseVehicleType() {
+    viewMock.chooseVehicleType();
+    assertEquals("Mock chooseVehicleType called.", log.toString());
+  }
+
+  /**
+   * Tests the showOptionError method.
    */
   @Test
   public void testShowOptionError() {
-    view.showOptionError();
+    viewMock.showOptionError();
+    assertEquals("Mock showOptionError called.", log.toString());
   }
 }

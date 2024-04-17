@@ -7,9 +7,9 @@ import java.util.Map;
  */
 public interface IPaymentSystem {
   /**
-   * Retrieves a map of the paid vehicle.
+   * Retrieves a hashmap of the paid vehicle where the license plate is the key and Vehicle is corresponding value.
    *
-   * @return A map containing the paid vehicles.
+   * @return A hashmap containing the paid vehicles.
    */
   Map<String, Vehicle> getPaidVehicles();
 

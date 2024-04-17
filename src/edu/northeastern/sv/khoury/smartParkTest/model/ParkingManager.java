@@ -5,32 +5,27 @@ import java.util.*;
 import java.util.function.Predicate;
 
 /**
- * Class representing a parking manager that implements the edu.northeastern.sv.khoury.smartPark.model.IParkingManager interface.
+ * Class representing a parking manager that implements the IParkingManager interface.
  *
- * @param <T> Type parameter representing a subtype of edu.northeastern.sv.khoury.smartPark.model.Vehicle.
+ * @param <T> Type parameter representing a subtype of Vehicle.
  */
 public class ParkingManager<T extends Vehicle> implements IParkingManager {
   protected static final long MAX_PARKING_DURATION_MINUTES = 20;
-
   private final Map<VehicleType, Integer> capacityMap;
-
   private Map<VehicleType, Integer> occupiedSpaces;
-
   private Map<String, Vehicle> parkedVehicles;
-
   private MembershipSystem membershipSystem;
-
   private PaymentSystem paymentSystem;
-
   private boolean gateOpen;
 
   /**
-   * Constructs a edu.northeastern.sv.khoury.smartPark.model.ParkingManager object with the given parameters.
+   * Constructs a ParkingManager object with the given parameters.
    *
    * @param capacityMap A map representing the capacity of parking spaces for each vehicle type.
    * @param occupiedSpaces A map representing the currently occupied parking spaces for each vehicle type.
    * @param membershipSystem The membership system used for membership checks.
    * @param paymentSystem The payment system used for payment processing.
+   *
    */
   public ParkingManager(Map<VehicleType, Integer> capacityMap,
       Map<VehicleType, Integer> occupiedSpaces, MembershipSystem membershipSystem,
@@ -59,12 +54,10 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
     return capacityMap.getOrDefault(vehicleType, 0);
   }
 
-
   @Override
   public int getOccupiedSpaces(VehicleType vehicleType) {
     return occupiedSpaces.getOrDefault(vehicleType, 0);
   }
-
 
   @Override
   public int getAvailableSpaces(VehicleType vehicleType) {
@@ -72,7 +65,6 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
     int occupiedSpaces = this.occupiedSpaces.getOrDefault(vehicleType, 0);
     return totalCapacity - occupiedSpaces;
   }
-
 
   @Override
   public boolean isMemberVehicle(Vehicle vehicle) {
@@ -97,7 +89,6 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
     }
   }
 
-
   @Override
   public boolean parkVehicle(Vehicle vehicle) {
     VehicleType vehicleType = vehicle.getType();
@@ -114,7 +105,6 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
     }
   }
 
-
   @Override
   public boolean isVehicleParked(String licensePlate) {
     return parkedVehicles.containsKey(licensePlate);
@@ -125,7 +115,6 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
     int currentOccupiedSpaces = getOccupiedSpaces(vehicleType);
     return vehicleType.toString().charAt(0) + Integer.toString(currentOccupiedSpaces + 1);
   }
-
 
   @Override
   public boolean processToLeave(Vehicle vehicle) throws IllegalStateException {
@@ -153,7 +142,6 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
     return false;
   }
 
-
   @Override
   public void openGate(Vehicle vehicle) {
       gateOpen = true;
@@ -162,7 +150,6 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
       occupiedSpaces.put(vehicle.getType(), currentOccupiedSpaces - 1);
       paymentSystem.getPaidVehicles().remove(vehicle.getLicensePlate());
   }
-
 
   @Override
  public Map<String, Vehicle> getVehicles(Predicate<Vehicle> predicate) {
@@ -174,7 +161,6 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
    }
    return newList;
  }
-
 
   @Override
   public int count(Predicate<Vehicle> test) {
@@ -211,5 +197,4 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
 
     return sb.toString();
   }
-
 }

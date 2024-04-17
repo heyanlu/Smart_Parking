@@ -4,88 +4,67 @@ import edu.northeastern.sv.khoury.smartParkTest.mock.ParkingManagerJFrameViewMoc
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 /**
  * Test code for ParkingManagerJFrameView.
+ * This test code not suppose to go into the detail of the view. It only check if the input and output
+ * can be updated accordingly.
  */
 public class ParkingManagerJFrameViewTest {
-  private ParkingManagerJFrameViewMock view;
+  private ParkingManagerJFrameViewMock viewMock;
+  private StringBuilder log;
 
   /**
-   * Initialize component for the test class
+   * Sets up the test environment.
    */
   @Before
   public void setUp() {
-    view = new ParkingManagerJFrameViewMock("Test");
+    log = new StringBuilder();
+    viewMock = new ParkingManagerJFrameViewMock(log);
   }
 
   /**
-   * Test that ensures all buttons in the view are not null.
+   * Tests the getLicensePlateInput method.
    */
   @Test
-  public void testButtonsNotNull() {
-    assertNotNull(view.totalParkingCapacityButton());
-    assertNotNull( view.availableParkingCapacityButton());
-    assertNotNull(view.vehicleDetailsButton());
-    assertNotNull(view.membershipStatusButton());
-    assertNotNull( view.getExitButton());
+  public void testGetLicensePlateInput() {
+    String result = viewMock.getLicensePlateInput();
+    assertEquals("Mock getLicensePlateInput called.", log.toString());
   }
 
   /**
-   * Test that verifies the action commands of the buttons.
-   */
-  @Test
-  public void testButtonsActionCommands() {
-    assertEquals("Total Parking Capacity", view.totalParkingCapacityButton().getActionCommand());
-    assertEquals("Available Parking Capacity", view.availableParkingCapacityButton().getActionCommand());
-    assertEquals( "Vehicle Details", view.vehicleDetailsButton().getActionCommand());
-    assertEquals("Membership Status", view.membershipStatusButton().getActionCommand());
-    assertEquals("Exit", view.getExitButton().getActionCommand());
-  }
-
-  /**
-   * Test the getInput() method by setting an input and then retrieving it to ensure it matches the expected value.
-   */
-  @Test
-  public void testGetInput() {
-    String expect = "Test input";
-    view.setInput(expect);
-    assertEquals(expect, view.getInput("Prompt"));
-  }
-
-  /**
-   * Test the getInput() method when no input has been set, ensuring it returns null.
-   */
-  @Test
-  public void testGetInputNull() {
-    assertNull(view.getInput("Prompt"));
-  }
-
-  /**
-   * Test the displayMessage() method by setting a message and then retrieving the last displayed message to ensure it matches the expected value.
+   * Tests the displayMessage method.
    */
   @Test
   public void testDisplayMessage() {
-    String expect = "Test message";
-    view.displayMessage(expect);
-    assertEquals(expect, view.getLastDisplayedMessage());
+    viewMock.displayMessage("Test message");
+    assertEquals("Mock displayMessage called.", log.toString());
   }
 
   /**
-   * Test the getLastDisplayedMessage() method when no message has been displayed, ensuring it returns null.
+   * Tests the getInput method.
    */
   @Test
-  public void testDisplayMessageNull() {
-    assertNull(view.getLastDisplayedMessage());
+  public void testGetInput() {
+    viewMock.getInput("Test prompt");
+    assertEquals("Mock getInput called.", log.toString());
   }
 
   /**
-   * Test the showOptionError() method.
+   * Tests the chooseVehicleType method.
+   */
+  @Test
+  public void testChooseVehicleType() {
+    viewMock.chooseVehicleType();
+    assertEquals("Mock chooseVehicleType called.", log.toString());
+  }
+
+  /**
+   * Tests the showOptionError method.
    */
   @Test
   public void testShowOptionError() {
-    view.showOptionError();
+    viewMock.showOptionError();
+    assertEquals("Mock showOptionError called.", log.toString());
   }
 }

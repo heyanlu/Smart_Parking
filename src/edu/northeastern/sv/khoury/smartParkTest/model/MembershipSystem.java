@@ -11,14 +11,14 @@ public class MembershipSystem {
     private Map<String, Membership> memberships;
 
     /**
-     * Constructor of edu.northeastern.sv.khoury.smartPark.model.MembershipSystem.
+     * Constructor of MembershipSystem.
      */
     public MembershipSystem() {
         this.memberships = new HashMap<>();
     }
 
     /**
-     * Adds a new membership for a vehicle.
+     * Adds a new membership to the parking system for a vehicle.
      *
      * @param licensePlate The license plate of the vehicle.
      * @param type         The type of membership.
@@ -32,7 +32,7 @@ public class MembershipSystem {
     }
 
     /**
-     * Removes a membership for a vehicle.
+     * Removes a vehicle from the membership system.
      *
      * @param licensePlate The license plate of the vehicle.
      * @return True if the membership is successfully removed, false otherwise.
@@ -74,6 +74,7 @@ public class MembershipSystem {
 
     /**
      * Retrieves the membership type for a given licensePlate.
+     *
      * @param licensePlate The licensePlate of vehicle
      * @return The membership type if the vehicle is a member, null otherwise.
      */
@@ -85,9 +86,8 @@ public class MembershipSystem {
         return null;
     }
 
-
     /**
-     * Strign representation of the membership report
+     * String representation of the membership report
      *
      * @param licensePlate The license plate of the vehicle.
      * @return The membership report if the vehicle is a member, otherwise "Not a member: licensePlate".

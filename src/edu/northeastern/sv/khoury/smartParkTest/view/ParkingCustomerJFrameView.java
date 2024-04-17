@@ -7,12 +7,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * The ParkingCustomerJFrameView class implements the IParkingCustomerView interface
+ * and provides a graphical user interface (GUI) for the parking customer.
+ * It contains buttons for parking a vehicle, processing payment, leaving the parking lot,
+ * and exiting the program.
+ */
 public class ParkingCustomerJFrameView extends JFrame implements IParkingCustomerView {
   private JButton parkVehicleButton;
   private JButton processPaymentButton;
   private JButton leaveParkingLotButton;
   private JButton exitButton;
 
+  /**
+   * Constructor for ParkingCustomerJFrameView.
+   *
+   * @param caption The title of the JFrame.
+   */
   public ParkingCustomerJFrameView(String caption) {
     super(caption);
 
@@ -60,15 +71,14 @@ public class ParkingCustomerJFrameView extends JFrame implements IParkingCustome
     processPaymentButton.addActionListener(evt -> features.optionExecution("Process Payment Button"));
     leaveParkingLotButton.addActionListener(evt -> features.optionExecution("Process to Leave Button"));
     exitButton.addActionListener(evt -> features.optionExecution("Exit Button"));
-
   }
-
 
 
   @Override
   public void displayMessage(String message) {
     JOptionPane.showMessageDialog(this, message, "Message", JOptionPane.INFORMATION_MESSAGE);
   }
+
 
   @Override
   public VehicleType chooseVehicleType() {
@@ -88,10 +98,12 @@ public class ParkingCustomerJFrameView extends JFrame implements IParkingCustome
     return getInput("Enter your license plate number: ");
   }
 
+
   @Override
   public String getInput(String prompt) {
     return JOptionPane.showInputDialog(null, prompt);
   }
+
 
   @Override
   public void displayParkedDuration(Duration duration) {

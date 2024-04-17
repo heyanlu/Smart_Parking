@@ -14,7 +14,7 @@ public class PaymentSystem implements IPaymentSystem {
     private float totalParkingFees;
 
     /**
-     * Constructor of edu.northeastern.sv.khoury.smartPark.model.PaymentSystem.
+     * Constructor of PaymentSystem.
      */
     public PaymentSystem() {
         this.paidVehicles = new HashMap<>();
@@ -58,6 +58,7 @@ public class PaymentSystem implements IPaymentSystem {
 
     /**
      * Returns a string representation of the paid vehicles.
+     * It will output the paid vehicles hashmap where key is the license plate, vehicle is the value.
      *
      * @return A string representation of the paid vehicles.
      */

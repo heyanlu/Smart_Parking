@@ -11,7 +11,8 @@ public class Membership {
 
     /**
      * Constructor for a membership.
-     * @param type edu.northeastern.sv.khoury.smartPark.model.Membership type.
+     *
+     * @param type The Membership type.
      * @param startTime The start time of the membership.
      */
     public Membership(MembershipType type, LocalDateTime startTime) {
@@ -21,6 +22,7 @@ public class Membership {
 
     /**
      * Calculates the end time of a membership based on the start time and membership type.
+     *
      * @param startTime The start time of membership
      * @param type The type of membership
      * @return The end time of membership
@@ -40,6 +42,7 @@ public class Membership {
 
     /**
      * Retrieves the type of membership
+     *
      * @return The type of membership
      */
     public MembershipType getType() {
@@ -48,6 +51,7 @@ public class Membership {
 
     /**
      * Retrieves the start time of membership
+     *
      * @return The start time of membership
      */
     public LocalDateTime getStartTime() {
@@ -56,6 +60,7 @@ public class Membership {
 
     /**
      * Retrieves the end time of membership
+     *
      * @return The end time of membership
      */
     public LocalDateTime getEndTime() {

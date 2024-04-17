@@ -1,6 +1,5 @@
 package edu.northeastern.sv.khoury.smartParkTest.controller;
 
-import edu.northeastern.sv.khoury.smartParkTest.model.IPaymentSystem;
 import edu.northeastern.sv.khoury.smartParkTest.model.IParkingManager;
 import edu.northeastern.sv.khoury.smartParkTest.model.Vehicle;
 import edu.northeastern.sv.khoury.smartParkTest.model.VehicleType;
@@ -12,11 +11,11 @@ import edu.northeastern.sv.khoury.smartParkTest.view.IParkingManagerView;
  */
 public class ParkingManagerController implements Feature{
   private IParkingManager parkingManager;
-
   private IParkingManagerView view;
 
   /**
    * Constructor for ParkingManagerController with parkingManager system.
+   * Constructor used for mainManager class
    *
    * @param parkingManager The parking manager component.
    */
@@ -24,8 +23,23 @@ public class ParkingManagerController implements Feature{
     this.parkingManager = parkingManager;
   }
 
+
+  /**
+   * Constructor of ParkingManagerController with parking manager, payment system, and view.
+   * Constructor used for parkingManagerControllerTest, as it takes one more parameter than main
+   *
+   * @param parkingManager The parking manager component.
+   * @param view           The view component.
+   */
+  public ParkingManagerController(IParkingManager parkingManager, IParkingManagerView view) {
+    this(parkingManager);
+    this.view = view;
+  }
+
+
   /**
    * Sets the view for this controller and adds itself as a feature to the view.
+   *
    * @param v The parking manager view.
    */
   public void setView(IParkingManagerView v) {
@@ -33,23 +47,19 @@ public class ParkingManagerController implements Feature{
     view.addFeatures(this);
   }
 
-  /**
-   * Execute corresponding model methods with an option
-   * @param option The option to be executed.
-   */
   public void optionExecution(String option) {
     switch (option) {
-      case "Total Parking Capacity":
+      case "Total Parking Capacity Button":
         VehicleType vehicleTypeTotalCapacity = view.chooseVehicleType();
         int totalCapacity = parkingManager.getTotalCapacity(vehicleTypeTotalCapacity);
         view.displayMessage("Total Parking Capacity: " + totalCapacity);
         break;
-      case "Available Parking Capacity":
+      case "Available Parking Capacity Button":
         VehicleType vehicleTypeAvailable = view.chooseVehicleType();
         int availableSpaces = parkingManager.getAvailableSpaces(vehicleTypeAvailable);
         view.displayMessage("Available Parking Spaces: " + availableSpaces);
         break;
-      case "Vehicle Details":
+      case "Vehicle Details Button":
         String parkedVehicleLicensePlate = view.getLicensePlateInput();
         Vehicle parkedVehicle = (Vehicle) parkingManager.getParkedVehicles().get(parkedVehicleLicensePlate);
         if (parkedVehicle != null) {
@@ -59,7 +69,7 @@ public class ParkingManagerController implements Feature{
           view.displayMessage("Vehicle not found.");
         }
         break;
-      case "Membership Status":
+      case "Membership Status Button":
         String vehicleMembershipLicensePlate = view.getLicensePlateInput();
         boolean isMember = parkingManager.getMembershipSystem().isMembership(vehicleMembershipLicensePlate);
         if (isMember) {
@@ -68,27 +78,7 @@ public class ParkingManagerController implements Feature{
           view.displayMessage("Vehicle is not a member.");
         }
         break;
-      case "Recharge Parking Fee":
-        String vehicleRechargeLicensePlate = view.getLicensePlateInput();
-        Vehicle vehicleRecharge = (Vehicle) parkingManager.getParkedVehicles().get(vehicleRechargeLicensePlate);
-        if (vehicleRecharge != null) {
-          float rechargedFee = vehicleRecharge.rechargeParkingFee();
-          view.displayMessage("Recharged parking fee: $" + rechargedFee);
-        } else {
-          view.displayMessage("Vehicle not found.");
-        }
-        break;
-      case "Payment Status":
-        String vehicleIsPaidLicensePlate = view.getLicensePlateInput();
-        Vehicle vehicleIsPaid = (Vehicle) parkingManager.getParkedVehicles().get(vehicleIsPaidLicensePlate);
-        if (vehicleIsPaid != null) {
-          boolean isPaid = vehicleIsPaid.isPaidRechargeParkingFee();
-          view.displayMessage("Is parking fee paid: " + isPaid);
-        } else {
-          view.displayMessage("Vehicle not found.");
-        }
-        break;
-      case "Exit":
+      case "Exit Button":
         exitProgram();
         break;
       default:
@@ -96,9 +86,6 @@ public class ParkingManagerController implements Feature{
     }
   }
 
-  /**
-   * Exits the program.
-   */
   public void exitProgram() {
     System.exit(0);
   }

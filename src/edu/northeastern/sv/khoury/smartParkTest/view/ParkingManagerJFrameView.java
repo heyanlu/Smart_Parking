@@ -2,13 +2,17 @@ package edu.northeastern.sv.khoury.smartParkTest.view;
 
 import edu.northeastern.sv.khoury.smartParkTest.controller.Feature;
 import edu.northeastern.sv.khoury.smartParkTest.model.VehicleType;
-import java.awt.event.ActionListener;
+import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
+/**
+ * The ParkingManagerJFrameView class implements the IParkingManagerView interface
+ * and provides a graphical user interface (GUI) for the parking manager.
+ * It allows the user to perform various operations such as checking total parking capacity,
+ * available parking capacity, vehicle details, membership status, and exiting the program.
+ */
 public class ParkingManagerJFrameView extends JFrame implements IParkingManagerView {
 
   private JButton totalParkingCapacityButton;
@@ -17,71 +21,56 @@ public class ParkingManagerJFrameView extends JFrame implements IParkingManagerV
   private JButton membershipStatusButton;
   private JButton exitButton;
 
-  String[] options = {"Total Parking Capacity", "Available Parking Capacity", "edu.northeastern.sv.khoury.smartPark.model.Vehicle Details", "edu.northeastern.sv.khoury.smartPark.model.Membership Status", "Exit"};
-
+  /**
+   * Constructor for ParkingManagerJFrameView.
+   *
+   * @param caption The title of the JFrame.
+   */
   public ParkingManagerJFrameView(String caption) {
     super(caption);
 
+    setSize(500, 300);
+    setLocation(200, 200);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setLayout(new FlowLayout());
+
     totalParkingCapacityButton = new JButton("Total Parking Capacity");
+    totalParkingCapacityButton.setActionCommand("Total Parking Capacity Button");
+    this.add(totalParkingCapacityButton);
+
     availableParkingCapacityButton = new JButton("Available Parking Capacity");
+    availableParkingCapacityButton.setActionCommand("Available Parking Capacity Button");
+    this.add(availableParkingCapacityButton);
+
     vehicleDetailsButton = new JButton("Vehicle Details");
+    vehicleDetailsButton.setActionCommand("Vehicle Details Button");
+    this.add(vehicleDetailsButton);
+
     membershipStatusButton = new JButton("Membership Status");
+    membershipStatusButton.setActionCommand("Membership Status Button");
+    this.add(membershipStatusButton);
+
     exitButton = new JButton("Exit");
-
-    totalParkingCapacityButton.addActionListener(e -> optionExecution("Total Parking Capacity"));
-    availableParkingCapacityButton.addActionListener(e -> optionExecution("Available Parking Capacity"));
-    vehicleDetailsButton.addActionListener(e -> optionExecution("Vehicle Details"));
-    membershipStatusButton.addActionListener(e -> optionExecution("Membership Status"));
-    exitButton.addActionListener(e -> optionExecution("Exit"));
-
-    // Create a panel and add buttons to it
-    JPanel panel = new JPanel();
-    panel.add(new JLabel("Choose an option:"));
-    panel.add(totalParkingCapacityButton);
-    panel.add(availableParkingCapacityButton);
-    panel.add(vehicleDetailsButton);
-    panel.add(membershipStatusButton);
-    panel.add(exitButton);
-
-    getContentPane().add(panel);
+    exitButton.setActionCommand("Exit Button");
+    this.add(exitButton);
 
     pack();
     setVisible(true);
   }
 
+
   @Override
   public void addFeatures(Feature features) {
-    for(ActionListener listener : totalParkingCapacityButton.getActionListeners()) {
-      totalParkingCapacityButton.removeActionListener(listener);
-    }
-    for(ActionListener listener : availableParkingCapacityButton.getActionListeners()) {
-      availableParkingCapacityButton.removeActionListener(listener);
-    }
-    for(ActionListener listener : vehicleDetailsButton.getActionListeners()) {
-      vehicleDetailsButton.removeActionListener(listener);
-    }
-    for(ActionListener listener : membershipStatusButton.getActionListeners()) {
-      membershipStatusButton.removeActionListener(listener);
-    }
-    for(ActionListener listener : exitButton.getActionListeners()) {
-      exitButton.removeActionListener(listener);
-    }
-
-    totalParkingCapacityButton.addActionListener(evt -> features.optionExecution("Total Parking Capacity"));
-    availableParkingCapacityButton.addActionListener(evt -> features.optionExecution("Available Parking Capacity"));
-    vehicleDetailsButton.addActionListener(evt -> features.optionExecution("Vehicle Details"));
-    membershipStatusButton.addActionListener(evt -> features.optionExecution("Membership Status"));
-    exitButton.addActionListener(evt -> features.optionExecution("Exit"));
-  }
-
-  @Override
-  public void optionExecution(String option) {
-
+    totalParkingCapacityButton.addActionListener(evt -> features.optionExecution("Total Parking Capacity Button"));
+    availableParkingCapacityButton.addActionListener(evt -> features.optionExecution("Available Parking Capacity Button"));
+    vehicleDetailsButton.addActionListener(evt -> features.optionExecution("Vehicle Details Button"));
+    membershipStatusButton.addActionListener(evt -> features.optionExecution("Membership Status Button"));
+    exitButton.addActionListener(evt -> features.optionExecution("Exit Button"));
   }
 
   @Override
   public String getLicensePlateInput() {
-    return getInput("Enter your license plate number: ");
+    return getInput("Enter vehicle license plate number: ");
   }
 
   @Override
@@ -97,7 +86,7 @@ public class ParkingManagerJFrameView extends JFrame implements IParkingManagerV
   @Override
   public VehicleType chooseVehicleType() {
     String[] vehicleTypes = {"CAR", "TRUCK", "MOTORBIKE"};
-    String selectedType = (String) JOptionPane.showInputDialog(this, "Choose vehicle type:", "Select edu.northeastern.sv.khoury.smartPark.model.Vehicle Type",
+    String selectedType = (String) JOptionPane.showInputDialog(this, "Choose vehicle type:", "Select Vehicle Type",
         JOptionPane.QUESTION_MESSAGE, null, vehicleTypes, vehicleTypes[0]);
     if (selectedType != null) {
       return VehicleType.valueOf(selectedType);

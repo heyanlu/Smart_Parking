@@ -23,6 +23,7 @@ public class MainManager {
 
     ParkingManager parkingManager = BaseSetUpTest.parkingManager;
     ParkingManagerJFrameView frameView = new ParkingManagerJFrameView("Parking Manager");
+
     ParkingManagerController controller = new ParkingManagerController(parkingManager);
     frameView.addFeatures(controller);
 

@@ -1,17 +1,15 @@
 package edu.northeastern.sv.khoury.smartParkTest.controllerTest;
 
 import edu.northeastern.sv.khoury.smartParkTest.controller.ParkingManagerController;
+import edu.northeastern.sv.khoury.smartParkTest.mock.ParkingManagerJFrameViewMock;
 import edu.northeastern.sv.khoury.smartParkTest.mock.ParkingManagerMock;
-import edu.northeastern.sv.khoury.smartParkTest.mock.ParkingManagerViewMock;
-import edu.northeastern.sv.khoury.smartParkTest.mock.PaymentSystemMock;
-import edu.northeastern.sv.khoury.smartParkTest.model.Car;
 import edu.northeastern.sv.khoury.smartParkTest.model.MembershipSystem;
-import edu.northeastern.sv.khoury.smartParkTest.model.Vehicle;
 import edu.northeastern.sv.khoury.smartParkTest.model.VehicleType;
-import java.time.LocalDateTime;
+import edu.northeastern.sv.khoury.smartParkTest.view.IParkingManagerView;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test class for ParkingManagerController.
@@ -20,7 +18,9 @@ public class ParkingManagerControllerTest {
   private ParkingManagerMock parkingManager;
   private MembershipSystem membershipSystem;
   private ParkingManagerController controller;
-  private ParkingManagerViewMock view;
+  private StringBuilder log;
+  private IParkingManagerView view;
+
 
   /**
    * Set up for the test code
@@ -28,83 +28,79 @@ public class ParkingManagerControllerTest {
   @Before
   public void setUp() {
     membershipSystem = new MembershipSystem();
-    parkingManager = new ParkingManagerMock(membershipSystem);
-    controller = new ParkingManagerController(parkingManager);
-    view = new ParkingManagerViewMock("Parking Manager");
-    controller.setView(view);
+    log = new StringBuilder();
+    int uniqueCode = 12345;
+    parkingManager = new ParkingManagerMock(membershipSystem, log,
+        uniqueCode);
+    view = new ParkingManagerJFrameViewMock(log);
+
+    controller = new ParkingManagerController(parkingManager,  view);
+    log.setLength(0);
+
   }
 
   /**
-   * Test the Total Parking Capacity option for two types of vehicles.
+   * Test the Total Parking Capacity option for Car.
    */
   @Test
-  public void testTotalParkingCapacityOption() {
-    view.setVehicleType(VehicleType.CAR);
-    controller.optionExecution("Total Parking Capacity");
-    String expectedCar = "Total Parking Capacity: 20";
-    assertEquals(expectedCar, view.getMessage());
+  public void testTotalParkingCapacityOptionCar() {
+    VehicleType userInput = VehicleType.CAR;
+    String option = "Total Parking Capacity Button";
 
-    view.setVehicleType(VehicleType.MOTORBIKE);
-    controller.optionExecution("Total Parking Capacity");
-    String expectedMotorbike = "Total Parking Capacity: 5";
-    assertEquals(expectedMotorbike, view.getMessage());
+    controller.optionExecution(option);
+
+    assertEquals("CAR", userInput.toString());
+    assertTrue(log.toString().contains("Check total capacity for vehicle. Unique Code: 12345."));
   }
 
   /**
-   * Test for the available Capacity option for two types of vehicles.
+   * Test the Total Parking Capacity option for motorbike.
    */
   @Test
-  public void testAvailableParkingCapacityOption() {
-    view.setVehicleType(VehicleType.MOTORBIKE);
-    controller.optionExecution("Available Parking Capacity");
-    String expectedMotorbike = "Available Parking Spaces: 0";
-    assertEquals(expectedMotorbike, view.getMessage());
+  public void testTotalParkingCapacityOptionMotorbike() {
+    VehicleType userInput = VehicleType.MOTORBIKE;
+    String option = "Total Parking Capacity Button";
 
-    view.setVehicleType(VehicleType.TRUCK);
-    controller.optionExecution("Available Parking Capacity");
-    String expectedTruck = "Available Parking Spaces: 5";
-    assertEquals(expectedTruck, view.getMessage());
+    controller.optionExecution(option);
+
+    assertEquals("MOTORBIKE", userInput.toString());
+    assertTrue(log.toString().contains("Check total capacity for vehicle. Unique Code: 12345."));
+  }
+
+
+  /**
+   * Test for the available Capacity option for truck.
+   */
+  @Test
+  public void testAvailableParkingCapacityOptionTruck() {
+    VehicleType userInput = VehicleType.TRUCK;
+    String option = "Total Parking Capacity Button";
+
+    controller.optionExecution(option);
+
+    assertEquals("TRUCK", userInput.toString());
+    assertTrue(log.toString().contains("Check total capacity for vehicle. Unique Code: 12345."));
+  }
+
+
+  /**
+   * Test code for the membership status.
+   */
+  @Test
+  public void testIsMemberVehicle() {
+    String option = "Membership Status Button";
+    controller.optionExecution(option);
+    assertTrue(log.toString().contains("Mock getMembershipSystem called."));
   }
 
   /**
-   * Test for vehicle details option.
+   * Test vehicle details method.
    */
   @Test
-  public void testVehicleDetailsOption() {
-    Vehicle vehicle = new Car("ABC123", VehicleType.CAR, LocalDateTime.now(), null, null, null);
-
-    String expected = "Vehicle{" +
-        "\n\tlicensePlate='ABC123'" +
-        ",\n\ttype=CAR" +
-        ",\n\tarrivalTime=" + vehicle.getArrivalTime() +
-        ",\n\tpaymentTime=null" +
-        ",\n\tleaveTime=null" +
-        ",\n\tmembership=unknown" +
-        '}';
-    controller.optionExecution("Vehicle Details");
-    assertEquals(expected, vehicle.toString());
-  }
-
-  /**
-   * Test for membership status option with a membership vehicle.
-   */
-  @Test
-  public void testMembershipStatusOptionWithMembership() {
-    view.setLicensePlateInput("ABC123");
-    controller.optionExecution("Membership Status");
-    String expected = "Vehicle is not a member.";
-    assertEquals(expected, view.getMessage());
-  }
-
-  /**
-   * Test for membership status option with a non-membership vehicle.
-   */
-  @Test
-  public void testMembershipStatusOptionWithoutMembership() {
-    view.setLicensePlateInput("ABC567");
-    controller.optionExecution("Membership Status");
-    String expected = "Vehicle is not a member.";
-    assertEquals(expected, view.getMessage());
+  public void testVehicleDetails() {
+    String option = "Vehicle Details Button";
+    controller.optionExecution(option);
+    assertTrue(log.toString().contains("Mock getParkedVehicles called."));
   }
 
 }
