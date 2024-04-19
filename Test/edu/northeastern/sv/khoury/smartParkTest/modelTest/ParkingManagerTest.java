@@ -415,8 +415,6 @@ public class ParkingManagerTest extends BaseSetUpTest {
     @Test
     public void testVehicleToString() {
         String actual1 = parkingManager.toString();
-
-        System.out.println("Current Vehicle Output:");
         System.out.println(actual1);
 
         parkingManager.openGate(car1);
@@ -474,7 +472,9 @@ public class ParkingManagerTest extends BaseSetUpTest {
                 return (parkingManager.isMemberVehicle(vehicle) && membershipType == MembershipType.YEARLY);
             }
         };
-
+        //Matching the expected and actual values using assertEquals(expected, actual) can be tricky because
+        //they might not be exactly equal due to a small time gap of about 0.005 seconds between their executions.
+        //So here I use system.out.println
         Map<String, Vehicle> result = parkingManager.getVehicles(isMember);
         for (Vehicle vehicle : result.values()) {
             System.out.println(vehicle.toString());

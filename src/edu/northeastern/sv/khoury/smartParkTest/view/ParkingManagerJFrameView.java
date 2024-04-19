@@ -3,6 +3,7 @@ package edu.northeastern.sv.khoury.smartParkTest.view;
 import edu.northeastern.sv.khoury.smartParkTest.controller.Feature;
 import edu.northeastern.sv.khoury.smartParkTest.model.VehicleType;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -61,6 +62,22 @@ public class ParkingManagerJFrameView extends JFrame implements IParkingManagerV
 
   @Override
   public void addFeatures(Feature features) {
+    for(ActionListener listener : totalParkingCapacityButton.getActionListeners()) {
+      totalParkingCapacityButton.removeActionListener(listener);
+    }
+    for(ActionListener listener : availableParkingCapacityButton.getActionListeners()) {
+      availableParkingCapacityButton.removeActionListener(listener);
+    }
+    for(ActionListener listener : vehicleDetailsButton.getActionListeners()) {
+      vehicleDetailsButton.removeActionListener(listener);
+    }
+    for(ActionListener listener : membershipStatusButton.getActionListeners()) {
+      membershipStatusButton.removeActionListener(listener);
+    }
+    for(ActionListener listener : exitButton.getActionListeners()) {
+      exitButton.removeActionListener(listener);
+    }
+
     totalParkingCapacityButton.addActionListener(evt -> features.optionExecution("Total Parking Capacity Button"));
     availableParkingCapacityButton.addActionListener(evt -> features.optionExecution("Available Parking Capacity Button"));
     vehicleDetailsButton.addActionListener(evt -> features.optionExecution("Vehicle Details Button"));

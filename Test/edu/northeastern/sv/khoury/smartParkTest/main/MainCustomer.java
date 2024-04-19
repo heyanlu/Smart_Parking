@@ -27,7 +27,7 @@ public class MainCustomer{
     ParkingManager parkingManager = BaseSetUpTest.parkingManager;
     PaymentSystem paymentSystem = BaseSetUpTest.paymentSystem;
 
-    ParkingCustomerJFrameView frameView = new ParkingCustomerJFrameView("Parking Manager");
+    ParkingCustomerJFrameView frameView = new ParkingCustomerJFrameView("Parking Customer");
     ParkingCustomerController controller = new ParkingCustomerController(parkingManager, paymentSystem);
 
     frameView.addFeatures(controller);
