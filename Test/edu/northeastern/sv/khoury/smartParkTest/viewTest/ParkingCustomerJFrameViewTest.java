@@ -27,6 +27,7 @@ public class ParkingCustomerJFrameViewTest {
 
   /**
    * Tests the getLicensePlateInput method.
+   * Verifies that the mock view's getLicensePlateInput method is called.
    */
   @Test
   public void testGetLicensePlateInput() {
@@ -36,6 +37,7 @@ public class ParkingCustomerJFrameViewTest {
 
   /**
    * Tests the displayMessage method.
+   * Verifies that the mock view's displayMessage method is called.
    */
   @Test
   public void testDisplayMessage() {
@@ -45,6 +47,7 @@ public class ParkingCustomerJFrameViewTest {
 
   /**
    * Tests the getInput method.
+   * Verifies that the mock view's getInput method is called.
    */
   @Test
   public void testGetInput() {
@@ -54,6 +57,7 @@ public class ParkingCustomerJFrameViewTest {
 
   /**
    * Tests the displayParkedDuration method.
+   * Verifies that the mock view's displayParkedDuration method is called.
    */
   @Test
   public void testDisplayParkedDuration() {
@@ -63,6 +67,7 @@ public class ParkingCustomerJFrameViewTest {
 
   /**
    * Tests the chooseVehicleType method.
+   * Verifies that the mock view's chooseVehicleType method is called.
    */
   @Test
   public void testChooseVehicleType() {
@@ -72,6 +77,7 @@ public class ParkingCustomerJFrameViewTest {
 
   /**
    * Tests the showOptionError method.
+   * Verifies that the mock view's showOptionError method is called.
    */
   @Test
   public void testShowOptionError() {

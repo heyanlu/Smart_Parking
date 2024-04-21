@@ -22,7 +22,6 @@ public class ParkingCustomerJFrameViewMock implements IParkingCustomerView {
     this.log = log;
   }
 
-  // Check if the method can log message when it is called
   @Override
   public String getLicensePlateInput() {
     log.append("Mock getLicensePlateInput called.");

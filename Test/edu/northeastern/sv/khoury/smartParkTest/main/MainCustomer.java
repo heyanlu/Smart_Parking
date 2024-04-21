@@ -12,6 +12,8 @@ import edu.northeastern.sv.khoury.smartParkTest.view.ParkingCustomerJFrameView;
  * such as the parking manager, payment system, and the customer view.
  * It sets up the customer controller and associates it with the customer view.
  */
+
+//Main is located here as I want it to use baseSetUpTest that I set up for test codes.
 public class MainCustomer{
   /**
    * The main method for starting the Smart Park application for customers.

@@ -9,6 +9,7 @@ import edu.northeastern.sv.khoury.smartParkTest.view.ParkingManagerJFrameView;
  * The main function for the Parking Manager application.
  * It initializes and starts the application by setting up the controller and GUI.
  */
+//Main is located here as I want it to use baseSetUpTest that I set up for test codes.
 public class MainManager {
 
   /**

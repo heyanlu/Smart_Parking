@@ -41,6 +41,7 @@ public class ParkingManagerControllerTest {
 
   /**
    * Test the Total Parking Capacity option for Car.
+   * Verifies that the controller correctly executes the total parking capacity option for a car.
    */
   @Test
   public void testTotalParkingCapacityOptionCar() {
@@ -55,6 +56,7 @@ public class ParkingManagerControllerTest {
 
   /**
    * Test the Total Parking Capacity option for motorbike.
+   * Verifies that the controller correctly executes the total parking capacity option for a motorbike.
    */
   @Test
   public void testTotalParkingCapacityOptionMotorbike() {
@@ -70,6 +72,7 @@ public class ParkingManagerControllerTest {
 
   /**
    * Test for the available Capacity option for truck.
+   * Verifies that the controller correctly executes the total parking capacity option for a truck.
    */
   @Test
   public void testAvailableParkingCapacityOptionTruck() {
@@ -85,6 +88,7 @@ public class ParkingManagerControllerTest {
 
   /**
    * Test code for the membership status.
+   * Verifies that the controller correctly retrieves the membership status.
    */
   @Test
   public void testIsMemberVehicle() {
@@ -95,6 +99,7 @@ public class ParkingManagerControllerTest {
 
   /**
    * Test vehicle details method.
+   * Verifies that the controller correctly retrieves vehicle details.
    */
   @Test
   public void testVehicleDetails() {

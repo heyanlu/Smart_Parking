@@ -43,6 +43,7 @@ public class ParkingCustomerControllerTest {
 
   /**
    * Test code for pak vehicle button.
+   * Verifies that the vehicle is parked successfully and a unique code is generated.
    */
   @Test
   public void testParkVehicleButton() {
@@ -55,19 +56,21 @@ public class ParkingCustomerControllerTest {
   }
 
   /**
-   * Test code for process payment button.
+   * Test code for process payment button when the vehicle is not parked.
+   * Verifies that the vehicle is not parked and a process payment should fail.
    */
   @Test
   public void testProcessPaymentButton() {
     Car car = new Car("ABC123", VehicleType.CAR, null, null, null, membershipSystem);
     String option = "Process Payment Button";
     controller.optionExecution(option);
-    boolean paymentSuccess = paymentSystem.processPayment(car);
+    paymentSystem.processPayment(car);
     assertTrue(log.toString().contains("Vehicle with license plate null not found in the parking lot."));
   }
 
   /**
    * Test code for process payment button.
+   * Verifies that the vehicle is processed to leave and the gate is opened.
    */
   @Test
   public void testProcessToLeaveButton() {
