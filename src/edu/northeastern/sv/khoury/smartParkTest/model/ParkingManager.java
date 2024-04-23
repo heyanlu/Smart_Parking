@@ -107,7 +107,7 @@ public class ParkingManager<T extends Vehicle> implements IParkingManager {
 
   @Override
   public boolean isVehicleParked(String licensePlate) {
-    return parkedVehicles.containsKey(licensePlate);
+    return parkedVehicles.containsKey(licensePlate.toUpperCase());
   }
 
   @Override

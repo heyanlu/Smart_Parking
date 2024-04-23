@@ -56,7 +56,7 @@ public class ParkingCustomerController implements Feature {
     switch (option) {
       case "Park Vehicle Button":
         VehicleType vehicleType = view.chooseVehicleType();
-        String licensePlate = view.getLicensePlateInput();
+        String licensePlate = view.getLicensePlateInput().toUpperCase();
         Vehicle newVehicle = parkingManager.createVehicle(licensePlate, vehicleType);
         if (parkingManager.parkVehicle(newVehicle)) {
           String newVehicleParkingPlace = parkingManager.assignParkingPlace(vehicleType);
@@ -66,7 +66,7 @@ public class ParkingCustomerController implements Feature {
         }
         break;
       case "Process Payment Button":
-        String licensePlateToPay = view.getLicensePlateInput();
+        String licensePlateToPay = view.getLicensePlateInput().toUpperCase();
         Vehicle vehicleToPay = (Vehicle) parkingManager.getParkedVehicles().get(licensePlateToPay);
         if (vehicleToPay != null) {
           boolean paymentSuccess = paymentSystem.processPayment(vehicleToPay);
@@ -84,7 +84,7 @@ public class ParkingCustomerController implements Feature {
         }
         break;
       case "Process to Leave Button":
-        String licensePlateToProcess = view.getLicensePlateInput();
+        String licensePlateToProcess = view.getLicensePlateInput().toUpperCase();
         Vehicle vehicleToProcess = (Vehicle) parkingManager.getParkedVehicles().get(licensePlateToProcess);
         if (vehicleToProcess != null) {
           if (paymentSystem.getPaidVehicles().containsKey(licensePlateToProcess)) {

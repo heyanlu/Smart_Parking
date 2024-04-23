@@ -20,7 +20,7 @@ public class MainCustomer{
    * It initializes the necessary components, including the parking manager, payment system,
    * and customer view. It sets up the customer controller and associates it with the customer view.
    *
-   * @param args The command-line arguments (not used).
+   * @param args The command-line arguments.
    */
   public static void main(String[] args) {
     BaseSetUpTest baseSetUpTest = new BaseSetUpTest();

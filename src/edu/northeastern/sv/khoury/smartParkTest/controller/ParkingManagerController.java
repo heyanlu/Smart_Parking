@@ -61,7 +61,7 @@ public class ParkingManagerController implements Feature{
         break;
       case "Vehicle Details Button":
         String parkedVehicleLicensePlate = view.getLicensePlateInput();
-        Vehicle parkedVehicle = (Vehicle) parkingManager.getParkedVehicles().get(parkedVehicleLicensePlate);
+        Vehicle parkedVehicle = (Vehicle) parkingManager.getParkedVehicles().get(parkedVehicleLicensePlate.toUpperCase());
         if (parkedVehicle != null) {
           view.displayMessage("Vehicle Details:");
           view.displayMessage(parkedVehicle.toString());
@@ -71,7 +71,7 @@ public class ParkingManagerController implements Feature{
         break;
       case "Membership Status Button":
         String vehicleMembershipLicensePlate = view.getLicensePlateInput();
-        boolean isMember = parkingManager.getMembershipSystem().isMembership(vehicleMembershipLicensePlate);
+        boolean isMember = parkingManager.getMembershipSystem().isMembership(vehicleMembershipLicensePlate.toUpperCase());
         if (isMember) {
           view.displayMessage("Vehicle is a member.");
         } else {
