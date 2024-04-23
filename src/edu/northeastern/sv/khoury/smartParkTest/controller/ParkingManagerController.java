@@ -49,6 +49,7 @@ public class ParkingManagerController implements Feature{
 
   @Override
   public void optionExecution(String option) {
+    //To make this part of code easy to read, I separate each option into a method instead of nested them in one method.
     switch (option) {
       case "Total Parking Capacity Button":
         getTotalParkingCapacity();
