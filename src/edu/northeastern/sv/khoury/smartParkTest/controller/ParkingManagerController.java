@@ -47,36 +47,20 @@ public class ParkingManagerController implements Feature{
     view.addFeatures(this);
   }
 
+  @Override
   public void optionExecution(String option) {
     switch (option) {
       case "Total Parking Capacity Button":
-        VehicleType vehicleTypeTotalCapacity = view.chooseVehicleType();
-        int totalCapacity = parkingManager.getTotalCapacity(vehicleTypeTotalCapacity);
-        view.displayMessage("Total Parking Capacity: " + totalCapacity);
+        getTotalParkingCapacity();
         break;
       case "Available Parking Capacity Button":
-        VehicleType vehicleTypeAvailable = view.chooseVehicleType();
-        int availableSpaces = parkingManager.getAvailableSpaces(vehicleTypeAvailable);
-        view.displayMessage("Available Parking Spaces: " + availableSpaces);
+        getAvailableParkingCapacity();
         break;
       case "Vehicle Details Button":
-        String parkedVehicleLicensePlate = view.getLicensePlateInput();
-        Vehicle parkedVehicle = (Vehicle) parkingManager.getParkedVehicles().get(parkedVehicleLicensePlate.toUpperCase());
-        if (parkedVehicle != null) {
-          view.displayMessage("Vehicle Details:");
-          view.displayMessage(parkedVehicle.toString());
-        } else {
-          view.displayMessage("Vehicle not found.");
-        }
+        displayVehicleDetails();
         break;
       case "Membership Status Button":
-        String vehicleMembershipLicensePlate = view.getLicensePlateInput();
-        boolean isMember = parkingManager.getMembershipSystem().isMembership(vehicleMembershipLicensePlate.toUpperCase());
-        if (isMember) {
-          view.displayMessage("Vehicle is a member.");
-        } else {
-          view.displayMessage("Vehicle is not a member.");
-        }
+        checkMembershipStatus();
         break;
       case "Exit Button":
         exitProgram();
@@ -86,6 +70,63 @@ public class ParkingManagerController implements Feature{
     }
   }
 
+  /**
+   * Retrieves and displays the total parking capacity for a given vehicle type.
+   */
+  private void getTotalParkingCapacity() {
+    //prompt user input of vehicleType
+    VehicleType vehicleTypeTotalCapacity = view.chooseVehicleType();
+
+    int totalCapacity = parkingManager.getTotalCapacity(vehicleTypeTotalCapacity);
+    view.displayMessage("Total Parking Capacity: " + totalCapacity);
+  }
+
+  /**
+   * Retrieves and displays the available parking capacity for a given vehicle type.
+   */
+  private void getAvailableParkingCapacity() {
+    //prompt user input of vehicleType
+    VehicleType vehicleTypeAvailable = view.chooseVehicleType();
+    int availableSpaces = parkingManager.getAvailableSpaces(vehicleTypeAvailable);
+    view.displayMessage("Available Parking Spaces: " + availableSpaces);
+  }
+
+  /**
+   * Displays details of a parked vehicle based on its license plate.
+   */
+  private void displayVehicleDetails() {
+    //prompt user input of licensePlate
+    String parkedVehicleLicensePlate = view.getLicensePlateInput();
+
+    //create a vehicle object based on user input
+    Vehicle parkedVehicle = parkingManager.getParkedVehicles().get(parkedVehicleLicensePlate.toUpperCase());
+
+    //process the vehicle detail based on vehicle object and display messages.
+    if (parkedVehicle != null) {
+      view.displayMessage("Vehicle Details:");
+      view.displayMessage(parkedVehicle.toString());
+    } else {
+      view.displayMessage("Vehicle not found.");
+    }
+  }
+
+  /**
+   * Checks the membership status of a vehicle based on its license plate.
+   */
+  private void checkMembershipStatus() {
+    //prompt user input of licensePlate
+    String vehicleMembershipLicensePlate = view.getLicensePlateInput();
+
+    boolean isMember = parkingManager.getMembershipSystem().isMembership(vehicleMembershipLicensePlate.toUpperCase());
+    if (isMember) {
+      view.displayMessage("Vehicle is a member.");
+    } else {
+      view.displayMessage("Vehicle is not a member.");
+    }
+  }
+
+
+  @Override
   public void exitProgram() {
     System.exit(0);
   }

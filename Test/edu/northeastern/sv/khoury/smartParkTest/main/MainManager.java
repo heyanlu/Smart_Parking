@@ -14,7 +14,7 @@ public class MainManager {
 
   /**
    * The main method for the Parking Manager application.
-   * It initializes and starts the application by setting up the controller and GUI.
+   * It initializes and starts the application by setting up the controller and view.
    *
    * @param args The command line arguments.
    */
