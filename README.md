@@ -4,10 +4,9 @@ the Model-View-Controller (MVC) pattern. It provides a comprehensive solution fo
 catering to both customers and managers.
 
 ## Usage: 
-Customer Module:
-Run MainCustomer.java (Test - main - MainCustomer) to access the customer interface.
-Manager Module:
-Run MainManager.java (Test - main - MainManager) to access the manager interface.
+Customer Module: Run MainCustomer.java (Test - main - MainCustomer) to access the customer interface.
+
+Manager Module: Run MainManager.java (Test - main - MainManager) to access the manager interface.
 
 ## Structure of Model 
 IParkingManger (interface) - ParkingManager 
